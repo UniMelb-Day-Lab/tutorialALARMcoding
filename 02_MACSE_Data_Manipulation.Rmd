@@ -3,7 +3,6 @@ title: "Data manipulation of MACSE result to Haplotypes and Microhaplotypes"
 output: html_notebook
 ---
 
-
 ```{r Load packages, include=FALSE}
 library(stringr)
 library(tidyverse)
@@ -11,7 +10,7 @@ library(janitor)
 library(forcats)
 library(data.table)
 library(naniar)
-library(readr) #necessary for function created (+ dplyr)
+library(readr) # Necessary for function created (+ dplyr)
 ```
 
 # Step 1: Process_Seq
@@ -28,14 +27,14 @@ Aims:
 * Create microhaplotype specific to marker 
 
 **OUTPUTS**
-**Folder**: 5_R_Final_DrugR_Sequences_NT
-  /Controls
-  /Isolates
-  /Repeats
-**Files**:
-S7_Controls*_Final.csv
-S7_Isolates*_Final.csv
-S7_Repeats*_Final.csv
+
+  5_R_Final_DrugR_Sequences_NT/Controls/*_Controls_MH.csv   
+  5_R_Final_DrugR_Sequences_NT/Isolates/*_Isolates_MH.csv
+  5_R_Final_DrugR_Sequences_NT/Repeats/*_Repeats_MH.csv
+  5_R_Final_DrugR_MH_Info/temp/*MH_only.csv
+
+The `Controls_MH`, `Isolates_MH` and `Repeats_MH` files will contain the microhaplotype (MH), the entire sequence separated by codon number and other info (SeqID, Reference and Marker)
+The `MH_only` file will only contain the microhaplotype information (for the corresponding SeqID, Reference and Marker)
 
 ## Input File
 
@@ -263,7 +262,14 @@ for (marker in search_strings) {
 
 # Step 2: Process_YN
 
-*_All_NT_Aligned_YorN.csv               Use to determine how many changes from 3D7 reference (e.g., 1 change)
+**INPUTS**
+
+*_All_NT_Aligned_YorN.csv               Use to determine how many NT changes from 3D7 reference (e.g., 1 change)
+*_All_AA_Aligned_YorN.csv               Use to determine how many AA changes from 3D7 reference (e.g., 1 change)
+
+**OUTPUTS**
+*_All_NT_Aligned_YorN_Count.csv         Collapsed into a column of the total number of NT differences 
+*_All_AA_Aligned_YorN_Count.csv         Collapsed into a column of the total number of AA differences 
 
 ## Input File
 ```{r}
@@ -379,7 +385,15 @@ for (marker in search_strings) {
 
 # Step 3: Process_Change
 
-*_All_NT_Aligned_NTchange.csv           Use to determine the actual change from 3D7 reference (e.g., 76T)
+**INPUTS**
+
+*_All_NT_Aligned_NTchange.csv           Use to determine the actual NT change from 3D7 reference (e.g., AAA76ACA)
+*_All_AA_Aligned_AAchange.csv           Use to determine the actual AA change from 3D7 reference (e.g., K76T)
+
+**OUTPUTS**
+
+*All_NT_Aligned_NTchange_Final.csv      Contains a collapsed column with all NT changes 
+*All_NT_Aligned_AAchange_Final.csv      Contains a collapsed column with all AA changes 
 
 ## Input File
 ```{r}
@@ -496,9 +510,21 @@ for (marker in search_strings) {
 
 # Step 4: Join YN & Change & MH
 
+**INPUTS**
+
+All/temp/files           Includes `_MH.csv`, `YorN_Counts.csv`, `change_Final.csv` for both NT and AA (separated for each Fraction cut-off to analyse and marker)
+
+**OUTPUTS**
+
+* _Isolates_Final_MH
+* _Controls_Final_MH
+* _Repeats_Final_MH 
+
+All input files are merged at similar columns "SeqID", "Marker" and "Reference" 
+
 ## Function 
 
-Define a function to merge files based on the specified pattern
+Define a function to **merge** files based on the specified pattern
 
 ```{r}
 merge_files <- function(directory, pattern, common_columns) {
