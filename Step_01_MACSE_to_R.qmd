@@ -1,0 +1,585 @@
+---
+title: "Step_02_MACSE_to_R"
+---
+
+This `.qmd` Notebook contains the post-processing of MACSE data (.fasta) into a data frame (.csv) for manipulation in R.
+
+```{r Load packages, include=F}
+library(tidyverse)
+library(janitor)
+library(data.table)
+library(seqinr)
+library(Biostrings)
+```
+
+# MACSE Processing
+
+## Nucleotide (NT) Processing
+
+```{r}
+filenames = Sys.glob(file.path("02_MACSE_Output_NT", pattern = "*.fasta"))
+
+for (filename in filenames) {
+  
+  INPUT_NT = filename
+  
+  replace_strs <- c("02_MACSE_Output_NT" = "", ".fasta" = "")
+
+  OUTPUT_1_NT = paste0("03_DrugR_NT_Sequences", str_replace_all(filename, replace_strs, ""), "_Aligned.csv")
+  OUTPUT_2_NT = paste0("03_DrugR_NT_Changes", str_replace_all(filename, replace_strs, ""), "_Aligned_YorN.csv")
+  OUTPUT_3_NT = paste0("03_DrugR_NT_Changes", str_replace_all(filename, replace_strs, ""), "_Aligned_NTchange.csv")
+  
+  ########## PART 1: General processing of input file  ########## 
+  
+  fastaFile <- readBStringSet(INPUT_NT)
+
+  # Data manipulation 
+    seq_name = names(fastaFile)
+    sequence = paste(fastaFile)
+    df_NT <- data.frame(seq_name, sequence)
+
+  # Rename reference file
+    df_NT1 <- df_NT %>% mutate(seq_name = ifelse(str_detect(seq_name, "Plasmodium falciparum 3D7"), "3D7_Ref",
+                                          ifelse(str_detect(seq_name, "Plasmodium falciparum Dd2"), "Dd2_Ref",
+                                          ifelse(str_detect(seq_name, "Plasmodium falciparum HB3"), "HB3_Ref", 
+                                          df_NT$seq_name))))
+
+    # Separate by codon
+    n <- ((max(nchar(df_NT1$sequence)) - 1) %/% 3) + 1
+    df_NT2 <- df_NT1 %>% separate(sequence, into=paste0("NT", seq(n)), sep=seq(n-1)*3, remove = F)
+
+    # Data Manipulation 2
+    df_NT3 <- df_NT2 %>% dplyr::select(-sequence) %>% mutate(seq_name = gsub("-", "\\.",seq_name)) %>% mutate_all(~ str_replace_all(., "!", NA_character_)) 
+    df_NT4 <- df_NT3 %>% separate(seq_name, c("Isolate", "MID", "Pool", "Date", "Haplotype"), sep="\\.", extra = "merge", fill = "right") %>% arrange(Isolate)
+
+    # Transform and put 3D7_Ref to first column
+    df_NT5 <- as.data.frame(t(df_NT3))
+    df_NT6 <- df_NT5 %>% row_to_names(1) %>% dplyr::select(`3D7_Ref`, everything())
+
+  ########## PART 2: Relabel codons based on reference 3D7 positions  ########## 
+  # - Loop through rows of transposed df
+  # - If find != “---”, label and increment position by 1
+  # - If find “---”, label as something else to indicate alignment positions w/o ref in 3D7
+
+    # Add initial NT value as column for unique values for merging
+    df_NT6 <- df_NT6 %>% mutate(rownames=row.names(.))
+
+    # Rearrange columns
+    df_NT6 <- df_NT6 %>% select("rownames", "3D7_Ref", everything())
+
+    # Initialise first positions and df object
+    pos <- 0
+    tmp <- 0
+    new_df <- data.frame()
+
+    # Loop every row to relabel 3D7 positions
+    
+for (row in 1:nrow(df_NT6)) {
+  # get 3D7 codon triplet
+  codon <- df_NT6[row, "3D7_Ref"]
+  row_name <- row.names(df_NT6[row, ])
+  # if 3D7 codon triplet is valid, relabel and increment count
+  # if 3D7 codon triplet is invalid (i.e., "---"), relabel with appended temp value
+  if (codon != "---") {
+    pos <- pos + 1  # increments pos by 1 if codon is valid
+    tmp <- 0  # resets tmp to 1 if the codon is valid
+    label <- paste0("3D7_", pos)
+  } else {
+    tmp <- tmp + 1  # increments tmp by 1 if codon is invalid
+    label <- paste0("3D7_", pos, ".", tmp)
+  }
+  new_df <- rbind(new_df, cbind(row_name, codon, label))
+}
+
+    # Rename new_df columns
+    colnames(new_df) <- c("row_name", "codon", "3D7_Pos")
+
+    # Join new labels with previous df with data, remove rownames column
+    df_NT6 <- left_join(df_NT6, new_df, by=c("rownames" = "row_name", "3D7_Ref" = "codon"))
+    df_NT6 <- df_NT6 %>% select("3D7_Pos", "3D7_Ref", everything()) %>% select(-c(rownames))
+
+    # Remove temporary variables
+    remove(row, pos, tmp, new_df, label)
+
+    # Write data frame
+    write.csv(df_NT6, OUTPUT_1_NT, row.names = F)
+
+  ########## PART 3: Compare isolates to 3D7 and generate multiple output files  ########## 
+  # - Output 1: “Y/N” to refer to codons compared to ref
+  # - Output 2: Nucleotide changes (e.g., ATC -> ATG): DA changed " > ", to substring(df_NT6$`3D7_Pos`, 5),
+
+    df_NT7 <- df_NT6 # Y/N output
+    df_NT8 <- df_NT6 # NT change output
+
+    # Save list of isolates
+    isolatelist <- df_NT6 %>% colnames() %>% data.frame() %>% filter(.!=c("3D7_Pos", "3D7_Ref"))
+
+    # Loop through list of isolates (i.e., columns)
+for (row in 1:nrow(isolatelist)) {
+  
+  # Get isolate ID
+  id <- isolatelist[row, "."]
+  
+  ### Compare isolate codon triplets to 3D7_Ref codon triplets
+  
+  # "Y": same codons, "N": different codons, "---": gap in alignment
+  # codon triplets are kept if 3D7_Ref is "---"
+  df_NT7[[id]] <- ifelse(df_NT6[[id]] == "---", "-",
+                         ifelse(df_NT6$`3D7_Ref` == "---", df_NT6[[id]],
+                                ifelse(df_NT6[[id]] == df_NT6$`3D7_Ref`, "Y", "N")))
+  
+  # "NA": same codons, "xxx > xxx": different codons, "-": gap in alignment
+  # codon triplets are kept if 3D7_Ref is "---"
+  df_NT8[[id]] <- ifelse(df_NT6[[id]] == "---", "-",
+                         ifelse(df_NT6$`3D7_Ref` == "---", paste0("- > ", df_NT6[[id]]),
+                                ifelse(df_NT6[[id]] == df_NT6$`3D7_Ref`, NA, paste0(df_NT6$`3D7_Ref`, substring(df_NT6$`3D7_Pos`, 5), df_NT6[[id]]))))
+}
+    
+    # Remove temporary variables
+    remove(row, id)
+
+    # Write data frame
+    write.csv(df_NT7, OUTPUT_2_NT, row.names = F)
+    write.csv(df_NT8, OUTPUT_3_NT, row.names = F)
+
+} 
+
+```
+
+## Amino Acid (AA) Processing
+
+```{r}
+filenames_AA = Sys.glob(file.path("02_MACSE_Output_AA", pattern = "*.fasta"))
+
+for (filename in filenames_AA) {
+  
+  INPUT_AA = filename
+  
+  replace_strs <- c("02_MACSE_Output_AA" = "", ".fasta" = "")
+
+  OUTPUT_1_AA = paste0("03_DrugR_AA_Sequences", str_replace_all(filename, replace_strs, ""), "_Aligned.csv")
+  OUTPUT_2_AA = paste0("03_DrugR_AA_Changes", str_replace_all(filename, replace_strs, ""), "_Aligned_YorN.csv")
+  OUTPUT_3_AA = paste0("03_DrugR_AA_Changes", str_replace_all(filename, replace_strs, ""), "_Aligned_AAchange.csv")
+
+  ########## PART 1: General processing of input file  ########## 
+  
+    fastaFile <- readBStringSet(INPUT_AA)
+
+    # Data manipulation 
+    seq_name = names(fastaFile)
+    sequence = paste(fastaFile)
+    df_AA <- data.frame(seq_name, sequence)
+
+    # Rename reference file
+    df_AA1 <- df_AA %>% mutate(seq_name = ifelse(str_detect(seq_name, "Plasmodium falciparum 3D7"), "3D7_Ref",
+                                          ifelse(str_detect(seq_name, "Plasmodium falciparum Dd2"), "Dd2_Ref",
+                                          ifelse(str_detect(seq_name, "Plasmodium falciparum HB3"), "HB3_Ref", 
+                                          df_AA$seq_name))))
+    # Separate by codon
+    df_AA2 <- df_AA1 %>% data.frame(do.call("rbind", strsplit(as.character(df_AA$sequence), "", fixed = TRUE)), stringsAsFactors = F)
+
+    # Data Manipulation 2
+    df_AA3 <- df_AA2 %>% dplyr::select(-sequence) %>% mutate(seq_name = gsub("-", "\\.",seq_name)) %>% mutate_all(~ str_replace_all(., "!", NA_character_)) 
+    df_AA4 <- df_AA3 %>% separate(seq_name, c("Isolate", "MID", "Pool", "Date", "Haplotype"), 
+                              sep="\\.", extra = "merge", fill = "right") %>% arrange(Isolate)
+
+    # Transform and put 3D7_Ref to first column
+    df_AA5 <- as.data.frame(t(df_AA3))
+    df_AA6 <- df_AA5 %>% row_to_names(1) %>% dplyr::select(`3D7_Ref`, everything())
+
+      ########## PART 2: Relabel codons based on reference 3D7 positions  ########## 
+      # - Loop through rows of transposed df
+      # - If find != “---”, label and increment position by 1
+      # - If find “---”, label as something else to indicate alignment positions w/o ref in 3D7
+    
+    # Add initial AA value as column for unique values for merging
+    df_AA6 <- df_AA6 %>% mutate(rownames=row.names(.))
+
+    # Rearrange columns
+    df_AA6 <- df_AA6 %>% select("rownames", "3D7_Ref", everything())
+
+    # Initialise first positions and df object
+    pos <- 0
+    tmp <- 0
+    new_df <- data.frame()
+
+# Loop every row to relabel 3D7 positions
+for (row in 1:nrow(df_AA6)) {
+  # get 3D7 codon triplet
+  codon <- df_AA6[row, "3D7_Ref"]
+  row_name <- row.names(df_AA6[row, ])
+  # if 3D7 codon triplet is valid, relabel and increment count
+  # if 3D7 codon triplet is invalid (i.e., "-"), relabel with appended temp value ## DCA CHANGED "---" to "-"
+  if (codon != "-") { ## DCA CHANGED "---" to "-"
+    pos <- pos + 1  # increments pos by 1 if codon is valid
+    tmp <- 0  # resets tmp to 1 if the codon is valid
+    label <- paste0("3D7_", pos)
+  } else {
+    tmp <- tmp + 1  # increments tmp by 1 if codon is invalid
+    label <- paste0("3D7_", pos, ".", tmp)
+  }
+  new_df <- rbind(new_df, cbind(row_name, codon, label))
+}
+
+    # Rename new_df columns
+    colnames(new_df) <- c("row_name", "codon", "3D7_Pos")
+
+    # Join new labels with previous df with data, remove rownames column
+    df_AA6 <- left_join(df_AA6, new_df, by=c("rownames" = "row_name", "3D7_Ref" = "codon"))
+    df_AA6 <- df_AA6 %>% select("3D7_Pos", "3D7_Ref", everything()) %>% select(-c(rownames))
+
+    # Remove temporary variables
+    remove(row, pos, tmp, new_df, label)
+
+    # Write data frame
+    write.csv(df_AA6, OUTPUT_1_AA, row.names = F)
+
+    ########## PART 3: Compare isolates to 3D7 and generate multiple output files  ########## 
+    # - Output 1: “Y/N” to refer to codons compared to ref
+    # - Output 2: Nucleotide changes (e.g., ATC -> ATG): DA changed " > ", to substring(df_AA6$`3D7_Pos`, 5),
+    df_AA7 <- df_AA6 # Y/N output
+    df_AA8 <- df_AA6 # AA change output
+
+    # Save list of isolates
+    isolatelist <- df_AA6 %>% colnames() %>% data.frame() %>% filter(.!=c("3D7_Pos", "3D7_Ref"))
+
+    # Loop through list of isolates (i.e., columns)
+    for (row in 1:nrow(isolatelist)) {
+  
+      # Get isolate ID
+      id <- isolatelist[row, "."]
+  
+      ### Compare isolate codon triplets to 3D7_Ref codon triplets
+  
+      # "Y": same codons, "N": different codons, "---": gap in alignment
+      # codon triplets are kept if 3D7_Ref is "---"; ## DCA CHANGED "---" to "-"
+      df_AA7[[id]] <- ifelse(df_AA6[[id]] == "-", "-", ## DCA CHANGED "---" to "-"
+                         ifelse(df_AA6$`3D7_Ref` == "-", df_AA6[[id]], ## DCA CHANGED "---" to "-"
+                                ifelse(df_AA6[[id]] == df_AA6$`3D7_Ref`, "Y", "N")))
+
+      # "NA": same codons, "xxx > xxx": different codons, "-": gap in alignment ## This is where I think we need to modify! 
+      # codon triplets are kept if 3D7_Ref is "---"
+      df_AA8[[id]] <- ifelse(df_AA6[[id]] == "-", "-",
+                         ifelse(df_AA6$`3D7_Ref` == "-", paste0("- > ", df_AA6[[id]]),
+                                ifelse(df_AA6[[id]] == df_AA6$`3D7_Ref`, NA, paste0(df_AA6$`3D7_Ref`, substring(df_AA6$`3D7_Pos`, 5), df_AA6[[id]]))))  
+}
+
+      # Remove temporary variables
+    remove(row, id)
+
+    # Write data frame
+    write.csv(df_AA7, OUTPUT_2_AA, row.names = F)
+    write.csv(df_AA8, OUTPUT_3_AA, row.names = F)
+} 
+```
+
+# Join by Marker
+
+## Function
+
+```{r}
+merge_files <- function(directory, pattern, common_columns) {
+  file_paths <- list.files(path = directory, pattern = pattern, full.names = TRUE)
+  merged_data <- read_csv(file_paths[[1]])
+  for (i in 2:length(file_paths)) {
+    current_file <-  read_csv(file_paths[[i]], col_types = cols(.default = col_character()))
+    merged_data <- left_join(merged_data, current_file, by = common_columns)
+  }
+  return(merged_data)
+}
+```
+
+### Survey_2017
+
+```{r}
+# Merge files with pattern "[marker]" and common columns "3D7_Pos" and "3D7_Ref"
+Survey_2017_merged_crt_data <- merge_files("03_DrugR_NT_Sequences", "Survey_2017.*crt_final_NT_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_dhfr_data <- merge_files("03_DrugR_NT_Sequences", "Survey_2017.*dhfr_final_NT_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_dhps1_data <- merge_files("03_DrugR_NT_Sequences", "Survey_2017.*dhps1_final_NT_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_dhps2_data <- merge_files("03_DrugR_NT_Sequences", "Survey_2017.*dhps2_final_NT_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_K131_data <- merge_files("03_DrugR_NT_Sequences", "Survey_2017.*K131_final_NT_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_K132_data <- merge_files("03_DrugR_NT_Sequences", "Survey_2017.*K132_final_NT_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_mdr11_data <- merge_files("03_DrugR_NT_Sequences", "Survey_2017.*mdr11_final_NT_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_mdr12_data <- merge_files("03_DrugR_NT_Sequences", "Survey_2017.*mdr12_final_NT_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_mdr13_data <- merge_files("03_DrugR_NT_Sequences", "Survey_2017.*mdr13_final_NT_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+
+Survey_2017_merged_crt_YN <- merge_files("03_DrugR_NT_Changes", "Survey_2017.*crt_final_NT_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_dhfr_YN <- merge_files("03_DrugR_NT_Changes", "Survey_2017.*dhfr_final_NT_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_dhps1_YN <- merge_files("03_DrugR_NT_Changes", "Survey_2017.*dhps1_final_NT_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_dhps2_YN <- merge_files("03_DrugR_NT_Changes", "Survey_2017.*dhps2_final_NT_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_K131_YN <- merge_files("03_DrugR_NT_Changes", "Survey_2017.*K131_final_NT_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_K132_YN <- merge_files("03_DrugR_NT_Changes", "Survey_2017.*K132_final_NT_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_mdr11_YN <- merge_files("03_DrugR_NT_Changes", "Survey_2017.*mdr11_final_NT_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_mdr12_YN <- merge_files("03_DrugR_NT_Changes", "Survey_2017.*mdr12_final_NT_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_mdr13_YN <- merge_files("03_DrugR_NT_Changes", "Survey_2017.*mdr13_final_NT_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+
+Survey_2017_merged_crt_Change <- merge_files("03_DrugR_NT_Changes", "Survey_2017.*crt_final_NT_Aligned_NTchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_dhfr_Change <- merge_files("03_DrugR_NT_Changes", "Survey_2017.*dhfr_final_NT_Aligned_NTchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_dhps1_Change <- merge_files("03_DrugR_NT_Changes", "Survey_2017.*dhps1_final_NT_Aligned_NTchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_dhps2_Change <- merge_files("03_DrugR_NT_Changes", "Survey_2017.*dhps2_final_NT_Aligned_NTchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_K131_Change <- merge_files("03_DrugR_NT_Changes", "Survey_2017.*K131_final_NT_Aligned_NTchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_K132_Change <- merge_files("03_DrugR_NT_Changes", "Survey_2017.*K132_final_NT_Aligned_NTchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_mdr11_Change <- merge_files("03_DrugR_NT_Changes", "Survey_2017.*mdr11_final_NT_Aligned_NTchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_mdr12_Change <- merge_files("03_DrugR_NT_Changes", "Survey_2017.*mdr12_final_NT_Aligned_NTchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_mdr13_Change <- merge_files("03_DrugR_NT_Changes", "Survey_2017.*mdr13_final_NT_Aligned_NTchange.csv", c("3D7_Pos", "3D7_Ref"))
+
+Survey_2017_merged_AA_crt_data <- merge_files("03_DrugR_AA_Sequences", "Survey_2017.*crt_final_AA_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_AA_dhfr_data <- merge_files("03_DrugR_AA_Sequences", "Survey_2017.*dhfr_final_AA_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_AA_dhps1_data <- merge_files("03_DrugR_AA_Sequences", "Survey_2017.*dhps1_final_AA_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_AA_dhps2_data <- merge_files("03_DrugR_AA_Sequences", "Survey_2017.*dhps2_final_AA_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_AA_K131_data <- merge_files("03_DrugR_AA_Sequences", "Survey_2017.*K131_final_AA_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_AA_K132_data <- merge_files("03_DrugR_AA_Sequences", "Survey_2017.*K132_final_AA_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_AA_mdr11_data <- merge_files("03_DrugR_AA_Sequences", "Survey_2017.*mdr11_final_AA_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_AA_mdr12_data <- merge_files("03_DrugR_AA_Sequences", "Survey_2017.*mdr12_final_AA_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_AA_mdr13_data <- merge_files("03_DrugR_AA_Sequences", "Survey_2017.*mdr13_final_AA_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+
+Survey_2017_merged_AA_crt_YN <- merge_files("03_DrugR_AA_Changes", "Survey_2017.*crt_final_AA_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_AA_dhfr_YN <- merge_files("03_DrugR_AA_Changes", "Survey_2017.*dhfr_final_AA_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_AA_dhps1_YN <- merge_files("03_DrugR_AA_Changes", "Survey_2017.*dhps1_final_AA_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_AA_dhps2_YN <- merge_files("03_DrugR_AA_Changes", "Survey_2017.*dhps2_final_AA_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_AA_K131_YN <- merge_files("03_DrugR_AA_Changes", "Survey_2017.*K131_final_AA_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_AA_K132_YN <- merge_files("03_DrugR_AA_Changes", "Survey_2017.*K132_final_AA_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_AA_mdr11_YN <- merge_files("03_DrugR_AA_Changes", "Survey_2017.*mdr11_final_AA_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_AA_mdr12_YN <- merge_files("03_DrugR_AA_Changes", "Survey_2017.*mdr12_final_AA_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_AA_mdr13_YN <- merge_files("03_DrugR_AA_Changes", "Survey_2017.*mdr13_final_AA_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+
+Survey_2017_merged_AA_crt_Change <- merge_files("03_DrugR_AA_Changes", "Survey_2017.*crt_final_AA_Aligned_AAchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_AA_dhfr_Change <- merge_files("03_DrugR_AA_Changes", "Survey_2017.*dhfr_final_AA_Aligned_AAchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_AA_dhps1_Change <- merge_files("03_DrugR_AA_Changes", "Survey_2017.*dhps1_final_AA_Aligned_AAchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_AA_dhps2_Change <- merge_files("03_DrugR_AA_Changes", "Survey_2017.*dhps2_final_AA_Aligned_AAchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_AA_K131_Change <- merge_files("03_DrugR_AA_Changes", "Survey_2017.*K131_final_AA_Aligned_AAchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_AA_K132_Change <- merge_files("03_DrugR_AA_Changes", "Survey_2017.*K132_final_AA_Aligned_AAchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_AA_mdr11_Change <- merge_files("03_DrugR_AA_Changes", "Survey_2017.*mdr11_final_AA_Aligned_AAchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_AA_mdr12_Change <- merge_files("03_DrugR_AA_Changes", "Survey_2017.*mdr12_final_AA_Aligned_AAchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2017_merged_AA_mdr13_Change <- merge_files("03_DrugR_AA_Changes", "Survey_2017.*mdr13_final_AA_Aligned_AAchange.csv", c("3D7_Pos", "3D7_Ref"))
+```
+
+### Survey_2020_2022
+
+```{r}
+Survey_2020_2022_merged_crt_data <- merge_files("03_DrugR_NT_Sequences", "Survey_2020_2022.*crt_final_NT_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_dhfr_data <- merge_files("03_DrugR_NT_Sequences", "Survey_2020_2022.*dhfr_final_NT_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_dhps1_data <- merge_files("03_DrugR_NT_Sequences", "Survey_2020_2022.*dhps1_final_NT_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_dhps2_data <- merge_files("03_DrugR_NT_Sequences", "Survey_2020_2022.*dhps2_final_NT_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_K131_data <- merge_files("03_DrugR_NT_Sequences", "Survey_2020_2022.*K131_final_NT_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_K132_data <- merge_files("03_DrugR_NT_Sequences", "Survey_2020_2022.*K132_final_NT_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_mdr11_data <- merge_files("03_DrugR_NT_Sequences", "Survey_2020_2022.*mdr11_final_NT_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_mdr12_data <- merge_files("03_DrugR_NT_Sequences", "Survey_2020_2022.*mdr12_final_NT_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_mdr13_data <- merge_files("03_DrugR_NT_Sequences", "Survey_2020_2022.*mdr13_final_NT_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_aat1_data <- merge_files("03_DrugR_NT_Sequences", "Survey_2020_2022.*aat1_final_NT_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_pfs471_data <- merge_files("03_DrugR_NT_Sequences", "Survey_2020_2022.*pfs471_final_NT_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_pfs472_data <- merge_files("03_DrugR_NT_Sequences", "Survey_2020_2022.*pfs472_final_NT_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+
+Survey_2020_2022_merged_crt_YN <- merge_files("03_DrugR_NT_Changes", "Survey_2020_2022.*crt_final_NT_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_dhfr_YN <- merge_files("03_DrugR_NT_Changes", "Survey_2020_2022.*dhfr_final_NT_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_dhps1_YN <- merge_files("03_DrugR_NT_Changes", "Survey_2020_2022.*dhps1_final_NT_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_dhps2_YN <- merge_files("03_DrugR_NT_Changes", "Survey_2020_2022.*dhps2_final_NT_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_K131_YN <- merge_files("03_DrugR_NT_Changes", "Survey_2020_2022.*K131_final_NT_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_K132_YN <- merge_files("03_DrugR_NT_Changes", "Survey_2020_2022.*K132_final_NT_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_mdr11_YN <- merge_files("03_DrugR_NT_Changes", "Survey_2020_2022.*mdr11_final_NT_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_mdr12_YN <- merge_files("03_DrugR_NT_Changes", "Survey_2020_2022.*mdr12_final_NT_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_mdr13_YN <- merge_files("03_DrugR_NT_Changes", "Survey_2020_2022.*mdr13_final_NT_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_aat1_YN <- merge_files("03_DrugR_NT_Changes", "Survey_2020_2022.*aat1_final_NT_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_pfs471_YN <- merge_files("03_DrugR_NT_Changes", "Survey_2020_2022.*pfs471_final_NT_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_pfs472_YN <- merge_files("03_DrugR_NT_Changes", "Survey_2020_2022.*pfs472_final_NT_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+
+Survey_2020_2022_merged_crt_Change <- merge_files("03_DrugR_NT_Changes", "Survey_2020_2022.*crt_final_NT_Aligned_NTchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_dhfr_Change <- merge_files("03_DrugR_NT_Changes", "Survey_2020_2022.*dhfr_final_NT_Aligned_NTchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_dhps1_Change <- merge_files("03_DrugR_NT_Changes", "Survey_2020_2022.*dhps1_final_NT_Aligned_NTchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_dhps2_Change <- merge_files("03_DrugR_NT_Changes", "Survey_2020_2022.*dhps2_final_NT_Aligned_NTchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_K131_Change <- merge_files("03_DrugR_NT_Changes", "Survey_2020_2022.*K131_final_NT_Aligned_NTchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_K132_Change <- merge_files("03_DrugR_NT_Changes", "Survey_2020_2022.*K132_final_NT_Aligned_NTchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_mdr11_Change <- merge_files("03_DrugR_NT_Changes", "Survey_2020_2022.*mdr11_final_NT_Aligned_NTchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_mdr12_Change <- merge_files("03_DrugR_NT_Changes", "Survey_2020_2022.*mdr12_final_NT_Aligned_NTchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_mdr13_Change <- merge_files("03_DrugR_NT_Changes", "Survey_2020_2022.*mdr13_final_NT_Aligned_NTchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_aat1_Change <- merge_files("03_DrugR_NT_Changes", "Survey_2020_2022.*aat1_final_NT_Aligned_NTchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_pfs471_Change <- merge_files("03_DrugR_NT_Changes", "Survey_2020_2022.*pfs471_final_NT_Aligned_NTchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_pfs472_Change <- merge_files("03_DrugR_NT_Changes", "Survey_2020_2022.*pfs472_final_NT_Aligned_NTchange.csv", c("3D7_Pos", "3D7_Ref"))
+
+Survey_2020_2022_merged_AA_crt_data <- merge_files("03_DrugR_AA_Sequences", "Survey_2020_2022.*crt_final_AA_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_dhfr_data <- merge_files("03_DrugR_AA_Sequences", "Survey_2020_2022.*dhfr_final_AA_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_dhps1_data <- merge_files("03_DrugR_AA_Sequences", "Survey_2020_2022.*dhps1_final_AA_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_dhps2_data <- merge_files("03_DrugR_AA_Sequences", "Survey_2020_2022.*dhps2_final_AA_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_K131_data <- merge_files("03_DrugR_AA_Sequences", "Survey_2020_2022.*K131_final_AA_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_K132_data <- merge_files("03_DrugR_AA_Sequences", "Survey_2020_2022.*K132_final_AA_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_mdr11_data <- merge_files("03_DrugR_AA_Sequences", "Survey_2020_2022.*mdr11_final_AA_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_mdr12_data <- merge_files("03_DrugR_AA_Sequences", "Survey_2020_2022.*mdr12_final_AA_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_mdr13_data <- merge_files("03_DrugR_AA_Sequences", "Survey_2020_2022.*mdr13_final_AA_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_aat1_data <- merge_files("03_DrugR_AA_Sequences", "Survey_2020_2022.*aat1_final_AA_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_pfs471_data <- merge_files("03_DrugR_AA_Sequences", "Survey_2020_2022.*pfs471_final_AA_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_pfs472_data <- merge_files("03_DrugR_AA_Sequences", "Survey_2020_2022.*pfs472_final_AA_Aligned.csv", c("3D7_Pos", "3D7_Ref"))
+
+Survey_2020_2022_merged_AA_crt_YN <- merge_files("03_DrugR_AA_Changes", "Survey_2020_2022.*crt_final_AA_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_dhfr_YN <- merge_files("03_DrugR_AA_Changes", "Survey_2020_2022.*dhfr_final_AA_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_dhps1_YN <- merge_files("03_DrugR_AA_Changes", "Survey_2020_2022.*dhps1_final_AA_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_dhps2_YN <- merge_files("03_DrugR_AA_Changes", "Survey_2020_2022.*dhps2_final_AA_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_K131_YN <- merge_files("03_DrugR_AA_Changes", "Survey_2020_2022.*K131_final_AA_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_K132_YN <- merge_files("03_DrugR_AA_Changes", "Survey_2020_2022.*K132_final_AA_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_mdr11_YN <- merge_files("03_DrugR_AA_Changes", "Survey_2020_2022.*mdr11_final_AA_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_mdr12_YN <- merge_files("03_DrugR_AA_Changes", "Survey_2020_2022.*mdr12_final_AA_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_mdr13_YN <- merge_files("03_DrugR_AA_Changes", "Survey_2020_2022.*mdr13_final_AA_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_aat1_YN <- merge_files("03_DrugR_AA_Changes", "Survey_2020_2022.*aat1_final_AA_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_pfs471_YN <- merge_files("03_DrugR_AA_Changes", "Survey_2020_2022.*pfs471_final_AA_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_pfs472_YN <- merge_files("03_DrugR_AA_Changes", "Survey_2020_2022.*pfs472_final_AA_Aligned_YorN.csv", c("3D7_Pos", "3D7_Ref"))
+
+Survey_2020_2022_merged_AA_crt_Change <- merge_files("03_DrugR_AA_Changes", "Survey_2020_2022.*crt_final_AA_Aligned_AAchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_dhfr_Change <- merge_files("03_DrugR_AA_Changes", "Survey_2020_2022.*dhfr_final_AA_Aligned_AAchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_dhps1_Change <- merge_files("03_DrugR_AA_Changes", "Survey_2020_2022.*dhps1_final_AA_Aligned_AAchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_dhps2_Change <- merge_files("03_DrugR_AA_Changes", "Survey_2020_2022.*dhps2_final_AA_Aligned_AAchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_K131_Change <- merge_files("03_DrugR_AA_Changes", "Survey_2020_2022.*K131_final_AA_Aligned_AAchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_K132_Change <- merge_files("03_DrugR_AA_Changes", "Survey_2020_2022.*K132_final_AA_Aligned_AAchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_mdr11_Change <- merge_files("03_DrugR_AA_Changes", "Survey_2020_2022.*mdr11_final_AA_Aligned_AAchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_mdr12_Change <- merge_files("03_DrugR_AA_Changes", "Survey_2020_2022.*mdr12_final_AA_Aligned_AAchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_mdr13_Change <- merge_files("03_DrugR_AA_Changes", "Survey_2020_2022.*mdr13_final_AA_Aligned_AAchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_aat1_Change <- merge_files("03_DrugR_AA_Changes", "Survey_2020_2022.*aat1_final_AA_Aligned_AAchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_pfs471_Change <- merge_files("03_DrugR_AA_Changes", "Survey_2020_2022.*pfs471_final_AA_Aligned_AAchange.csv", c("3D7_Pos", "3D7_Ref"))
+Survey_2020_2022_merged_AA_pfs472_Change <- merge_files("03_DrugR_AA_Changes", "Survey_2020_2022.*pfs472_final_AA_Aligned_AAchange.csv", c("3D7_Pos", "3D7_Ref"))
+```
+
+## Write .csv
+
+#### Survey_2017
+
+```{r}
+write.csv(Survey_2017_merged_crt_data, "04_Compiled_NT_Sequences/Survey_2017_crt_final_NT_Aligned.csv", row.names = F)
+write.csv(Survey_2017_merged_dhfr_data, "04_Compiled_NT_Sequences/Survey_2017_dhfr_final_NT_Aligned.csv", row.names = F)
+write.csv(Survey_2017_merged_dhps1_data, "04_Compiled_NT_Sequences/Survey_2017_dhps1_final_NT_Aligned.csv", row.names = F)
+write.csv(Survey_2017_merged_dhps2_data, "04_Compiled_NT_Sequences/Survey_2017_dhps2_final_NT_Aligned.csv", row.names = F)
+write.csv(Survey_2017_merged_K131_data, "04_Compiled_NT_Sequences/Survey_2017_K131_final_NT_Aligned.csv", row.names = F)
+write.csv(Survey_2017_merged_K132_data, "04_Compiled_NT_Sequences/Survey_2017_K132_final_NT_Aligned.csv", row.names = F)
+write.csv(Survey_2017_merged_mdr11_data, "04_Compiled_NT_Sequences/Survey_2017_mdr11_final_NT_Aligned.csv", row.names = F)
+write.csv(Survey_2017_merged_mdr12_data, "04_Compiled_NT_Sequences/Survey_2017_mdr12_final_NT_Aligned.csv", row.names = F)
+write.csv(Survey_2017_merged_mdr13_data, "04_Compiled_NT_Sequences/Survey_2017_mdr13_final_NT_Aligned.csv", row.names = F)
+
+write.csv(Survey_2017_merged_crt_YN, "04_Compiled_NT_Sequences/Survey_2017_crt_final_NT_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2017_merged_dhfr_YN, "04_Compiled_NT_Sequences/Survey_2017_dhfr_final_NT_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2017_merged_dhps1_YN, "04_Compiled_NT_Sequences/Survey_2017_dhps1_final_NT_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2017_merged_dhps2_YN, "04_Compiled_NT_Sequences/Survey_2017_dhps2_final_NT_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2017_merged_K131_YN, "04_Compiled_NT_Sequences/Survey_2017_K131_final_NT_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2017_merged_K132_YN, "04_Compiled_NT_Sequences/Survey_2017_K132_final_NT_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2017_merged_mdr11_YN, "04_Compiled_NT_Sequences/Survey_2017_mdr11_final_NT_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2017_merged_mdr12_YN, "04_Compiled_NT_Sequences/Survey_2017_mdr12_final_NT_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2017_merged_mdr13_YN, "04_Compiled_NT_Sequences/Survey_2017_mdr13_final_NT_Aligned_YorN.csv", row.names = F)
+
+write.csv(Survey_2017_merged_crt_Change, "04_Compiled_NT_Sequences/Survey_2017_crt_final_NT_Aligned_NTchange.csv", row.names = F)
+write.csv(Survey_2017_merged_dhfr_Change, "04_Compiled_NT_Sequences/Survey_2017_dhfr_final_NT_Aligned_NTchange.csv", row.names = F)
+write.csv(Survey_2017_merged_dhps1_Change, "04_Compiled_NT_Sequences/Survey_2017_dhps1_final_NT_Aligned_NTchange.csv", row.names = F)
+write.csv(Survey_2017_merged_dhps2_Change, "04_Compiled_NT_Sequences/Survey_2017_dhps2_final_NT_Aligned_NTchange.csv", row.names = F)
+write.csv(Survey_2017_merged_K131_Change, "04_Compiled_NT_Sequences/Survey_2017_K131_final_NT_Aligned_NTchange.csv", row.names = F)
+write.csv(Survey_2017_merged_K132_Change, "04_Compiled_NT_Sequences/Survey_2017_K132_final_NT_Aligned_NTchange.csv", row.names = F)
+write.csv(Survey_2017_merged_mdr11_Change, "04_Compiled_NT_Sequences/Survey_2017_mdr11_final_NT_Aligned_NTchange.csv", row.names = F)
+write.csv(Survey_2017_merged_mdr12_Change, "04_Compiled_NT_Sequences/Survey_2017_mdr12_final_NT_Aligned_NTchange.csv", row.names = F)
+write.csv(Survey_2017_merged_mdr13_Change, "04_Compiled_NT_Sequences/Survey_2017_mdr13_final_NT_Aligned_NTchange.csv", row.names = F)
+
+write.csv(Survey_2017_merged_AA_crt_data, "04_Compiled_AA_Sequences/Survey_2017_crt_final_AA_Aligned.csv", row.names = F)
+write.csv(Survey_2017_merged_AA_dhfr_data, "04_Compiled_AA_Sequences/Survey_2017_dhfr_final_AA_Aligned.csv", row.names = F)
+write.csv(Survey_2017_merged_AA_dhps1_data, "04_Compiled_AA_Sequences/Survey_2017_dhps1_final_AA_Aligned.csv", row.names = F)
+write.csv(Survey_2017_merged_AA_dhps2_data, "04_Compiled_AA_Sequences/Survey_2017_dhps2_final_AA_Aligned.csv", row.names = F)
+write.csv(Survey_2017_merged_AA_K131_data, "04_Compiled_AA_Sequences/Survey_2017_K131_final_AA_Aligned.csv", row.names = F)
+write.csv(Survey_2017_merged_AA_K132_data, "04_Compiled_AA_Sequences/Survey_2017_K132_final_AA_Aligned.csv", row.names = F)
+write.csv(Survey_2017_merged_AA_mdr11_data, "04_Compiled_AA_Sequences/Survey_2017_mdr11_final_AA_Aligned.csv", row.names = F)
+write.csv(Survey_2017_merged_AA_mdr12_data, "04_Compiled_AA_Sequences/Survey_2017_mdr12_final_AA_Aligned.csv", row.names = F)
+write.csv(Survey_2017_merged_AA_mdr13_data, "04_Compiled_AA_Sequences/Survey_2017_mdr13_final_AA_Aligned.csv", row.names = F)
+
+write.csv(Survey_2017_merged_AA_crt_YN, "04_Compiled_AA_Sequences/Survey_2017_crt_final_AA_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2017_merged_AA_dhfr_YN, "04_Compiled_AA_Sequences/Survey_2017_dhfr_final_AA_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2017_merged_AA_dhps1_YN, "04_Compiled_AA_Sequences/Survey_2017_dhps1_final_AA_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2017_merged_AA_dhps2_YN, "04_Compiled_AA_Sequences/Survey_2017_dhps2_final_AA_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2017_merged_AA_K131_YN, "04_Compiled_AA_Sequences/Survey_2017_K131_final_AA_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2017_merged_AA_K132_YN, "04_Compiled_AA_Sequences/Survey_2017_K132_final_AA_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2017_merged_AA_mdr11_YN, "04_Compiled_AA_Sequences/Survey_2017_mdr11_final_AA_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2017_merged_AA_mdr12_YN, "04_Compiled_AA_Sequences/Survey_2017_mdr12_final_AA_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2017_merged_AA_mdr13_YN, "04_Compiled_AA_Sequences/Survey_2017_mdr13_final_AA_Aligned_YorN.csv", row.names = F)
+
+write.csv(Survey_2017_merged_AA_crt_Change, "04_Compiled_AA_Sequences/Survey_2017_crt_final_AA_Aligned_AAchange.csv", row.names = F)
+write.csv(Survey_2017_merged_AA_dhfr_Change, "04_Compiled_AA_Sequences/Survey_2017_dhfr_final_AA_Aligned_AAchange.csv", row.names = F)
+write.csv(Survey_2017_merged_AA_dhps1_Change, "04_Compiled_AA_Sequences/Survey_2017_dhps1_final_AA_Aligned_AAchange.csv", row.names = F)
+write.csv(Survey_2017_merged_AA_dhps2_Change, "04_Compiled_AA_Sequences/Survey_2017_dhps2_final_AA_Aligned_AAchange.csv", row.names = F)
+write.csv(Survey_2017_merged_AA_K131_Change, "04_Compiled_AA_Sequences/Survey_2017_K131_final_AA_Aligned_AAchange.csv", row.names = F)
+write.csv(Survey_2017_merged_AA_K132_Change, "04_Compiled_AA_Sequences/Survey_2017_K132_final_AA_Aligned_AAchange.csv", row.names = F)
+write.csv(Survey_2017_merged_AA_mdr11_Change, "04_Compiled_AA_Sequences/Survey_2017_mdr11_final_AA_Aligned_AAchange.csv", row.names = F)
+write.csv(Survey_2017_merged_AA_mdr12_Change, "04_Compiled_AA_Sequences/Survey_2017_mdr12_final_AA_Aligned_AAchange.csv", row.names = F)
+write.csv(Survey_2017_merged_AA_mdr13_Change, "04_Compiled_AA_Sequences/Survey_2017_mdr13_final_AA_Aligned_AAchange.csv", row.names = F)
+```
+
+#### Survey_2020_2022
+
+```{r}
+write.csv(Survey_2020_2022_merged_crt_data, "04_Compiled_NT_Sequences/Survey_2020_2022_crt_final_NT_Aligned.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_dhfr_data, "04_Compiled_NT_Sequences/Survey_2020_2022_dhfr_final_NT_Aligned.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_dhps1_data, "04_Compiled_NT_Sequences/Survey_2020_2022_dhps1_final_NT_Aligned.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_dhps2_data, "04_Compiled_NT_Sequences/Survey_2020_2022_dhps2_final_NT_Aligned.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_K131_data, "04_Compiled_NT_Sequences/Survey_2020_2022_K131_final_NT_Aligned.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_K132_data, "04_Compiled_NT_Sequences/Survey_2020_2022_K132_final_NT_Aligned.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_mdr11_data, "04_Compiled_NT_Sequences/Survey_2020_2022_mdr11_final_NT_Aligned.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_mdr12_data, "04_Compiled_NT_Sequences/Survey_2020_2022_mdr12_final_NT_Aligned.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_mdr13_data, "04_Compiled_NT_Sequences/Survey_2020_2022_mdr13_final_NT_Aligned.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_aat1_data, "04_Compiled_NT_Sequences/Survey_2020_2022_aat1_final_NT_Aligned.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_pfs471_data, "04_Compiled_NT_Sequences/Survey_2020_2022_pfs471_final_NT_Aligned.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_pfs472_data, "04_Compiled_NT_Sequences/Survey_2020_2022_pfs472_final_NT_Aligned.csv", row.names = F)
+
+write.csv(Survey_2020_2022_merged_crt_YN, "04_Compiled_NT_Sequences/Survey_2020_2022_crt_final_NT_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_dhfr_YN, "04_Compiled_NT_Sequences/Survey_2020_2022_dhfr_final_NT_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_dhps1_YN, "04_Compiled_NT_Sequences/Survey_2020_2022_dhps1_final_NT_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_dhps2_YN, "04_Compiled_NT_Sequences/Survey_2020_2022_dhps2_final_NT_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_K131_YN, "04_Compiled_NT_Sequences/Survey_2020_2022_K131_final_NT_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_K132_YN, "04_Compiled_NT_Sequences/Survey_2020_2022_K132_final_NT_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_mdr11_YN, "04_Compiled_NT_Sequences/Survey_2020_2022_mdr11_final_NT_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_mdr12_YN, "04_Compiled_NT_Sequences/Survey_2020_2022_mdr12_final_NT_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_mdr13_YN, "04_Compiled_NT_Sequences/Survey_2020_2022_mdr13_final_NT_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_aat1_YN, "04_Compiled_NT_Sequences/Survey_2020_2022_aat1_final_NT_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_pfs471_YN, "04_Compiled_NT_Sequences/Survey_2020_2022_pfs471_final_NT_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_pfs472_YN, "04_Compiled_NT_Sequences/Survey_2020_2022_pfs472_final_NT_Aligned_YorN.csv", row.names = F)
+
+write.csv(Survey_2020_2022_merged_crt_Change, "04_Compiled_NT_Sequences/Survey_2020_2022_crt_final_NT_Aligned_NTchange.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_dhfr_Change, "04_Compiled_NT_Sequences/Survey_2020_2022_dhfr_final_NT_Aligned_NTchange.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_dhps1_Change, "04_Compiled_NT_Sequences/Survey_2020_2022_dhps1_final_NT_Aligned_NTchange.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_dhps2_Change, "04_Compiled_NT_Sequences/Survey_2020_2022_dhps2_final_NT_Aligned_NTchange.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_K131_Change, "04_Compiled_NT_Sequences/Survey_2020_2022_K131_final_NT_Aligned_NTchange.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_K132_Change, "04_Compiled_NT_Sequences/Survey_2020_2022_K132_final_NT_Aligned_NTchange.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_mdr11_Change, "04_Compiled_NT_Sequences/Survey_2020_2022_mdr11_final_NT_Aligned_NTchange.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_mdr12_Change, "04_Compiled_NT_Sequences/Survey_2020_2022_mdr12_final_NT_Aligned_NTchange.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_mdr13_Change, "04_Compiled_NT_Sequences/Survey_2020_2022_mdr13_final_NT_Aligned_NTchange.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_aat1_Change, "04_Compiled_NT_Sequences/Survey_2020_2022_aat1_final_NT_Aligned_NTchange.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_pfs471_Change, "04_Compiled_NT_Sequences/Survey_2020_2022_pfs471_final_NT_Aligned_NTchange.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_pfs472_Change, "04_Compiled_NT_Sequences/Survey_2020_2022_pfs472_final_NT_Aligned_NTchange.csv", row.names = F)
+
+write.csv(Survey_2020_2022_merged_AA_crt_data, "04_Compiled_AA_Sequences/Survey_2020_2022_crt_final_AA_Aligned.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_dhfr_data, "04_Compiled_AA_Sequences/Survey_2020_2022_dhfr_final_AA_Aligned.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_dhps1_data, "04_Compiled_AA_Sequences/Survey_2020_2022_dhps1_final_AA_Aligned.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_dhps2_data, "04_Compiled_AA_Sequences/Survey_2020_2022_dhps2_final_AA_Aligned.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_K131_data, "04_Compiled_AA_Sequences/Survey_2020_2022_K131_final_AA_Aligned.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_K132_data, "04_Compiled_AA_Sequences/Survey_2020_2022_K132_final_AA_Aligned.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_mdr11_data, "04_Compiled_AA_Sequences/Survey_2020_2022_mdr11_final_AA_Aligned.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_mdr12_data, "04_Compiled_AA_Sequences/Survey_2020_2022_mdr12_final_AA_Aligned.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_mdr13_data, "04_Compiled_AA_Sequences/Survey_2020_2022_mdr13_final_AA_Aligned.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_aat1_data, "04_Compiled_AA_Sequences/Survey_2020_2022_aat1_final_AA_Aligned.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_pfs471_data, "04_Compiled_AA_Sequences/Survey_2020_2022_pfs471_final_AA_Aligned.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_pfs472_data, "04_Compiled_AA_Sequences/Survey_2020_2022_pfs472_final_AA_Aligned.csv", row.names = F)
+
+write.csv(Survey_2020_2022_merged_AA_crt_YN, "04_Compiled_AA_Sequences/Survey_2020_2022_crt_final_AA_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_dhfr_YN, "04_Compiled_AA_Sequences/Survey_2020_2022_dhfr_final_AA_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_dhps1_YN, "04_Compiled_AA_Sequences/Survey_2020_2022_dhps1_final_AA_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_dhps2_YN, "04_Compiled_AA_Sequences/Survey_2020_2022_dhps2_final_AA_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_K131_YN, "04_Compiled_AA_Sequences/Survey_2020_2022_K131_final_AA_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_K132_YN, "04_Compiled_AA_Sequences/Survey_2020_2022_K132_final_AA_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_mdr11_YN, "04_Compiled_AA_Sequences/Survey_2020_2022_mdr11_final_AA_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_mdr12_YN, "04_Compiled_AA_Sequences/Survey_2020_2022_mdr12_final_AA_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_mdr13_YN, "04_Compiled_AA_Sequences/Survey_2020_2022_mdr13_final_AA_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_aat1_YN, "04_Compiled_AA_Sequences/Survey_2020_2022_aat1_final_AA_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_pfs471_YN, "04_Compiled_AA_Sequences/Survey_2020_2022_pfs471_final_AA_Aligned_YorN.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_pfs472_YN, "04_Compiled_AA_Sequences/Survey_2020_2022_pfs472_final_AA_Aligned_YorN.csv", row.names = F)
+
+write.csv(Survey_2020_2022_merged_AA_crt_Change, "04_Compiled_AA_Sequences/Survey_2020_2022_crt_final_AA_Aligned_AAchange.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_dhfr_Change, "04_Compiled_AA_Sequences/Survey_2020_2022_dhfr_final_AA_Aligned_AAchange.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_dhps1_Change, "04_Compiled_AA_Sequences/Survey_2020_2022_dhps1_final_AA_Aligned_AAchange.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_dhps2_Change, "04_Compiled_AA_Sequences/Survey_2020_2022_dhps2_final_AA_Aligned_AAchange.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_K131_Change, "04_Compiled_AA_Sequences/Survey_2020_2022_K131_final_AA_Aligned_AAchange.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_K132_Change, "04_Compiled_AA_Sequences/Survey_2020_2022_K132_final_AA_Aligned_AAchange.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_mdr11_Change, "04_Compiled_AA_Sequences/Survey_2020_2022_mdr11_final_AA_Aligned_AAchange.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_mdr12_Change, "04_Compiled_AA_Sequences/Survey_2020_2022_mdr12_final_AA_Aligned_AAchange.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_mdr13_Change, "04_Compiled_AA_Sequences/Survey_2020_2022_mdr13_final_AA_Aligned_AAchange.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_aat1_Change, "04_Compiled_AA_Sequences/Survey_2020_2022_aat1_final_AA_Aligned_AAchange.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_pfs471_Change, "04_Compiled_AA_Sequences/Survey_2020_2022_pfs471_final_AA_Aligned_AAchange.csv", row.names = F)
+write.csv(Survey_2020_2022_merged_AA_pfs472_Change, "04_Compiled_AA_Sequences/Survey_2020_2022_pfs472_final_AA_Aligned_AAchange.csv", row.names = F)
+```
