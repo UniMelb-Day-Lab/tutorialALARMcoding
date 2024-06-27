@@ -1,0 +1,66 @@
+project:
+  type: website
+
+website:
+  title: "ALARMcoding Tutorial"
+  favicon: "Images/ALARMcoding_Icon.png"
+  navbar:
+    left:
+      - href: Index.qmd
+        text: Home
+      - About.qmd
+    tools:
+      - icon: twitter
+        href: https://twitter.com/DionneArgy
+      - icon: github
+        menu:
+          - text: Source Code
+            url:  https://github.com/dionnecargy
+          - text: Report a Bug
+            url:  https://github.com/dionnecargy
+    search: false
+  page-footer: 
+    left: "Copyright 2024, Dionne C. Argyropoulos"
+    right: 
+      - icon: github
+        href: https://github.com/dionnecargy
+      - icon: twitter
+        href: https://twitter.com/DionneArgy
+  page-navigation: true
+  back-to-top-navigation: true
+  sidebar:
+    style: "docked"
+    search: true
+    logo: "Images/ALARMcoding_Icon.png"
+    contents:
+      - index.qmd
+      - section: "About ALARMcoding"
+        contents: 
+          - "About_Resistance.qmd"
+          - "About_Markers.qmd"
+      - section: "PCR Protocol"
+        contents: 
+          - "Multiplex_1.qmd"
+          - "Multiplex_2.qmd"
+          - "Multiplex_3.qmd"
+          - "Multiplex_4.qmd"
+          - "Prepare_Sequencing.qmd"
+      - section: "Drug Resistance Pipeline"
+        contents: 
+          - "1_SeekDeep.qmd"
+          - "2_MACSE.qmd"
+          - "3_Custom.qmd"
+
+format:
+  html:
+    theme: 
+      light: cosmo
+      dark: [cosmo, theme-dark.css]
+    css: styles.css
+    code-overflow: wrap
+    toc: true
+    execute:
+      warning: false
+
+editor: visual
+

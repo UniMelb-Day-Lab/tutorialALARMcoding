@@ -1,0 +1,344 @@
+[
+  {
+    "objectID": "1_SeekDeep.html",
+    "href": "1_SeekDeep.html",
+    "title": "Step 1: SeekDeep",
+    "section": "",
+    "text": "Data processing of data using this SeekDeep made by Nick Nathaway. Here is a link to a step-by-step guide for installation.\nWe used Illumina sequencing data and would like to run all of the three pipelines. We therefore use the global function setupTarAmpAnalysis. The data files were made in accordance to the Initial Set-Up Guidelines for Paired End Reads with MIDs.\nSTEP 1: Must run this before SeekDeep can work:\nexport PATH=/home/software/SeekDeep-3.0.1/bin/:$PATH\nSTEP 2: Run the SeekDeep command\nSeekDeep setupTarAmpAnalysis –samples sampleNamesP1.tab.txt –outDir output –inputDir . –idFile multipleGenePairs.id.txt –overlapStatusFnp overlapStatuses.txt –refSeqsDir markerRefSeqs/forSeekDeep/refSeqs/ –extraExtractorCmds=“–barcodeErrors 0 –midWithinStart 8 –primerWithinStart 8 –checkRevComplementForMids true –checkRevComplementForPrimers true” –extraProcessClusterCmds=“–fracCutOff 0.078 –sampleMinTotalReadCutOff 100”\nThis command was developed after testing for a wide number of parameters outlined here SeekDeep (Hathaway et al. 2017). We used the controls in our pools to parameterise.",
+    "crumbs": [
+      "Home",
+      "Drug Resistance Pipeline",
+      "Step 1: SeekDeep"
+    ]
+  },
+  {
+    "objectID": "1_SeekDeep.html#setuptarampanalysis",
+    "href": "1_SeekDeep.html#setuptarampanalysis",
+    "title": "Step 1: SeekDeep",
+    "section": "setupTarAmpAnalysis",
+    "text": "setupTarAmpAnalysis\nSequencing Files: --inputDir Input Directory of raw data files; required. These files include:\n\n--fastq1 Input sequence filename, only need 1, fastq first mate text file; required\n--fastq1gz Input sequence filename, only need 1, fastq first mate gzipped file; required\n--fastq2 Input sequence filename, only needed with –fastq1, fastq second mate text file; required\n--fastq2gz Input sequence filename, only needed with –fastq1gz, fastq second mate gzipped file; required\n\nID Files:\n\n--idFile = ID file containing primer and possible additional MIDs; required.\n--samples = A file containing the samples names, columns should go target, sample, pcr1, pcr2 (optional) etc; required.\n\nIllumina Stitching: --overlapStatusFnp A file with two columns, target,status; status column should contain 1 of 3 values (capitalization doesn’t matter): r1BegOverR2End,r1EndOverR2Beg,NoOverlap.\n\nr1BegOverR2End = target size &lt; read length (causes read through),\nr1EndOverR2Beg = target size &gt; read length less than 2 x read length,\nNoOverlap = target size &gt; 2 x read length; required.\n\nOutput: --outDir Directory to setup for analysis; required.",
+    "crumbs": [
+      "Home",
+      "Drug Resistance Pipeline",
+      "Step 1: SeekDeep"
+    ]
+  },
+  {
+    "objectID": "1_SeekDeep.html#extractor-commands",
+    "href": "1_SeekDeep.html#extractor-commands",
+    "title": "Step 1: SeekDeep",
+    "section": "extractor Commands",
+    "text": "extractor Commands\nAll of these commands and their uses are discussed in the SeekDeep extractor Tutorial. The aim of this pipeline is to extract sequences from various sequences input types (fastq,fasta,sff,etc.) with primers and barcodes plus some filtering.\n\nRequiredOptionalOutput Files\n\n\nID File: --id The name of the ID file; required; default=;\nPost Processing: --overlapStatusFnp A file with two columns, target,status; status column should contain 1 of 3 values (capitalization doesn’t matter):r1BegOverR2End,r1EndOverR2Beg,NoOverlap.\n\nr1BegOverR2End=target size &lt; read length (causes read through),\nr1EndOverR2Beg= target size &gt; read length less than 2 x read length,\nNoOverlap=target size &gt; 2 x read length; required; default=;\n\nReading Sequence Input:\n\n--fastq1 Input sequence filename, only need 1, fastq first mate text file; required; default=;\n--fastq1gz Input sequence filename, only need 1, fastq first mate gzipped file; required; default=;\n--fastq2 Input sequence filename, only needed with –fastq1, fastq second mate text file; required; default=;\n--fastq2gz Input sequence filename, only needed with –fastq1gz, fastq second mate gzipped file; required; default=;\n\n\n\nBarcodes:\n\n--barcodeErrors Errors Allowed in Barcode; default=1;\n--midSearchStart By default the primer or barcodes are searched at the very beginning of seq, use this flag to start searching for MID barcode after this many bases, can be used if random bases precede barcodes; default=0;\n--midWithinStart By default the primer or barcodes are searched at the very beginning of seq, use this flag to extended the search, should be kept low to cut down on false positives; default=0;\n\nComplement:\n\n--checkRevComplementForMids Check the Reverse Complement of the Seqs As Well For MIDs; default=false;\n\n--checkRevComplementForPrimers Check the Reverse Complement of the Seqs As Well For Primers; default=false;\n\nPrimers: --primerWithinStart By default the primer or barcodes are searched at the very beginning of seq, use this flag to extended the search, should be kept low to cut down on false positives; default=0;\n\n\n\nextractionProfile.tab.txt: This breaks down the filtering per final extraction sequence file\nextractionStats.tab.txt: This has info how the whole extraction went",
+    "crumbs": [
+      "Home",
+      "Drug Resistance Pipeline",
+      "Step 1: SeekDeep"
+    ]
+  },
+  {
+    "objectID": "1_SeekDeep.html#qluster-commands",
+    "href": "1_SeekDeep.html#qluster-commands",
+    "title": "Step 1: SeekDeep",
+    "section": "qluster Commands",
+    "text": "qluster Commands\nThese commands and uses are discussed in the SeekDeep qluster Tutorial. The qluster pipeline aims to cluster input sequences by collapsing on set differences between the sequences. We did not modify anything from the default parameters.",
+    "crumbs": [
+      "Home",
+      "Drug Resistance Pipeline",
+      "Step 1: SeekDeep"
+    ]
+  },
+  {
+    "objectID": "1_SeekDeep.html#processcluster-commands",
+    "href": "1_SeekDeep.html#processcluster-commands",
+    "title": "Step 1: SeekDeep",
+    "section": "processCluster Commands",
+    "text": "processCluster Commands\nThe SeekDeep processClusters Tutorial provides help for these commands and their uses.\n\nRequiredOptionalOutput Files\n\n\nClustering: --par ParametersFileName; required; default=;\nReading Sequence Input:\n\n--fasta Input sequence filename, only need 1, fasta text file; required; default=;\n--fastagz Input sequence filename, only need 1, fasta gzipped file; required; default=;\n--fastq Input sequence filename, only need 1, fastq text file; required; default=;\n--fastqgz Input sequence filename, only need 1, fastq gzipped file; required; default=;\n\n\n\nFiltering:\n\n--fracCutOff Final cluster Fraction Cut off; default=0.005; \n\n--sampleMinTotalReadCutOffSample Minimum Total Read Cut Off, if the total read count for the sample is below this it will be thrown out; default=250;\n\n\n\n\nselectedClustersInfo.tab.txt:\n\nThis contains the final haplotype information and replicate comparison results\nIt is a very large table\nConsult the SeekDeep (http://njh2.umassmed.edu/~hathawan/SeekDeep.html) website for details on what each column means\n\nallClustersInfo.tab.txt\ndotFiles\nfinal\npopulation/populationCluster.tab.txt.gz\npopulation/PopUID.fastq",
+    "crumbs": [
+      "Home",
+      "Drug Resistance Pipeline",
+      "Step 1: SeekDeep"
+    ]
+  },
+  {
+    "objectID": "1_SeekDeep.html#final-output-interpretation",
+    "href": "1_SeekDeep.html#final-output-interpretation",
+    "title": "Step 1: SeekDeep",
+    "section": "Final Output Interpretation",
+    "text": "Final Output Interpretation\nAll the data from the analysis done by processClusters is located in the file: selectedClustersInfo.tab.txt.\nOur main variables of interest are:\n\ns_Sample * The name of the sample the haplotype appears in\nh_popUID * The population id given to haplotype. These are named with PopUID.XX where XX is the population rank number and this number is determined by the number of samples the haplotype appears in\nc_clusterID * The id given to the cluster in the sample, the lower the number the higher the relative abundance in the sample\nc_ReadCnt * The total number of reads associated with this cluster summed over all replicates\nc_Consensus * The consensus sequence for this cluster\nc_bestExpected * A string with the name of the closest reference sequence see below to see how to compare against expected references",
+    "crumbs": [
+      "Home",
+      "Drug Resistance Pipeline",
+      "Step 1: SeekDeep"
+    ]
+  },
+  {
+    "objectID": "1_SeekDeep.html#sec-parameters",
+    "href": "1_SeekDeep.html#sec-parameters",
+    "title": "Step 1: SeekDeep",
+    "section": "Parameterisation",
+    "text": "Parameterisation\n\n1. Add reference genome\n1. Need to set up the reference genomes:\nexport PATH=/home/software/samtools-1.15.1/bin:$PATH export PATH=/home/software/bowtie2-2.4.5-linux-x86_64:$PATH\nSeekDeep genTargetInfoFromGenomes –gffDir pfgenomes/gff/ –genomeDir pfgenomes/genomes/ –primers GeneID.tab.txt –pairedEndLength 250 –dout markerRefSeqs –numThreads 19 –overWriteDir true –verbose\n2. Run the command\nSeekDeep setupTarAmpAnalysis –samples sampleNamesP8.tab.txt –outDir Run-Pool-8-WRefs –inputDir . –idFile multipleGenePairs.id.txt –overlapStatusFnp overlapStatuses.txt –refSeqsDir markerRefSeqs/markerFasta/ –extraExtractorCmds=“–midWithinStart 100 –primerWithinStart 100 –qualCheckCutOff .75 –qualCheckLevel 30 –checkRevComplementForMids true –checkRevComplementForPrimers true”\n\n\n2. Test Cluster Cut-off\n\n--clusterCutOff changes the input Cluster Size Cut Off (default=1) in the processClusters pipeline.\n--singletCutOff Raises what is defined as a singlet (default=1) in the qluster pipeline.\n\nSwapping --singletCutOff to --clusterCutOff, changes the total haplotypes. This parameter does influence the number of haplotypes but still shows many replicates of 3D7s, which can be filtered further. Increasing the --clusterCutOff to 5 reduces the haplotypes t. This parameter provides enough read count/fraction for the controls present in the data e.g., 3D7 MID 108, Dd2 MID 109 and HB3 MID 110 are found once for dhfr. However, we must ensure this isn’t reducing too much of the data.\nInstead of specifying a hard read count cut-off (default=0.005 or 0.5%), I opted to try and remove haplotypes that were represented at X% frequency in the sample using the function —-fracCutOff.Can try playing with this cut-off to e.g., 5% (Boyce et al. 2019; Wamae, Ndwiga, et al. 2022; Wamae, Kimenyi, et al. 2022), 3.5% (Hemming-Schroeder et al. 2020), 1% (Brazeau et al. 2019; Pringle et al. 2019; Osoti et al. 2022), or 0.5% (Aydemir et al. 2018; Balasubramanian et al. 2022; Topazian et al. 2022). This parameter did not alter the number of haplotypes as anticipated.\n\n\n3. Test midWithinStart and primerWithinStart\nMID 47, TGTGAGTAGT, is within dhps-1 amplicon and was therefore being preferentially labelled as “MID47”. Because of this, DA and MHT went back to the drawing board and discovered that our midWithinStart and primerWithinStart commands were way too relaxed.\nSeekDeep setupTarAmpAnalysis –samples sampleNamesP1.tab.txt –outDir Run-Pool-1-mdr12-Frac3.5-1 –inputDir . –idFile multipleGenePairs.id.txt –overlapStatusFnp overlapStatuses.txt –refSeqsDir markerRefSeqs/markerFasta/ –extraExtractorCmds=“–midWithinStart 10 –primerWithinStart 10 –qualCheckCutOff .75 –qualCheckLevel 30 –checkRevComplementForMids true –checkRevComplementForPrimers true” –extraProcessClusterCmds=“–fracCutOff 0.035”\nAsterixed are parameter values that we have tested:\n\nmidWithinStart 0, 5, 6, 7, 8, 9, 10\nprimerWithinStart 0, 1, 5, 8, 10, 15, 20, 50\n\nReducing the parameter to 0 produced no data. This is because there are 7bp at the start of each sequence preceding the MID. By changing the midWithinStart and primerWithinStart parameters to a smaller value, we can use MID 47 for dhps-2.\nOur optimal golidlocks value was –midWithinStart 8 –primerWithinStart 8.\n\n\n4. Test Barcode Errors\nNext, DA and MHT looked at the –barcodeErrors parameter to further reduce any ambiguity and specifically select for NO errors. The default = 1.\n\n\n5. Test minimum total read cut-off\nThis new parameter was added in the SeekDeep v. 3.0.1 that was used for the final analysis of the drug resistance dataset in 2023/2024. We realised that there was a new default parameter that removed isolates that had less than 250 total reads (i.e., 250X coverage) in the selected clusters output file. We then amended this, based on a visualisation of the total read density per marker - this showed that for some markers like dhps-1/2, dhfr and mdr1-2 there were more isolates that had ~100X-250X coverage. We therefore created a threshold of 100X coverage.",
+    "crumbs": [
+      "Home",
+      "Drug Resistance Pipeline",
+      "Step 1: SeekDeep"
+    ]
+  },
+  {
+    "objectID": "1_SeekDeep.html#references",
+    "href": "1_SeekDeep.html#references",
+    "title": "Step 1: SeekDeep",
+    "section": "References",
+    "text": "References\n\n\nAydemir, Ozkan, Mark Janko, Nick J Hathaway, Robert Verity, Melchior Kashamuka Mwandagalirwa, Antoinette K Tshefu, Sofonias K Tessema, et al. 2018. “Drug-Resistance and Population Structure of Plasmodium falciparum Across the Democratic Republic of Congo Using High-Throughput Molecular Inversion Probes.” The Journal of Infectious Diseases 218 (6): 946–55. https://doi.org/10.1093/infdis/jiy223.\n\n\nBalasubramanian, Sujata, Rachel Curtis-Robles, Bhagath Chirra, Lisa D. Auckland, Alan Mai, Virgilio Bocanegra-Garcia, Patti Clark, et al. 2022. “Characterization of triatomine bloodmeal sources using direct Sanger sequencing and amplicon deep sequencing methods.” Scientific Reports 12 (1): 10234. https://doi.org/10.1038/s41598-022-14208-8.\n\n\nBoyce, Ross M, Nicholas Brazeau, Travis Fulton, Nick Hathaway, Michael Matte, Moses Ntaro, Edgar Mulogo, and Jonathan J Juliano. 2019. “Prevalence of Molecular Markers of Antimalarial Drug Resistance across Altitudinal Transmission Zones in Highland Western Uganda.” The American Journal of Tropical Medicine and Hygiene 101 (4): 799–802. https://doi.org/10.4269/ajtmh.19-0081.\n\n\nBrazeau, Nicholas F, Ashenafi Assefa, Hussein Mohammed, Heven Seme, Abeba G Tsadik, Jonathan B Parr, Corinna Keeler, et al. 2019. “Pooled Deep Sequencing of Drug Resistance Loci from Plasmodium falciparum Parasites across Ethiopia.” The American Journal of Tropical Medicine and Hygiene 101 (5): 1139–43. https://doi.org/10.4269/ajtmh.19-0142.\n\n\nHathaway, Nicholas J., Christian M. Parobek, Jonathan J. Juliano, and Jeffrey A. Bailey. 2017. “SeekDeep: single-base resolution de novo clustering for amplicon deep sequencing.” Nucleic Acids Research 46 (4): gkx1201–. https://doi.org/10.1093/nar/gkx1201.\n\n\nHemming-Schroeder, Elizabeth, Daibin Zhong, Solomon Kibret, Amanda Chie, Ming-Chieh Lee, Guofa Zhou, Harrysone Atieli, Andrew Githeko, James W Kazura, and Guiyun Yan. 2020. “Microgeographic Epidemiology of Malaria Parasites in an Irrigated Area of Western Kenya by Deep Amplicon Sequencing.” The Journal of Infectious Diseases 223 (8): 1456–65. https://doi.org/10.1093/infdis/jiaa520.\n\n\nOsoti, Victor, Mercy Akinyi, Kevin Wamae, Kelvin M. Kimenyi, Zaydah de Laurent, Leonard Ndwiga, Paul Gichuki, et al. 2022. “Targeted Amplicon Deep Sequencing for Monitoring Antimalarial Resistance Markers in Western Kenya.” Antimicrobial Agents and Chemotherapy 66 (4): e01945–21. https://doi.org/10.1128/aac.01945-21.\n\n\nPringle, Julia C., Amy Wesolowski, Sophie Berube, Tamaki Kobayashi, Mary E. Gebhardt, Modest Mulenga, Mike Chaponda, et al. 2019. “High Plasmodium falciparum genetic diversity and temporal stability despite control efforts in high transmission settings along the international border between Zambia and the Democratic Republic of the Congo.” Malaria Journal 18 (1): 400. https://doi.org/10.1186/s12936-019-3023-4.\n\n\nTopazian, Hillary M., Kara A. Moser, Billy Ngasala, Peter O. Oluoch, Catherine S. Forconi, Lwidiko E. Mhamilawa, Ozkan Aydemir, et al. 2022. “Low Complexity of Infection Is Associated With Molecular Persistence of Plasmodium falciparum in Kenya and Tanzania.” Frontiers in Epidemiology 2: 852237. https://doi.org/10.3389/fepid.2022.852237.\n\n\nWamae, Kevin, Kelvin M. Kimenyi, Victor Osoti, Zaydah R. de Laurent, Leonard Ndwiga, Oksana Kharabora, Nicholas J. Hathaway, et al. 2022. “Amplicon sequencing as a potential surveillance tool for complexity of infection and drug resistance markers in Plasmodium falciparum asymptomatic infections.” Journal of Infectious Diseases. https://doi.org/doi.org/10.1093/infdis/jiac144.\n\n\nWamae, Kevin, Leonard Ndwiga, Oksana Kharabora, Kelvin Kimenyi, Victor Osoti, Zaydah de Laurent, Juliana Wambua, et al. 2022. “Targeted Amplicon deep sequencing of ama1 and mdr1 to track within-host P. falciparum diversity throughout treatment in a clinical drug trial.” Wellcome Open Research 7: 95. https://doi.org/10.12688/wellcomeopenres.17736.1.",
+    "crumbs": [
+      "Home",
+      "Drug Resistance Pipeline",
+      "Step 1: SeekDeep"
+    ]
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About the Author",
+    "section": "",
+    "text": "Back to top"
+  },
+  {
+    "objectID": "about.html#what-is-alarmcoding",
+    "href": "about.html#what-is-alarmcoding",
+    "title": "About",
+    "section": "",
+    "text": "ALARMcoding, or Adaptive Loci of Antimalarial Resistance Markers coding, is a multiplex and nested PCR methodology to amplify 6 markers of drug resistance and one marker of vector competence. This panel has been optimised for asymptomatic data but can be used across a range of parasite densities, including clinical infections, and uses Amplicon Sequencing technology to also identify codons of interest in both single- and multiple-clone infections, where the latter are common in highly endemic countries.\n\n\npfcrt, dhfr, dhps, K13, mdr1 and aat1 are molecular markers of drug resistance in Plasmodium falciparum. CQR is caused by common mutants in genes that encode P. falciparum transmembrane proteins chloroquine resistance transporter (PfCRT, codons 72-76), an ATP-binding cassette transporter and homologue of multidrug-resistance P-glycoprotein (PfMDR1 or Pgh1, codons 86, 184, 1034, 1042, 1246) and a putative amino acid transporter (PfAat1, codons 258, 313)\n\n\n\npfs47 is the",
+    "crumbs": [
+      "Home",
+      "About ALARMcoding",
+      "About"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Welcome",
+    "section": "",
+    "text": "This is a step-by-step tutorial on WHAT the ALARMcoding panel is and HOW to perform the PCRs and bioinformatic processing.\n\n\n\n Back to top",
+    "crumbs": [
+      "Home",
+      "Welcome"
+    ]
+  },
+  {
+    "objectID": "About_Resistance.html",
+    "href": "About_Resistance.html",
+    "title": "Antimalarial Drug Resistance",
+    "section": "",
+    "text": "Treatment failure of antifolate drugs such as sulfadoxine and pyrimethamine (collectively referred to as SP) have been associated with point mutations in P. falciparum dihydrofolate reductase (pfdhfr) and P. falciparum dihydropteroate synthase (pfdhps) genes on chromosome 4 and 8 respectively. These genes encode for enzymes in the folate biosynthesis pathway; pfdhfr reduces 7,8-dihydrofolate into 5,6,7,8-tetrahydrofolate and pfdhps aids in the synthesis of folate from GTPC. These enzymes are targeted by pyrimethamine and sulfadoxine respectively.\nThe pfdhfr S108N substitution is critical for pyrimethamine resistance, with N51I and C59R modulating the strength of resistance conferring sub-optimal activity and reduced binding affinity to the drug (reviewed in Naidoo and Roper (2013)). Additional mutations at A16V and C50A have been shown to confer resistance to cycloguanil and enhance pyrimethamine in Bolivia (Foote, Galatis, and Cowman 1990; Plowe et al. 1997). The I164L substitution has been found alone or in combination with the triple pfdhfr mutant haplotype as an important resistance-conferring mutation. Haplotypes are biologically meaningful, since they determine the resistance properties of parasites that are exposed to drugs at the time of treatment. A triple mutant pfdhfr haplotype with 51I-59R-108N has a 1.5- to 3-fold higher pyrimethamine resistance in vitro than either 51I-108N or 59-108N double mutant haplotypes (Sirawaraporn et al. 1997).\nSulfadoxine resistance first arises from the A437G substitution with compensatory mutations at I431V, S436A/F, K540E, A581G, A613S further increasing resistance. There are location-specific differences in pfdhps haplotypes in Africa, with East & Southern African isolates containing both 437G and 540E, while only 437G is predominantly observed West and Central Africa (Naidoo and Roper 2013). The 540E allele has been found to work together with 437G to raise the sulfadoxine tolerance of sensitive pfdhps by 200-fold compared to just 10-fold with only 437G substitution (Triglia et al. 1997). The A581G substitution was found in northern Tanzania (Gesase et al. 2009) to reduce the efficacy of IPTp-SP (Minja et al. 2013), and is also rare in West and Central Africa. I431V was identified from UK imported malaria infections originating Nigeria (Sutherland et al. 2009) and pregnant women in Cameroon (Chauvin et al. (2015)).\nNaidoo and Roper Naidoo and Roper (2013) have classified pfdhfr and pfdhps mediated resistance into three categories:\n\n“partial resistant” haplotypes (pfdhfr 51I, 59R, 108N; pfdhps 473G),\n“full resistant” haplotypes also containing pfdhps 540E, associated with clinical failure of SP treatment, and\n“super-resistant” haplotypes additionally harbouring 581G. More recently, the local emergence and clonal expansion of a VAGKGS mutant\n\nhaplotype was observed in north-western Central Africa (Cameroon and Nigeria) and there was a mutually exclusive relationship with the presence of the 431V mutation and the 540E mutation in countries further south in Central Africa (Republic of Congo, Democratic Republic of Congo, Gabon, Central African Republic and Angola) (Guémas et al. 2023). The study also found the 431V mutant found in 15 countries in Central and West Africa, with the majority also having the VAGKGS haplotype. Given the additive nature of pfdhps mutations leading to increased resistance, this haplotype would confer an increased level of resistance to SP. It was therefore theorised that this haplotype is the Central and West African equivalent of a “super-resistant” mutant (Guémas et al. 2023).",
+    "crumbs": [
+      "Home",
+      "About ALARMcoding",
+      "Antimalarial Drug Resistance"
+    ]
+  },
+  {
+    "objectID": "About_Resistance.html#genetic-resistance-to-antimalarial-drugs",
+    "href": "About_Resistance.html#genetic-resistance-to-antimalarial-drugs",
+    "title": "Antimalarial Drug Resistance",
+    "section": "",
+    "text": "Treatment failure of antifolate drugs such as sulfadoxine and pyrimethamine (collectively referred to as SP) have been associated with point mutations in P. falciparum dihydrofolate reductase (pfdhfr) and P. falciparum dihydropteroate synthase (pfdhps) genes on chromosome 4 and 8 respectively. These genes encode for enzymes in the folate biosynthesis pathway; pfdhfr reduces 7,8-dihydrofolate into 5,6,7,8-tetrahydrofolate and pfdhps aids in the synthesis of folate from GTPC. These enzymes are targeted by pyrimethamine and sulfadoxine respectively.\nThe pfdhfr S108N substitution is critical for pyrimethamine resistance, with N51I and C59R modulating the strength of resistance conferring sub-optimal activity and reduced binding affinity to the drug (reviewed in (Naidoo and Roper, 2013)). Additional mutations at A16V and C50A have been shown to confer resistance to cycloguanil and enhance pyrimethamine in Bolivia (Foote et al., 1990; Plowe et al., 1997). The I164L substitution has been found alone or in combination with the triple pfdhfr mutant haplotype as an important resistance-conferring mutation. Haplotypes are biologically meaningful, since they determine the resistance properties of parasites that are exposed to drugs at the time of treatment. A triple mutant pfdhfr haplotype with 51I-59R-108N has a 1.5- to 3-fold higher pyrimethamine resistance in vitro than either 51I-108N or 59-108N double mutant haplotypes (Sirawaraporn et al., 1997).\nSulfadoxine resistance first arises from the A437G substitution with compensatory mutations at I431V, S436A/F, K540E, A581G, A613S further increasing resistance. There are location-specific differences in pfdhps haplotypes in Africa, with East & Southern African isolates containing both 437G and 540E, while only 437G is predominantly observed West and Central Africa (Naidoo and Roper, 2013). The 540E allele has been found to work together with 437G to raise the sulfadoxine tolerance of sensitive pfdhps by 200-fold compared to just 10-fold with only 437G substitution (Triglia et al., 1997). The A581G substitution was found in northern Tanzania (Gesase et al., 2009) to reduce the efficacy of IPTp-SP (Minja et al., 2013), and is also rare in West and Central Africa. I431V was identified from UK imported malaria infections originating Nigeria (Sutherland et al., 2009) and pregnant women in Cameroon (Chauvin et al., 2015).\nNaidoo and Roper (Naidoo and Roper, 2013) have classified pfdhfr and pfdhps mediated resistance into three categories: (i) “partial resistant” haplotypes (pfdhfr 51I, 59R, 108N; pfdhps 473G), (ii) “full resistant” haplotypes also containing pfdhps 540E, associated with clinical failure of SP treatment, and (iii) “super-resistant” haplotypes additionally harbouring 581G. More recently, the local emergence and clonal expansion of a VAGKGS mutant haplotype was observed in north-western Central Africa (Cameroon and Nigeria) and there was a mutually exclusive relationship with the presence of the 431V mutation and the 540E mutation in countries further south in Central Africa (Republic of Congo, Democratic Republic of Congo, Gabon, Central African Republic and Angola) (Guémas et al., 2023). The study also found the 431V mutant found in 15 countries in Central and West Africa, with the majority also having the VAGKGS haplotype. Given the additive nature of pfdhps mutations leading to increased resistance, this haplotype would confer an increased level of resistance to SP. It was therefore theorised that this haplotype is the Central and West African equivalent of a “super-resistant” mutant (Guémas et al., 2023).\n\n\n\n4-aminoquinoline and arylaminoalcohol antimalarial drugs such as chloroquine, amodiaquine and lumefantrine accumulate in the digestive vacuole and reduce haemoglobin degradation, resulting in parasite death (reviewed in (Wicht, Mok and Fidock, 2020)). Non-synonymous point mutations in P. falciparum chloroquine resistance transporter (pfcrt) on chromosome 7 mediate drug resistance by preventing drug accumulation in the digestive vacuole. The K76T substitution in pfcrt results in the export of drugs from the digestive vacuole and additional region-specific mutations exist at codon positions 72-75 line the central drug binding cavity of pfcrt (reviewed in (Wicht, Mok and Fidock, 2020)). For example, the SVMNT haplotype is predominantly observed in South American isolates as opposed to the CVIET haplotypes found in Africa and Asian isolates (Veiga et al., 2016). Both haplotypes have been demonstrated to be equally associated with AQR (Wicht, Mok and Fidock, 2020).\nMutations in pfcrt alone cannot halt drug accumulation in the digestive vacuole via passive diffusion. This is supplemented by mutations in P. falciparum multidrug resistance protein 1 (pfmdr1) on chromosome 5 and P. falciparum putative amino acid transporter 1 (pfaat1) on chromosome 6. Substitutions at pfmdr1 codons 86, 184, 1034, 1042 and 1246 result in a strong epistatic interaction with pfcrt 76T and act to augment drug resistance. Amino-terminal substitutions (N86Y and Y184F) are common in Asian and African parasites, while carboxy-terminal mutations (S1034C, N1042D and D1246Y) are found at a higher frequency in South American isolates (Veiga et al., 2016; Wicht, Mok and Fidock, 2020). Mutations at 1034C and 1042D have been shown to be involved in the binding pocket of 4-aminoquinolines (Sidhu, Valderramos and Fidock, 2005). ASAQ and AL are the most commonly used ACTs in Africa (World Health Organisation, 2020) and exert opposing selection pressures on pfcrt and pfmdr1. ASAQ selects for the pfmdr1 86Y, Y184 and 1246Y alleles (or the pfmdr1 YYY haplotype) while the absence of aminoquinoline resistance mutations is preferentially selected for by AL (i.e., N86, 184F and D1246 alleles; or the pfmdr1 NFD haplotype) (Ochong et al., 2003; Dokomajilar et al., 2006; Happi et al., 2006; Holmgren et al., 2007; Humphreys et al., 2007; Tinto et al., 2008; Fröberg et al., 2012; Baraka et al., 2014; Venkatesan et al., 2014; Otienoburu et al., 2016; Sondo et al., 2016; Okell et al., 2018). ASAQ also preferentially selects for pfcrt 76T allele, while AL has been associated with increased prevalence of the pfcrt K76 allele (Echeverry et al., 2007; Folarin et al., 2011; Venkatesan et al., 2014).Therefore it has been proposed that either rotating or deploying b ASAQ and AL simultaneously may reduce the spread of mutations that confer resistance the ACT and/or ACT partner drugs in the population (Valderramos et al., 2010; Nguyen et al., 2015; Yeka et al., 2015).\nRecently, pfaat1 was found to have an epistatic interaction with 76T and parasite fitness (Amambua-Ngwa et al., 2023). The combined pfaat1 single mutant 258L and pfcrt 76T types result in high chloroquine resistance but at a very high fitness cost and was found in African isolates, while the pfaat1 double mutant (258L and 313S) and pfcrt 76T causes chloroquine resistance and an increase in fitness (to almost wild-type levels) and is found in southeast Asian isolates. The S258L and F313S.\n\n\n\nArtemisinin resistance is defined as delayed parasite clearance following treatment with an artemisinin derivative drug (reviewed in (Pandit et al., 2023)). This is a form of ‘partial resistance’ where the phenotype manifests as reduced drug susceptibility in ring-stage parasites. Single point mutations in the Broad-Complex, Tramtrack and Bric-à-bac/Pox virus and Zinc Finger domain (BTB/POZ; codons 350-437) and the propeller domain (codons 350-726) of pfk13 (encoded by pfk13 on chromosome 13) have been found to confer this phenotype. There are currently 13 validated pfk13 markers and nine that are candidate/associated with artemisinin resistance. The pfk13 mutations that have originated in southeast Asia (C580Y, R539T, Y493H, I543T) confer the slow-clearance phenotype in vitro following exposure to artemisinin (Ariey et al., 2014; Conrad et al., 2014; Zhu, Almagro-Garcia and McVean, 2018; Moser et al., 2020; Uwimana et al., 2020; Kirby et al., 2022; Fola et al., 2023; Juliano et al., 2023) (see Supplementary Table 6). Validated pfk13 mutations have been identified in Africa at very low frequencies (&lt;1%) (Owoloye et al., 2021). De novo non-synonymous mutations with local flanking haplotypes (SNPs or microsatellites) have arisen at low frequency such as R561H (Rwanda, Tanzania), R622I (Ethiopia), and A675V (Uganda) in East Africa. However, 622I has not yet been validated to cause artemisinin resistance in vitro nor in vivo (Fola et al., 2023). The introduction and spread of ART resistant strains in Tanzania (Juliano et al., 2023), Uganda (Conrad et al., 2023), Rwanda (Uwimana et al., 2020) and Ethiopia (Fola et al., 2023) raise concerns for the rest of Africa and its first-line therapeutic. Other markers in different genes have been observed to act as background and secondary determinants of resistance such as PfCoronin, PfUbp1, PfAP2μ, pfmdr1 copy number, PfTrx1 and PfSpp (Pandit et al., 2023).",
+    "crumbs": [
+      "Home",
+      "About ALARMcoding",
+      "Antimalarial Drug Resistance"
+    ]
+  },
+  {
+    "objectID": "About_Resistance.html#vector-competence-a-new-strategy",
+    "href": "About_Resistance.html#vector-competence-a-new-strategy",
+    "title": "Antimalarial Drug Resistance",
+    "section": "Vector Competence: A New Strategy",
+    "text": "Vector Competence: A New Strategy\nTo address the recent invasion of An. stephensi in Africa, a marker of vector competence was included in the ALARMcoding panel. P. falciparum surface protein 47 (pfs47) encodes for the 6-cysteine protein pfs47 (also known as P47 or TEP1) that is expressed on the gametocyte surface and allows region-specific P. falciparum to evade the local vector immune response in the ookinete stage and persist to later developmental stages. This mediates the extent to which P. falciparum survives. pfs47-mediated immune evasion in the Anopheles spp. vector is required for parasites to persist in an endemic area (Molina-Cruz et al., 2013). There is strong geographic structure of pfs47 with lower haplotype diversity out of Africa (Anthony et al., 2007; Molina-Cruz et al., 2015a, 2015b), supporting observations that (i) P. falciparum isolates from Africa could infect both An. gambiae (African vector) and An. stephensi (South/Southeast Asian vector), while P. falciparum isolates from southeast Asia had a lower success at infecting An. gambiae (Hume, Lyons and Day, 2003), and (ii) African strains (GB4 and NF54) were able to survive in An. gambiae but 7G8 (New World strain) cannot (Canepa, Molina-Cruz and Barillas-Mury, 2016). In the context of malaria genomic surveillance of drug resistance, pfs47 (chromosome 13) can be monitored to inform whether parasites have migrated/invaded from another region. It can therefore also be used as a positive control to confirm the vector-parasite relationship in the region of interest. Non-synonymous mutations in T236I, V247A, S242L and I248L resulted in the mosquito immune system clearing the parasite (Canepa, Molina-Cruz and Barillas-Mury, 2016). Polymorphisms at codons 236 and 242 were found to be strongly related with geographic variation in the pfs47 gene across South America, Africa, Asia, and the Pacific (Molina-Cruz et al., 2021). A recent study characterised polymorphisms of entire pfs47 gene in Western Kenya and found low and non-significant FST, with 8 loci that segregated in the population: E27D, E188D, P194H, L240I, I249L, N272I/Y, I304L. Only P194H and N272I were identified as SNPs while the other loci were parsimony informative (Onyango et al., 2021).",
+    "crumbs": [
+      "Home",
+      "About ALARMcoding",
+      "Antimalarial Drug Resistance"
+    ]
+  },
+  {
+    "objectID": "About_Markers.html",
+    "href": "About_Markers.html",
+    "title": "Marker Choice",
+    "section": "",
+    "text": "ALARMcoding, or Adaptive Loci of Antimalarial Resistance Markers coding, is a multiplex and nested PCR methodology to amplify 6 markers of drug resistance and one marker of vector competence. This panel has been optimised for asymptomatic data but can be used across a range of parasite densities, including clinical infections, and uses Amplicon Sequencing technology to also identify codons of interest in both single- and multiple-clone infections, where the latter are common in highly endemic countries.\n\n\n\npfcrt, dhfr, dhps, K13, mdr1 and aat1 are molecular markers of drug resistance in Plasmodium falciparum. CQR is caused by common mutants in genes that encode P. falciparum transmembrane proteins chloroquine resistance transporter (PfCRT, codons 72-76), an ATP-binding cassette transporter and homologue of multidrug-resistance P-glycoprotein (PfMDR1 or Pgh1, codons 86, 184, 1034, 1042, 1246) and a putative amino acid transporter (PfAat1, codons 258, 313). For a detailed description on these markers see this page.\n\n\n\nTo address the recent invasion of An. stephensi in Africa, a marker of vector competence was included in the ALARMcoding panel. P. falciparum surface protein 47 (pfs47) encodes for the 6-cysteine protein pfs47 (also known as P47 or TEP1) that is expressed on the gametocyte surface and allows region-specific P. falciparum to evade the local vector immune response in the ookinete stage and persist to later developmental stages. This mediates the extent to which P. falciparum survives. pfs47-mediated immune evasion in the Anopheles spp. vector is required for parasites to persist in an endemic area (Molina-Cruz et al. 2013). There is strong geographic structure of pfs47 with lower haplotype diversity out of Africa (Anthony et al. 2007; Molina-Cruz, Canepa, et al. 2015; Molina-Cruz, Zilversmit, et al. 2015), supporting observations that:\n\nP. falciparum isolates from Africa could infect both An. gambiae (African vector) and An. stephensi (South/Southeast Asian vector), while P. falciparum isolates from southeast Asia had a lower success at infecting An. gambiae (Hume, Lyons, and Day 2003), and\nAfrican strains (GB4 and NF54) were able to survive in An. gambiae but 7G8 (New World strain) cannot (Canepa, Molina-Cruz, and Barillas‐Mury 2016).\n\nIn the context of malaria genomic surveillance of drug resistance, pfs47 (chromosome 13) can be monitored to inform whether parasites have migrated/invaded from another region. It can therefore also be used as a positive control to confirm the vector-parasite relationship in the region of interest. Non-synonymous mutations in T236I, V247A, S242L and I248L resulted in the mosquito immune system clearing the parasite (Canepa, Molina-Cruz, and Barillas‐Mury 2016). Polymorphisms at codons 236 and 242 were found to be strongly related with geographic variation in the pfs47 gene across South America, Africa, Asia, and the Pacific (Molina-Cruz et al. 2021).\nA recent study characterised polymorphisms of entire pfs47 gene in Western Kenya and found low and non-significant FST, with 8 loci that segregated in the population: E27D, E188D, P194H, L240I, I249L, N272I/Y, I304L. Only P194H and N272I were identified as SNPs while the other loci were parsimony informative (Onyango et al. 2021).",
+    "crumbs": [
+      "Home",
+      "About ALARMcoding",
+      "Marker Choice"
+    ]
+  },
+  {
+    "objectID": "About_Markers.html#what-is-alarmcoding",
+    "href": "About_Markers.html#what-is-alarmcoding",
+    "title": "Marker Choice",
+    "section": "",
+    "text": "ALARMcoding, or Adaptive Loci of Antimalarial Resistance Markers coding, is a multiplex and nested PCR methodology to amplify 6 markers of drug resistance and one marker of vector competence. This panel has been optimised for asymptomatic data but can be used across a range of parasite densities, including clinical infections, and uses Amplicon Sequencing technology to also identify codons of interest in both single- and multiple-clone infections, where the latter are common in highly endemic countries.\n\n\n\npfcrt, dhfr, dhps, K13, mdr1 and aat1 are molecular markers of drug resistance in Plasmodium falciparum. CQR is caused by common mutants in genes that encode P. falciparum transmembrane proteins chloroquine resistance transporter (PfCRT, codons 72-76), an ATP-binding cassette transporter and homologue of multidrug-resistance P-glycoprotein (PfMDR1 or Pgh1, codons 86, 184, 1034, 1042, 1246) and a putative amino acid transporter (PfAat1, codons 258, 313). For a detailed description on these markers see this page.\n\n\n\nTo address the recent invasion of An. stephensi in Africa, a marker of vector competence was included in the ALARMcoding panel. P. falciparum surface protein 47 (pfs47) encodes for the 6-cysteine protein pfs47 (also known as P47 or TEP1) that is expressed on the gametocyte surface and allows region-specific P. falciparum to evade the local vector immune response in the ookinete stage and persist to later developmental stages. This mediates the extent to which P. falciparum survives. pfs47-mediated immune evasion in the Anopheles spp. vector is required for parasites to persist in an endemic area (Molina-Cruz et al. 2013). There is strong geographic structure of pfs47 with lower haplotype diversity out of Africa (Anthony et al. 2007; Molina-Cruz, Canepa, et al. 2015; Molina-Cruz, Zilversmit, et al. 2015), supporting observations that:\n\nP. falciparum isolates from Africa could infect both An. gambiae (African vector) and An. stephensi (South/Southeast Asian vector), while P. falciparum isolates from southeast Asia had a lower success at infecting An. gambiae (Hume, Lyons, and Day 2003), and\nAfrican strains (GB4 and NF54) were able to survive in An. gambiae but 7G8 (New World strain) cannot (Canepa, Molina-Cruz, and Barillas‐Mury 2016).\n\nIn the context of malaria genomic surveillance of drug resistance, pfs47 (chromosome 13) can be monitored to inform whether parasites have migrated/invaded from another region. It can therefore also be used as a positive control to confirm the vector-parasite relationship in the region of interest. Non-synonymous mutations in T236I, V247A, S242L and I248L resulted in the mosquito immune system clearing the parasite (Canepa, Molina-Cruz, and Barillas‐Mury 2016). Polymorphisms at codons 236 and 242 were found to be strongly related with geographic variation in the pfs47 gene across South America, Africa, Asia, and the Pacific (Molina-Cruz et al. 2021).\nA recent study characterised polymorphisms of entire pfs47 gene in Western Kenya and found low and non-significant FST, with 8 loci that segregated in the population: E27D, E188D, P194H, L240I, I249L, N272I/Y, I304L. Only P194H and N272I were identified as SNPs while the other loci were parsimony informative (Onyango et al. 2021).",
+    "crumbs": [
+      "Home",
+      "About ALARMcoding",
+      "Marker Choice"
+    ]
+  },
+  {
+    "objectID": "2_MACSE.html",
+    "href": "2_MACSE.html",
+    "title": "Step 2: MACSE",
+    "section": "",
+    "text": "This page contains the post-processing of MACSE data (.fasta) into a data frame (.csv) for manipulation in R. All MACSE runs were by pool by marker for each Fraction Cut-Off with respect to their SeekDeep runs. This means that the files will be input to the below code individually.",
+    "crumbs": [
+      "Home",
+      "Drug Resistance Pipeline",
+      "Step 2: MACSE"
+    ]
+  },
+  {
+    "objectID": "2_MACSE.html#workflow-to-process-sequences-post-seekdeep",
+    "href": "2_MACSE.html#workflow-to-process-sequences-post-seekdeep",
+    "title": "Step 2: MACSE",
+    "section": "Workflow to process sequences post-SeekDeep",
+    "text": "Workflow to process sequences post-SeekDeep\n\nUnzip .gz files in ~/SeekDeep/Pool_X/Run_X/popClustering/marker/analysis/final/. using this command:\n\nfor file in *.fastq.gz; do newfile=`echo \"$file\" | sed 's/.fastq.gz/.fastq/g'`; gunzip -c $file &gt; $newfile; done\n\nMake file containing all fastq files:\n\ncat /your/path/to/folder/*.fastq &gt; Pool_X_Marker.fastq\n\nConvert fastq to fasta:\n\npaste - - - - &lt; Pool_X_Marker.fastq | cut -f 1,2 | sed 's/^@/&gt;/' | tr \"\\t\" \"\\n\" &gt; Pool_X_Marker.fasta\n\nAdd Ref seq:\n\ncat ~/SeekDeep/MACSE/Marker_3D7_PlasmoDB.fasta Pool_X_Marker.fasta &gt; Pool_X_Marker_All.fasta\nTo add a space between the first file and the second use this:\nprintf \"\\n\" | cat ~/SeekDeep/MACSE/Marker_3D7_PlasmoDB.fasta - Pool_X_Marker.fasta &gt; Pool_X_Marker_All.fasta",
+    "crumbs": [
+      "Home",
+      "Drug Resistance Pipeline",
+      "Step 2: MACSE"
+    ]
+  },
+  {
+    "objectID": "2_MACSE.html#running-macse",
+    "href": "2_MACSE.html#running-macse",
+    "title": "Step 2: MACSE",
+    "section": "Running MACSE",
+    "text": "Running MACSE\nTo Run MACSE in Terminal, load:\n\nexport PATH=/home/software/jre1.8.0_341/bin:$PATH\nexport PATH=/home/software/macse_v2.06.jar/bin:$PATH\n\nRun MACSE: java -jar macse_v2.06.jar -prog alignSequences -seq test.fasta\nThen copy across the files to the computer local drive for input into R, e.g.,:\nscp -r YOUR_USERNAME@YOUR_LOCAL_DRIVE:~/SeekDeep/MACSE/FOLDER .",
+    "crumbs": [
+      "Home",
+      "Drug Resistance Pipeline",
+      "Step 2: MACSE"
+    ]
+  },
+  {
+    "objectID": "About_Resistance.html#antifolates-pfdhfr-pfdhps",
+    "href": "About_Resistance.html#antifolates-pfdhfr-pfdhps",
+    "title": "Antimalarial Drug Resistance",
+    "section": "",
+    "text": "Treatment failure of antifolate drugs such as sulfadoxine and pyrimethamine (collectively referred to as SP) have been associated with point mutations in P. falciparum dihydrofolate reductase (pfdhfr) and P. falciparum dihydropteroate synthase (pfdhps) genes on chromosome 4 and 8 respectively. These genes encode for enzymes in the folate biosynthesis pathway; pfdhfr reduces 7,8-dihydrofolate into 5,6,7,8-tetrahydrofolate and pfdhps aids in the synthesis of folate from GTPC. These enzymes are targeted by pyrimethamine and sulfadoxine respectively.\nThe pfdhfr S108N substitution is critical for pyrimethamine resistance, with N51I and C59R modulating the strength of resistance conferring sub-optimal activity and reduced binding affinity to the drug (reviewed in Naidoo and Roper (2013)). Additional mutations at A16V and C50A have been shown to confer resistance to cycloguanil and enhance pyrimethamine in Bolivia (Foote, Galatis, and Cowman 1990; Plowe et al. 1997). The I164L substitution has been found alone or in combination with the triple pfdhfr mutant haplotype as an important resistance-conferring mutation. Haplotypes are biologically meaningful, since they determine the resistance properties of parasites that are exposed to drugs at the time of treatment. A triple mutant pfdhfr haplotype with 51I-59R-108N has a 1.5- to 3-fold higher pyrimethamine resistance in vitro than either 51I-108N or 59-108N double mutant haplotypes (Sirawaraporn et al. 1997).\nSulfadoxine resistance first arises from the A437G substitution with compensatory mutations at I431V, S436A/F, K540E, A581G, A613S further increasing resistance. There are location-specific differences in pfdhps haplotypes in Africa, with East & Southern African isolates containing both 437G and 540E, while only 437G is predominantly observed West and Central Africa (Naidoo and Roper 2013). The 540E allele has been found to work together with 437G to raise the sulfadoxine tolerance of sensitive pfdhps by 200-fold compared to just 10-fold with only 437G substitution (Triglia et al. 1997). The A581G substitution was found in northern Tanzania (Gesase et al. 2009) to reduce the efficacy of IPTp-SP (Minja et al. 2013), and is also rare in West and Central Africa. I431V was identified from UK imported malaria infections originating Nigeria (Sutherland et al. 2009) and pregnant women in Cameroon (Chauvin et al. (2015)).\nNaidoo and Roper Naidoo and Roper (2013) have classified pfdhfr and pfdhps mediated resistance into three categories:\n\n“partial resistant” haplotypes (pfdhfr 51I, 59R, 108N; pfdhps 473G),\n“full resistant” haplotypes also containing pfdhps 540E, associated with clinical failure of SP treatment, and\n“super-resistant” haplotypes additionally harbouring 581G. More recently, the local emergence and clonal expansion of a VAGKGS mutant\n\nhaplotype was observed in north-western Central Africa (Cameroon and Nigeria) and there was a mutually exclusive relationship with the presence of the 431V mutation and the 540E mutation in countries further south in Central Africa (Republic of Congo, Democratic Republic of Congo, Gabon, Central African Republic and Angola) (Guémas et al. 2023). The study also found the 431V mutant found in 15 countries in Central and West Africa, with the majority also having the VAGKGS haplotype. Given the additive nature of pfdhps mutations leading to increased resistance, this haplotype would confer an increased level of resistance to SP. It was therefore theorised that this haplotype is the Central and West African equivalent of a “super-resistant” mutant (Guémas et al. 2023).",
+    "crumbs": [
+      "Home",
+      "About ALARMcoding",
+      "Antimalarial Drug Resistance"
+    ]
+  },
+  {
+    "objectID": "About_Resistance.html#aminoquinolines-and-arylaminoalcohols-pfcrt-pfmdr1-pfaat1",
+    "href": "About_Resistance.html#aminoquinolines-and-arylaminoalcohols-pfcrt-pfmdr1-pfaat1",
+    "title": "Antimalarial Drug Resistance",
+    "section": "Aminoquinolines and Arylaminoalcohols (pfcrt, pfmdr1, pfaat1)",
+    "text": "Aminoquinolines and Arylaminoalcohols (pfcrt, pfmdr1, pfaat1)\n4-aminoquinoline and arylaminoalcohol antimalarial drugs such as chloroquine, amodiaquine and lumefantrine accumulate in the digestive vacuole and reduce haemoglobin degradation, resulting in parasite death (reviewed in Wicht, Mok, and Fidock (2020)).\nNon-synonymous point mutations in P. falciparum chloroquine resistance transporter (pfcrt) on chromosome 7 mediate drug resistance by preventing drug accumulation in the digestive vacuole. The K76T substitution in pfcrt results in the export of drugs from the digestive vacuole and additional region-specific mutations exist at codon positions 72-75 line the central drug binding cavity of pfcrt (reviewed in Wicht, Mok, and Fidock (2020)). For example, the SVMNT haplotype is predominantly observed in South American isolates as opposed to the CVIET haplotypes found in Africa and Asian isolates Veiga et al. (2016). Both haplotypes have been demonstrated to be equally associated with AQR (Wicht, Mok, and Fidock 2020).\nMutations in pfcrt alone cannot halt drug accumulation in the digestive vacuole via passive diffusion. This is supplemented by mutations in P. falciparum multidrug resistance protein 1 (pfmdr1) on chromosome 5 and P. falciparum putative amino acid transporter 1 (pfaat1) on chromosome 6. Substitutions at pfmdr1 codons 86, 184, 1034, 1042 and 1246 result in a strong epistatic interaction with pfcrt 76T and act to augment drug resistance. Amino-terminal substitutions (N86Y and Y184F) are common in Asian and African parasites, while carboxy-terminal mutations (S1034C, N1042D and D1246Y) are found at a higher frequency in South American isolates (Veiga et al. 2016; Wicht, Mok, and Fidock 2020). Mutations at 1034C and 1042D have been shown to be involved in the binding pocket of 4-aminoquinolines (Sidhu, Valderramos, and Fidock 2005). ASAQ and AL are the most commonly used ACTs in Africa (World Health Organisation 2020) and exert opposing selection pressures on pfcrt and pfmdr1. ASAQ selects for the pfmdr1 86Y, Y184 and 1246Y alleles (or the pfmdr1 YYY haplotype) while the absence of aminoquinoline resistance mutations is preferentially selected for by AL (i.e., N86, 184F and D1246 alleles; or the pfmdr1 NFD haplotype) (Ochong et al. 2003; Dokomajilar et al. 2006; Happi et al. 2006; Holmgren et al. 2007; Humphreys et al. 2007; Tinto et al. 2008; Fröberg et al. 2012; Baraka et al. 2014; Venkatesan et al. 2014; Otienoburu et al. 2016; Sondo et al. 2016; Okell et al. 2018). ASAQ also preferentially selects for pfcrt 76T allele, while AL has been associated with increased prevalence of the pfcrt K76 allele (Echeverry et al. 2007; Folarin et al. 2011; Venkatesan et al. 2014). Therefore it has been proposed that either rotating or deploying b ASAQ and AL simultaneously may reduce the spread of mutations that confer resistance the ACT and/or ACT partner drugs in the population (Valderramos et al. 2010; Nguyen et al. 2015; Yeka et al. 2015).\nRecently, pfaat1 was found to have an epistatic interaction with 76T and parasite fitness (Amambua-Ngwa et al. 2023). The combined pfaat1 single mutant 258L and pfcrt 76T types result in high chloroquine resistance but at a very high fitness cost and was found in African isolates, while the pfaat1 double mutant (258L and 313S) and pfcrt 76T causes chloroquine resistance and an increase in fitness (to almost wild-type levels) and is found in southeast Asian isolates.",
+    "crumbs": [
+      "Home",
+      "About ALARMcoding",
+      "Antimalarial Drug Resistance"
+    ]
+  },
+  {
+    "objectID": "About_Resistance.html#artemisinins-pfk13",
+    "href": "About_Resistance.html#artemisinins-pfk13",
+    "title": "Antimalarial Drug Resistance",
+    "section": "Artemisinins (pfk13)",
+    "text": "Artemisinins (pfk13)\nArtemisinin resistance is defined as delayed parasite clearance following treatment with an artemisinin derivative drug (reviewed in Pandit et al. (2023)). This is a form of ‘partial resistance’ where the phenotype manifests as reduced drug susceptibility in ring-stage parasites. Single point mutations in the Broad-Complex, Tramtrack and Bric-à-bac/Pox virus and Zinc Finger domain (BTB/POZ; codons 350-437) and the propeller domain (codons 350-726) of pfk13 (encoded by pfk13 on chromosome 13) have been found to confer this phenotype. There are currently 13 validated pfk13 markers and nine that are candidate/associated with artemisinin resistance. The pfk13 mutations that have originated in southeast Asia (C580Y, R539T, Y493H, I543T) confer the slow-clearance phenotype in vitro following exposure to artemisinin [Ariey et al. (2014); Conrad et al. (2014); Zhu et al. (2018); Moser et al. (2020); Uwimana et al. (2020); Kirby et al. (2022); Fola et al. (2023); Juliano et al. (2023)).\nValidated pfk13 mutations have been identified in Africa at very low frequencies (&lt;1%) (Owoloye et al. 2021). De novo non-synonymous mutations with local flanking haplotypes (SNPs or microsatellites) have arisen at low frequency such as R561H (Rwanda, Tanzania), R622I (Ethiopia), and A675V (Uganda) in East Africa. However, 622I has not yet been validated to cause artemisinin resistance in vitro nor in vivo (Fola et al. 2023). The introduction and spread of ART resistant strains in Tanzania [Juliano et al. (2023)), Uganda (Conrad et al. 2023), Rwanda (Uwimana et al. 2020) and Ethiopia (Fola et al. 2023) raise concerns for the rest of Africa and its first-line therapeutic. Other markers in different genes have been observed to act as background and secondary determinants of resistance such as PfCoronin, PfUbp1, PfAP2μ, pfmdr1 copy number, PfTrx1 and PfSpp (Pandit2023).",
+    "crumbs": [
+      "Home",
+      "About ALARMcoding",
+      "Antimalarial Drug Resistance"
+    ]
+  },
+  {
+    "objectID": "About_Markers.html#vector-competence-a-new-strategy",
+    "href": "About_Markers.html#vector-competence-a-new-strategy",
+    "title": "Marker Choice",
+    "section": "Vector Competence: A New Strategy",
+    "text": "Vector Competence: A New Strategy\nTo address the recent invasion of An. stephensi in Africa, a marker of vector competence was included in the ALARMcoding panel. P. falciparum surface protein 47 (pfs47) encodes for the 6-cysteine protein pfs47 (also known as P47 or TEP1) that is expressed on the gametocyte surface and allows region-specific P. falciparum to evade the local vector immune response in the ookinete stage and persist to later developmental stages. This mediates the extent to which P. falciparum survives. pfs47-mediated immune evasion in the Anopheles spp. vector is required for parasites to persist in an endemic area (Molina-Cruz et al., 2013). There is strong geographic structure of pfs47 with lower haplotype diversity out of Africa (Anthony et al., 2007; Molina-Cruz et al., 2015a, 2015b), supporting observations that (i) P. falciparum isolates from Africa could infect both An. gambiae (African vector) and An. stephensi (South/Southeast Asian vector), while P. falciparum isolates from southeast Asia had a lower success at infecting An. gambiae (Hume, Lyons and Day, 2003), and (ii) African strains (GB4 and NF54) were able to survive in An. gambiae but 7G8 (New World strain) cannot (Canepa, Molina-Cruz and Barillas-Mury, 2016). In the context of malaria genomic surveillance of drug resistance, pfs47 (chromosome 13) can be monitored to inform whether parasites have migrated/invaded from another region. It can therefore also be used as a positive control to confirm the vector-parasite relationship in the region of interest. Non-synonymous mutations in T236I, V247A, S242L and I248L resulted in the mosquito immune system clearing the parasite (Canepa, Molina-Cruz and Barillas-Mury, 2016). Polymorphisms at codons 236 and 242 were found to be strongly related with geographic variation in the pfs47 gene across South America, Africa, Asia, and the Pacific (Molina-Cruz et al., 2021). A recent study characterised polymorphisms of entire pfs47 gene in Western Kenya and found low and non-significant FST, with 8 loci that segregated in the population: E27D, E188D, P194H, L240I, I249L, N272I/Y, I304L. Only P194H and N272I were identified as SNPs while the other loci were parsimony informative (Onyango et al., 2021).",
+    "crumbs": [
+      "Home",
+      "About ALARMcoding",
+      "Marker Choice"
+    ]
+  },
+  {
+    "objectID": "Multiplex_1.html",
+    "href": "Multiplex_1.html",
+    "title": "Multiplex 1: K13 and mdr1 (86, 184)",
+    "section": "",
+    "text": "Back to top",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 1: K13 and mdr1 (86, 184)"
+    ]
+  },
+  {
+    "objectID": "Multiplex_2.html",
+    "href": "Multiplex_2.html",
+    "title": "Multiplex 2: crt, mdr1 (1034, 1042, 1246)",
+    "section": "",
+    "text": "Back to top",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 2: crt, mdr1 (1034, 1042, 1246)"
+    ]
+  },
+  {
+    "objectID": "Prepare_Sequencing.html",
+    "href": "Prepare_Sequencing.html",
+    "title": "Post-PCR: Prepare for Sequencing",
+    "section": "",
+    "text": "Back to top",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Post-PCR: Prepare for Sequencing"
+    ]
+  },
+  {
+    "objectID": "3_Custom.html",
+    "href": "3_Custom.html",
+    "title": "Step 3: Processing in R",
+    "section": "",
+    "text": "Back to top",
+    "crumbs": [
+      "Home",
+      "Drug Resistance Pipeline",
+      "Step 3: Processing in R"
+    ]
+  },
+  {
+    "objectID": "1_SeekDeep.html#extra-commands",
+    "href": "1_SeekDeep.html#extra-commands",
+    "title": "Step 1: SeekDeep",
+    "section": "Extra Commands",
+    "text": "Extra Commands\n\nAdd ReferenceextractorqlusterprocessCluster\n\n\nStep 1: Set up the reference genomes:\nexport PATH=/home/software/samtools-1.15.1/bin:$PATH\nexport PATH=/home/software/bowtie2-2.4.5-linux-x86_64:$PATH\nSeekDeep genTargetInfoFromGenomes –gffDir pfgenomes/gff/ –genomeDir pfgenomes/genomes/ –primers GeneID.tab.txt –pairedEndLength 250 –dout markerRefSeqs –numThreads 19 –overWriteDir true –verbose\nStep 2: Run the command\nSeekDeep setupTarAmpAnalysis –samples sampleNamesP8.tab.txt –outDir Run-Pool-8-WRefs –inputDir . –idFile multipleGenePairs.id.txt –overlapStatusFnp overlapStatuses.txt –refSeqsDir markerRefSeqs/markerFasta/ –extraExtractorCmds=“–midWithinStart 100 –primerWithinStart 100 –qualCheckCutOff .75 –qualCheckLevel 30 –checkRevComplementForMids true –checkRevComplementForPrimers true”\n\n\nAll of these commands and their uses are discussed in the SeekDeep extractor Tutorial. The aim of this pipeline is to extract sequences from various sequences input types (fastq,fasta,sff,etc.) with primers and barcodes plus some filtering.\nBarcodes:\n--barcodeErrors 0 = To further reduce any ambiguity and specifically select for NO errors.\n--midWithinStart 8 = By default the primer or barcodes are searched at the very beginning of seq, use this flag to extended the search, should be kept low to cut down on false positives; default=0; --primerWithinStart 8 By default the primer or barcodes are searched at the very beginning of seq, use this flag to extended the search, should be kept low to cut down on false positives; default=0;\nRoche MID 47, TGTGAGTAGT, is within the dhps-1 sequence and the output therefore being preferentially labelled as “MID47”. Because of this, we discovered that our midWithinStart and primerWithinStart commands could be adjusted. Reducing the parameter to 0 produced no data. This is because there are 7bp at the start of each sequence preceding the MID. By changing the midWithinStart and primerWithinStart parameters to a smaller value, we can use MID 47 for dhps-2.\nOur optimal golidlocks value was –midWithinStart 8 –primerWithinStart 8.\n--checkRevComplementForMids true = Check the Reverse Complement of the Seqs As Well For MIDs --checkRevComplementForPrimers true = Check the Reverse Complement of the Seqs As Well For Primers\n\n\nThese commands and uses are discussed in the SeekDeep qluster Tutorial. The qluster pipeline aims to cluster input sequences by collapsing on set differences between the sequences. We did not modify anything from the default parameters.\n\n\nThe SeekDeep processClusters Tutorial provides help for these commands and their uses. Here, we adjusted some filtering parameters to remove low-frequency variants based on preliminary analysis of mock mixed infections of controls.\n--fracCutOff 0.078 = Final cluster Fraction Cut off; default=0.005;\nInstead of specifying a hard read count cut-off e.g., --clusterCutOff, I opted to try and remove haplotypes that were represented at a frequency in the sample using the function —-fracCutOff:\n\n5% (Boyce et al. 2019; Wamae, Ndwiga, et al. 2022; Wamae, Kimenyi, et al. 2022)\n3.5% (Hemming-Schroeder et al. 2020)\n1% (Brazeau et al. 2019; Pringle et al. 2019; Osoti et al. 2022)\n0.5% (Aydemir et al. 2018; Balasubramanian et al. 2022; Topazian et al. 2022)\n\nFor our data, a cut-off of 0.078 or 7.8% was used.\n--sampleMinTotalReadCutOff 100 = Sample Minimum Total Read Cut Off, if the total read count for the sample is below this it will be thrown out; default=250;\nThis new parameter was added in the SeekDeep v. 3.0.1 that was used for the final analysis of the drug resistance dataset in 2023/2024. We realised that there was a new default parameter that removed isolates that had less than 250 total reads (i.e., 250X coverage) in the selected clusters output file.\nWe then amended this, based on a visualisation of the total read density per marker - this showed that for some markers like dhps-1/2, dhfr and mdr1-2 there were more isolates that had ~100X-250X coverage. We therefore created a threshold of 100X coverage.",
+    "crumbs": [
+      "Home",
+      "Drug Resistance Pipeline",
+      "Step 1: SeekDeep"
+    ]
+  },
+  {
+    "objectID": "1_SeekDeep.html#output-interpretation",
+    "href": "1_SeekDeep.html#output-interpretation",
+    "title": "Step 1: SeekDeep",
+    "section": "Output Interpretation",
+    "text": "Output Interpretation\n\nextractorprocessCluster\n\n\n\nextractionProfile.tab.txt: This breaks down the filtering per final extraction sequence file\nextractionStats.tab.txt: This has info how the whole extraction went\n\n\n\nAll the data from the analysis done by processClusters is located in the file: selectedClustersInfo.tab.txt.\nOur main variables of interest are:\n\ns_Sample = The name of the sample the haplotype appears in\nh_popUID = The population id given to haplotype. These are named with PopUID.XX where XX is the population rank number and this number is determined by the number of samples the haplotype appears in\nc_clusterID = The id given to the cluster in the sample, the lower the number the higher the relative abundance in the sample\nc_ReadCnt = The total number of reads associated with this cluster summed over all replicates\nc_Consensus = The consensus sequence for this cluster\nc_bestExpected = A string with the name of the closest reference sequence see below to see how to compare against expected references",
+    "crumbs": [
+      "Home",
+      "Drug Resistance Pipeline",
+      "Step 1: SeekDeep"
+    ]
+  }
+]

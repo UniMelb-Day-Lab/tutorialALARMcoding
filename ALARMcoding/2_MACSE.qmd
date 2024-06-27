@@ -1,0 +1,40 @@
+---
+title: "Step 2: MACSE"
+---
+
+This page contains the post-processing of MACSE data (.fasta) into a data frame (.csv) for manipulation in R. All MACSE runs were by **pool** by **marker** for each **Fraction Cut-Off** with respect to their SeekDeep runs. This means that the files will be input to the below code individually.
+
+## Workflow to process sequences post-SeekDeep
+
+1.  Unzip .gz files in `~/SeekDeep/Pool_X/Run_X/popClustering/marker/analysis/final/.` using this command:
+
+`` for file in *.fastq.gz; do newfile=`echo "$file" | sed 's/.fastq.gz/.fastq/g'`; gunzip -c $file > $newfile; done ``
+
+2.  Make file containing all fastq files:
+
+`cat /your/path/to/folder/*.fastq > Pool_X_Marker.fastq`
+
+3.  Convert fastq to fasta:
+
+`paste - - - - < Pool_X_Marker.fastq | cut -f 1,2 | sed 's/^@/>/' | tr "\t" "\n" > Pool_X_Marker.fasta`
+
+4.  Add Ref seq:
+
+`cat ~/SeekDeep/MACSE/Marker_3D7_PlasmoDB.fasta Pool_X_Marker.fasta > Pool_X_Marker_All.fasta`
+
+To add a space between the first file and the second use this:
+
+`printf "\n" | cat ~/SeekDeep/MACSE/Marker_3D7_PlasmoDB.fasta - Pool_X_Marker.fasta > Pool_X_Marker_All.fasta`
+
+## Running MACSE
+
+To Run MACSE in Terminal, load:
+
+-   `export PATH=/home/software/jre1.8.0_341/bin:$PATH`
+-   `export PATH=/home/software/macse_v2.06.jar/bin:$PATH`
+
+Run MACSE: `java -jar macse_v2.06.jar -prog alignSequences -seq test.fasta`
+
+Then copy across the files to the computer local drive for input into R, e.g.,:
+
+`scp -r YOUR_USERNAME@YOUR_LOCAL_DRIVE:~/SeekDeep/MACSE/FOLDER .`

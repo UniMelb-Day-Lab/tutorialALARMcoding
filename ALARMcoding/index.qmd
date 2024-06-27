@@ -1,0 +1,5 @@
+---
+title: "Welcome"
+---
+
+This is a step-by-step tutorial on **WHAT** the *ALARM*coding panel is and **HOW** to perform the PCRs and bioinformatic processing. 

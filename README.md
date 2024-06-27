@@ -67,6 +67,7 @@ Create the following folders:
 Both mdr1-2 and dhps-2 contain isolates that appear to have SAME genotype but are said to be in different clusters. I found that this is because for mdr1-2, either the last one or last six nucleotide differ. For dhps-2 there is a string of A's that are variable. 
 
 - mdr1-2: Remove codons 1077, 1078, 1079
+
 | Last 6 nucleotides      | n |
 | ----------- | ----------- |
 | AAAATG      | 1088       |
@@ -74,6 +75,7 @@ Both mdr1-2 and dhps-2 contain isolates that appear to have SAME genotype but ar
 | TTTCTG   | 550        |
 
 - dhps-2: Remove codons 520 and 520.1
+
 | Nucleotides 50 to 75      | n |
 | ----------- | ----------- |
 | TTAAAAAAAAAAAAAAACAAATTCT      | 2       |

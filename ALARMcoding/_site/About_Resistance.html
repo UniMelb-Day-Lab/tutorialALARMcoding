@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.555">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ALARMcoding Tutorial - Antimalarial Drug Resistance</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./About_Markers.html" rel="next">
+<link href="./index.html" rel="prev">
+<link href="./Images/ALARMcoding_Icon.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">ALARMcoding Tutorial</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./Index.qmd"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="./About.qmd"> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools tools-wide">
+    <a href="https://twitter.com/DionneArgy" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-twitter"></i></a>
+    <div class="dropdown">
+      <a href="" title="" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label=""><i class="bi bi-github"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item quarto-navbar-tools-item" href="https://github.com/dionnecargy">
+            Source Code
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item quarto-navbar-tools-item" href="https://github.com/dionnecargy">
+            Report a Bug
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./About_Resistance.html">About ALARMcoding</a></li><li class="breadcrumb-item"><a href="./About_Resistance.html">Antimalarial Drug Resistance</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./Images/ALARMcoding_Icon.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">About ALARMcoding</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./About_Resistance.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Antimalarial Drug Resistance</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./About_Markers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Marker Choice</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">PCR Protocol</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Multiplex_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multiplex 1: K13 and mdr1 (86, 184)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Multiplex_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multiplex 2: crt, mdr1 (1034, 1042, 1246)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Multiplex_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multiplex 3: dhfr, dhps</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Multiplex_4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multiplex 4: aat1, pfs47</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Prepare_Sequencing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Post-PCR: Prepare for Sequencing</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Drug Resistance Pipeline</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./1_SeekDeep.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Step 1: SeekDeep</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./2_MACSE.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Step 2: MACSE</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./3_Custom.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Step 3: Processing in R</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#antifolates-pfdhfr-pfdhps" id="toc-antifolates-pfdhfr-pfdhps" class="nav-link active" data-scroll-target="#antifolates-pfdhfr-pfdhps">Antifolates (<em>pfdhfr</em>, <em>pfdhps</em>)</a></li>
+  <li><a href="#aminoquinolines-and-arylaminoalcohols-pfcrt-pfmdr1-pfaat1" id="toc-aminoquinolines-and-arylaminoalcohols-pfcrt-pfmdr1-pfaat1" class="nav-link" data-scroll-target="#aminoquinolines-and-arylaminoalcohols-pfcrt-pfmdr1-pfaat1">Aminoquinolines and Arylaminoalcohols (<em>pfcrt</em>, <em>pfmdr1</em>, <em>pfaat1</em>)</a></li>
+  <li><a href="#artemisinins-pfk13" id="toc-artemisinins-pfk13" class="nav-link" data-scroll-target="#artemisinins-pfk13">Artemisinins (<em>pfk13</em>)</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./About_Resistance.html">About ALARMcoding</a></li><li class="breadcrumb-item"><a href="./About_Resistance.html">Antimalarial Drug Resistance</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Antimalarial Drug Resistance</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="antifolates-pfdhfr-pfdhps" class="level2">
+<h2 class="anchored" data-anchor-id="antifolates-pfdhfr-pfdhps">Antifolates (<em>pfdhfr</em>, <em>pfdhps</em>)</h2>
+<p>Treatment failure of antifolate drugs such as sulfadoxine and pyrimethamine (collectively referred to as SP) have been associated with point mutations in <em>P. falciparum</em> dihydrofolate reductase (<em>pfdhfr</em>) and <em>P. falciparum</em> dihydropteroate synthase (<em>pfdhps</em>) genes on chromosome 4 and 8 respectively. These genes encode for enzymes in the folate biosynthesis pathway; <em>pfdhfr</em> reduces 7,8-dihydrofolate into 5,6,7,8-tetrahydrofolate and <em>pfdhps</em> aids in the synthesis of folate from GTPC. These enzymes are targeted by pyrimethamine and sulfadoxine respectively.</p>
+<p>The <em>pfdhfr</em> S108N substitution is critical for pyrimethamine resistance, with N51I and C59R modulating the strength of resistance conferring sub-optimal activity and reduced binding affinity to the drug (reviewed in <span class="citation" data-cites="Naidoo2013">Naidoo and Roper (<a href="#ref-Naidoo2013" role="doc-biblioref">2013</a>)</span>). Additional mutations at A16V and C50A have been shown to confer resistance to cycloguanil and enhance pyrimethamine in Bolivia <span class="citation" data-cites="Foote1990 Plowe1997">(<a href="#ref-Foote1990" role="doc-biblioref">Foote, Galatis, and Cowman 1990</a>; <a href="#ref-Plowe1997" role="doc-biblioref">Plowe et al. 1997</a>)</span>. The I164L substitution has been found alone or in combination with the triple <em>pfdhfr</em> mutant haplotype as an important resistance-conferring mutation. Haplotypes are biologically meaningful, since they determine the resistance properties of parasites that are exposed to drugs at the time of treatment. A triple mutant <em>pfdhfr</em> haplotype with 51I-59R-108N has a 1.5- to 3-fold higher pyrimethamine resistance in vitro than either 51I-108N or 59-108N double mutant haplotypes <span class="citation" data-cites="Sirawaraporn1997">(<a href="#ref-Sirawaraporn1997" role="doc-biblioref">Sirawaraporn et al. 1997</a>)</span>.</p>
+<p>Sulfadoxine resistance first arises from the A437G substitution with compensatory mutations at I431V, S436A/F, K540E, A581G, A613S further increasing resistance. There are location-specific differences in <em>pfdhps</em> haplotypes in Africa, with East &amp; Southern African isolates containing both 437G and 540E, while only 437G is predominantly observed West and Central Africa <span class="citation" data-cites="Naidoo2013">(<a href="#ref-Naidoo2013" role="doc-biblioref">Naidoo and Roper 2013</a>)</span>. The 540E allele has been found to work together with 437G to raise the sulfadoxine tolerance of sensitive <em>pfdhps</em> by 200-fold compared to just 10-fold with only 437G substitution <span class="citation" data-cites="Triglia1997">(<a href="#ref-Triglia1997" role="doc-biblioref">Triglia et al. 1997</a>)</span>. The A581G substitution was found in northern Tanzania <span class="citation" data-cites="Gesase2009">(<a href="#ref-Gesase2009" role="doc-biblioref">Gesase et al. 2009</a>)</span> to reduce the efficacy of IPTp-SP <span class="citation" data-cites="Minja2013">(<a href="#ref-Minja2013" role="doc-biblioref">Minja et al. 2013</a>)</span>, and is also rare in West and Central Africa. I431V was identified from UK imported malaria infections originating Nigeria <span class="citation" data-cites="Sutherland2009">(<a href="#ref-Sutherland2009" role="doc-biblioref">Sutherland et al. 2009</a>)</span> and pregnant women in Cameroon (<span class="citation" data-cites="Chauvin2015">Chauvin et al. (<a href="#ref-Chauvin2015" role="doc-biblioref">2015</a>)</span>).</p>
+<p>Naidoo and Roper <span class="citation" data-cites="Naidoo2013">Naidoo and Roper (<a href="#ref-Naidoo2013" role="doc-biblioref">2013</a>)</span> have classified <em>pfdhfr</em> and <em>pfdhps</em> mediated resistance into three categories:</p>
+<ol type="i">
+<li>“partial resistant” haplotypes (<em>pfdhfr</em> 51I, 59R, 108N; <em>pfdhps</em> 473G),</li>
+<li>“full resistant” haplotypes also containing <em>pfdhps</em> 540E, associated with clinical failure of SP treatment, and</li>
+<li>“super-resistant” haplotypes additionally harbouring 581G. More recently, the local emergence and clonal expansion of a VAGKGS mutant</li>
+</ol>
+<p>haplotype was observed in north-western Central Africa (Cameroon and Nigeria) and there was a mutually exclusive relationship with the presence of the 431V mutation and the 540E mutation in countries further south in Central Africa (Republic of Congo, Democratic Republic of Congo, Gabon, Central African Republic and Angola) <span class="citation" data-cites="Guemas2023">(<a href="#ref-Guemas2023" role="doc-biblioref">Guémas et al. 2023</a>)</span>. The study also found the 431V mutant found in 15 countries in Central and West Africa, with the majority also having the VAGKGS haplotype. Given the additive nature of <em>pfdhps</em> mutations leading to increased resistance, this haplotype would confer an increased level of resistance to SP. It was therefore theorised that this haplotype is the Central and West African equivalent of a “super-resistant” mutant <span class="citation" data-cites="Guemas2023">(<a href="#ref-Guemas2023" role="doc-biblioref">Guémas et al. 2023</a>)</span>.</p>
+</section>
+<section id="aminoquinolines-and-arylaminoalcohols-pfcrt-pfmdr1-pfaat1" class="level2">
+<h2 class="anchored" data-anchor-id="aminoquinolines-and-arylaminoalcohols-pfcrt-pfmdr1-pfaat1">Aminoquinolines and Arylaminoalcohols (<em>pfcrt</em>, <em>pfmdr1</em>, <em>pfaat1</em>)</h2>
+<p>4-aminoquinoline and arylaminoalcohol antimalarial drugs such as chloroquine, amodiaquine and lumefantrine accumulate in the digestive vacuole and reduce haemoglobin degradation, resulting in parasite death (reviewed in <span class="citation" data-cites="Wicht2020">Wicht, Mok, and Fidock (<a href="#ref-Wicht2020" role="doc-biblioref">2020</a>)</span>).</p>
+<p>Non-synonymous point mutations in <em>P. falciparum</em> chloroquine resistance transporter (<em>pfcrt</em>) on chromosome 7 mediate drug resistance by preventing drug accumulation in the digestive vacuole. The K76T substitution in <em>pfcrt</em> results in the export of drugs from the digestive vacuole and additional region-specific mutations exist at codon positions 72-75 line the central drug binding cavity of <em>pfcrt</em> (reviewed in <span class="citation" data-cites="Wicht2020">Wicht, Mok, and Fidock (<a href="#ref-Wicht2020" role="doc-biblioref">2020</a>)</span>). For example, the SVMNT haplotype is predominantly observed in South American isolates as opposed to the CVIET haplotypes found in Africa and Asian isolates <span class="citation" data-cites="Veiga2016">Veiga et al. (<a href="#ref-Veiga2016" role="doc-biblioref">2016</a>)</span>. Both haplotypes have been demonstrated to be equally associated with AQR <span class="citation" data-cites="Wicht2020">(<a href="#ref-Wicht2020" role="doc-biblioref">Wicht, Mok, and Fidock 2020</a>)</span>.</p>
+<p>Mutations in <em>pfcrt</em> alone cannot halt drug accumulation in the digestive vacuole via passive diffusion. This is supplemented by mutations in <em>P. falciparum</em> multidrug resistance protein 1 (<em>pfmdr1</em>) on chromosome 5 and <em>P. falciparum</em> putative amino acid transporter 1 (<em>pfaat1</em>) on chromosome 6. Substitutions at <em>pfmdr1</em> codons 86, 184, 1034, 1042 and 1246 result in a strong epistatic interaction with <em>pfcrt</em> 76T and act to augment drug resistance. Amino-terminal substitutions (N86Y and Y184F) are common in Asian and African parasites, while carboxy-terminal mutations (S1034C, N1042D and D1246Y) are found at a higher frequency in South American isolates <span class="citation" data-cites="Veiga2016 Wicht2020">(<a href="#ref-Veiga2016" role="doc-biblioref">Veiga et al. 2016</a>; <a href="#ref-Wicht2020" role="doc-biblioref">Wicht, Mok, and Fidock 2020</a>)</span>. Mutations at 1034C and 1042D have been shown to be involved in the binding pocket of 4-aminoquinolines <span class="citation" data-cites="Sidhu2005">(<a href="#ref-Sidhu2005" role="doc-biblioref">Sidhu, Valderramos, and Fidock 2005</a>)</span>. ASAQ and AL are the most commonly used ACTs in Africa <span class="citation" data-cites="WorldHealthOrganisation2020">(<a href="#ref-WorldHealthOrganisation2020" role="doc-biblioref">World Health Organisation 2020</a>)</span> and exert opposing selection pressures on <em>pfcrt</em> and <em>pfmdr1</em>. ASAQ selects for the <em>pfmdr1</em> 86Y, Y184 and 1246Y alleles (or the <em>pfmdr1</em> YYY haplotype) while the absence of aminoquinoline resistance mutations is preferentially selected for by AL (i.e., N86, 184F and D1246 alleles; or the <em>pfmdr1</em> NFD haplotype) <span class="citation" data-cites="Ochong2003 Dokomajilar2006 Happi2006 Holmgren2007 Humphreys2007 Tinto2008 Froberg2012 Baraka2014 Venkatesan2014 Otienoburu2016 Sondo2016 Okell2018">(<a href="#ref-Ochong2003" role="doc-biblioref">Ochong et al. 2003</a>; <a href="#ref-Dokomajilar2006" role="doc-biblioref">Dokomajilar et al. 2006</a>; <a href="#ref-Happi2006" role="doc-biblioref">Happi et al. 2006</a>; <a href="#ref-Holmgren2007" role="doc-biblioref">Holmgren et al. 2007</a>; <a href="#ref-Humphreys2007" role="doc-biblioref">Humphreys et al. 2007</a>; <a href="#ref-Tinto2008" role="doc-biblioref">Tinto et al. 2008</a>; <a href="#ref-Froberg2012" role="doc-biblioref">Fröberg et al. 2012</a>; <a href="#ref-Baraka2014" role="doc-biblioref">Baraka et al. 2014</a>; <a href="#ref-Venkatesan2014" role="doc-biblioref">Venkatesan et al. 2014</a>; <a href="#ref-Otienoburu2016" role="doc-biblioref">Otienoburu et al. 2016</a>; <a href="#ref-Sondo2016" role="doc-biblioref">Sondo et al. 2016</a>; <a href="#ref-Okell2018" role="doc-biblioref">Okell et al. 2018</a>)</span>. ASAQ also preferentially selects for <em>pfcrt</em> 76T allele, while AL has been associated with increased prevalence of the <em>pfcrt</em> K76 allele <span class="citation" data-cites="Echeverry2007 Folarin2011 Venkatesan2014">(<a href="#ref-Echeverry2007" role="doc-biblioref">Echeverry et al. 2007</a>; <a href="#ref-Folarin2011" role="doc-biblioref">Folarin et al. 2011</a>; <a href="#ref-Venkatesan2014" role="doc-biblioref">Venkatesan et al. 2014</a>)</span>. Therefore it has been proposed that either rotating or deploying b ASAQ and AL simultaneously may reduce the spread of mutations that confer resistance the ACT and/or ACT partner drugs in the population <span class="citation" data-cites="Valderramos2010 Nguyen2015 Yeka2015">(<a href="#ref-Valderramos2010" role="doc-biblioref">Valderramos et al. 2010</a>; <a href="#ref-Nguyen2015" role="doc-biblioref">Nguyen et al. 2015</a>; <a href="#ref-Yeka2015" role="doc-biblioref">Yeka et al. 2015</a>)</span>.</p>
+<p>Recently, <em>pfaat1</em> was found to have an epistatic interaction with 76T and parasite fitness <span class="citation" data-cites="Amambua-Ngwa2023">(<a href="#ref-Amambua-Ngwa2023" role="doc-biblioref">Amambua-Ngwa et al. 2023</a>)</span>. The combined <em>pfaat1</em> single mutant 258L and <em>pfcrt</em> 76T types result in high chloroquine resistance but at a very high fitness cost and was found in African isolates, while the <em>pfaat1</em> double mutant (258L and 313S) and <em>pfcrt</em> 76T causes chloroquine resistance and an increase in fitness (to almost wild-type levels) and is found in southeast Asian isolates.</p>
+</section>
+<section id="artemisinins-pfk13" class="level2">
+<h2 class="anchored" data-anchor-id="artemisinins-pfk13">Artemisinins (<em>pfk13</em>)</h2>
+<p>Artemisinin resistance is defined as delayed parasite clearance following treatment with an artemisinin derivative drug (reviewed in <span class="citation" data-cites="Pandit2023">Pandit et al. (<a href="#ref-Pandit2023" role="doc-biblioref">2023</a>)</span>). This is a form of ‘partial resistance’ where the phenotype manifests as reduced drug susceptibility in ring-stage parasites. Single point mutations in the Broad-Complex, Tramtrack and Bric-à-bac/Pox virus and Zinc Finger domain (BTB/POZ; codons 350-437) and the propeller domain (codons 350-726) of <em>pfk13</em> (encoded by <em>pfk13</em> on chromosome 13) have been found to confer this phenotype. There are currently 13 validated <em>pfk13</em> markers and nine that are candidate/associated with artemisinin resistance. The <em>pfk13</em> mutations that have originated in southeast Asia (C580Y, R539T, Y493H, I543T) confer the slow-clearance phenotype in vitro following exposure to artemisinin [<span class="citation" data-cites="Ariey2014">Ariey et al. (<a href="#ref-Ariey2014" role="doc-biblioref">2014</a>)</span>; <span class="citation" data-cites="Conrad2014">Conrad et al. (<a href="#ref-Conrad2014" role="doc-biblioref">2014</a>)</span>; <span class="citation" data-cites="Zhu2018">Zhu et al. (<a href="#ref-Zhu2018" role="doc-biblioref">2018</a>)</span>; <span class="citation" data-cites="Moser2020">Moser et al. (<a href="#ref-Moser2020" role="doc-biblioref">2020</a>)</span>; <span class="citation" data-cites="Uwimana2020">Uwimana et al. (<a href="#ref-Uwimana2020" role="doc-biblioref">2020</a>)</span>; <span class="citation" data-cites="Kirby2022">Kirby et al. (<a href="#ref-Kirby2022" role="doc-biblioref">2022</a>)</span>; <span class="citation" data-cites="Fola2023">Fola et al. (<a href="#ref-Fola2023" role="doc-biblioref">2023</a>)</span>; <span class="citation" data-cites="Juliano2023">Juliano et al. (<a href="#ref-Juliano2023" role="doc-biblioref">2023</a>)</span>).</p>
+<p>Validated <em>pfk13</em> mutations have been identified in Africa at very low frequencies (&lt;1%) <span class="citation" data-cites="Owoloye2021">(<a href="#ref-Owoloye2021" role="doc-biblioref">Owoloye et al. 2021</a>)</span>. De novo non-synonymous mutations with local flanking haplotypes (SNPs or microsatellites) have arisen at low frequency such as R561H (Rwanda, Tanzania), R622I (Ethiopia), and A675V (Uganda) in East Africa. However, 622I has not yet been validated to cause artemisinin resistance in vitro nor in vivo <span class="citation" data-cites="Fola2023">(<a href="#ref-Fola2023" role="doc-biblioref">Fola et al. 2023</a>)</span>. The introduction and spread of ART resistant strains in Tanzania [<span class="citation" data-cites="Juliano2023">Juliano et al. (<a href="#ref-Juliano2023" role="doc-biblioref">2023</a>)</span>), Uganda <span class="citation" data-cites="Conrad2023">(<a href="#ref-Conrad2023" role="doc-biblioref">Conrad et al. 2023</a>)</span>, Rwanda <span class="citation" data-cites="Uwimana2020">(<a href="#ref-Uwimana2020" role="doc-biblioref">Uwimana et al. 2020</a>)</span> and Ethiopia <span class="citation" data-cites="Fola2023">(<a href="#ref-Fola2023" role="doc-biblioref">Fola et al. 2023</a>)</span> raise concerns for the rest of Africa and its first-line therapeutic. Other markers in different genes have been observed to act as background and secondary determinants of resistance such as PfCoronin, PfUbp1, PfAP2μ, <em>pfmdr1</em> copy number, PfTrx1 and PfSpp (Pandit2023).</p>
+
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Amambua-Ngwa2023" class="csl-entry" role="listitem">
+Amambua-Ngwa, Alfred, Katrina A Button-Simons, Xue Li, Sudhir Kumar, Katelyn Vendrely Brenneman, Marco Ferrari, Lisa A Checkley, et al. 2023. <span>“<span class="nocase">Chloroquine resistance evolution in Plasmodium falciparum is mediated by the putative amino acid transporter AAT1</span>.”</span> <em>Nature Microbiology</em>, 1–14. <a href="https://doi.org/10.1038/s41564-023-01377-z">https://doi.org/10.1038/s41564-023-01377-z</a>.
+</div>
+<div id="ref-Ariey2014" class="csl-entry" role="listitem">
+Ariey, Frédéric, Benoit Witkowski, Chanaki Amaratunga, Johann Beghain, Anne-Claire Langlois, Nimol Khim, Saorin Kim, et al. 2014. <span>“<span class="nocase">A molecular marker of artemisinin-resistant Plasmodium falciparum malaria</span>.”</span> <em>Nature</em> 505 (7481): 50–55. <a href="https://doi.org/10.1038/nature12876">https://doi.org/10.1038/nature12876</a>.
+</div>
+<div id="ref-Baraka2014" class="csl-entry" role="listitem">
+Baraka, Vito, Halidou Tinto, Innocent Valea, Robert Fitzhenry, Christopher Delgado-Ratto, Martin K Mbonye, Chantal Van Overmeir, et al. 2014. <span>“<span class="nocase">In VivoSelection of Plasmodium falciparumPfcrtandPfmdr1Variants by Artemether-Lumefantrine and Dihydroartemisinin-Piperaquine in Burkina Faso</span>.”</span> <em>Antimicrobial Agents and Chemotherapy</em> 59 (1): 734–37. https://doi.org/<a href="https://doi.org/10.1128/aac.03647-14 PMID  - 25403659">10.1128/aac.03647-14 PMID - 25403659</a>.
+</div>
+<div id="ref-Chauvin2015" class="csl-entry" role="listitem">
+Chauvin, Pamela, Sandie Menard, Xavier Iriart, Sandrine Eveline Nsango, Majoline T Tchioffo, Luc Abate, Parfait H Awono-Ambéné, Isabelle Morlais, and Antoine Berry. 2015. <span>“<span class="nocase">Prevalence of Plasmodium falciparum parasites resistant to sulfadoxine/pyrimethamine in pregnant women in Yaound<span class="nocase">é</span>, Cameroon: emergence of highly resistant pfdhfr/pfdhps alleles</span>.”</span> <em>Journal of Antimicrobial Chemotherapy</em> 70 (9): 2566–71. <a href="https://doi.org/10.1093/jac/dkv160">https://doi.org/10.1093/jac/dkv160</a>.
+</div>
+<div id="ref-Conrad2023" class="csl-entry" role="listitem">
+Conrad, Melissa D, Victor Asua, Shreeya Garg, David J Giesbrecht, Karamoko Niaré, Sawyer R Smith, Jane Frances Namuganga, et al. 2023. <span>“<span class="nocase">Evolution of Partial Resistance to Artemisinins in Malaria Parasites in Uganda</span>.”</span> <em>New England Journal of Medicine</em> 389 (8): 722–32. <a href="https://doi.org/10.1056/nejmoa2211803">https://doi.org/10.1056/nejmoa2211803</a>.
+</div>
+<div id="ref-Conrad2014" class="csl-entry" role="listitem">
+Conrad, Melissa D, Victor Bigira, James Kapisi, Mary Muhindo, Moses R Kamya, Diane V Havlir, Grant Dorsey, and Phillip J Rosenthal. 2014. <span>“<span class="nocase">Polymorphisms in K13 and Falcipain-2 Associated with Artemisinin Resistance Are Not Prevalent in Plasmodium falciparum Isolated from Ugandan Children</span>.”</span> <em>PLoS ONE</em> 9 (8): e105690. https://doi.org/<a href="https://doi.org/10.1371/journal.pone.0105690 PMID  - 25144768">10.1371/journal.pone.0105690 PMID - 25144768</a>.
+</div>
+<div id="ref-Dokomajilar2006" class="csl-entry" role="listitem">
+Dokomajilar, Christian, Samuel L Nsobya, Bryan R Greenhouse, Phillip J Rosenthal, and Grant Dorsey. 2006. <span>“<span class="nocase">Selection of Plasmodium falciparum pfmdr1 Alleles following Therapy with Artemether-Lumefantrine in an Area of Uganda where Malaria Is Highly Endemic</span>.”</span> <em>Antimicrobial Agents and Chemotherapy</em> 50 (5): 1893–95. https://doi.org/<a href="https://doi.org/10.1128/aac.50.5.1893-1895.2006 PMID  - 16641472">10.1128/aac.50.5.1893-1895.2006 PMID - 16641472</a>.
+</div>
+<div id="ref-Echeverry2007" class="csl-entry" role="listitem">
+Echeverry, Diego F, Gabrielle Holmgren, Claribel Murillo, Juan C Higui Ta, Anders Björkman, José Pedro Gil, and Lyda Osorio. 2007. <span>“<span class="nocase">Short Report: Polymorphisms in the pfcrt and pfmdr1 Genes of Plasmodium falciparum and in Vitro Susceptibility to Amodiaquine and Desethylamodiaquine</span>.”</span> <em>The American Society of Tropical Medicine and Hygiene</em>, 1034–38.
+</div>
+<div id="ref-Fola2023" class="csl-entry" role="listitem">
+Fola, Abebe A, Sindew M Feleke, Hussein Mohammed, Bokretsion G Brhane, Christopher M Hennelly, Ashenafi Assefa, Rebecca M Crudal, et al. 2023. <span>“<span class="nocase">Plasmodium falciparum resistant to artemisinin and diagnostics have emerged in Ethiopia</span>.”</span> <em>Nature Microbiology</em> 8 (10): 1–9. <a href="https://doi.org/10.1038/s41564-023-01461-4">https://doi.org/10.1038/s41564-023-01461-4</a>.
+</div>
+<div id="ref-Folarin2011" class="csl-entry" role="listitem">
+Folarin, Onikepe A, C Bustamante, G O Gbotosho, Akintunde Sowunmi, M G Zalis, Ayoade M J Oduola, and Christian T Happi. 2011. <span>“<span class="nocase">In vitro amodiaquine resistance and its association with mutations in pfcrt and pfmdr1 genes of Plasmodium falciparum isolates from Nigeria</span>.”</span> <em>Acta Tropica</em> 120 (3): 224–30. https://doi.org/<a href="https://doi.org/10.1016/j.actatropica.2011.08.013 PMID  - 21920347">10.1016/j.actatropica.2011.08.013 PMID - 21920347</a>.
+</div>
+<div id="ref-Foote1990" class="csl-entry" role="listitem">
+Foote, Simon J, D Galatis, and Alan F Cowman. 1990. <span>“<span class="nocase">Amino acids in the dihydrofolate reductase-thymidylate synthase gene of Plasmodium falciparum involved in cycloguanil resistance differ from those involved in pyrimethamine resistance.</span>”</span> <em>Proceedings of the National Academy of Sciences</em> 87 (8): 3014–17. <a href="https://doi.org/10.1073/pnas.87.8.3014">https://doi.org/10.1073/pnas.87.8.3014</a>.
+</div>
+<div id="ref-Froberg2012" class="csl-entry" role="listitem">
+Fröberg, Gabrielle, Louise Jörnhagen, Ulrika Morris, Delér Shakely, Mwinyi I Msellem, José Pedro Gil, Anders Björkman, and Andreas Mårtensson. 2012. <span>“<span class="nocase">Decreased prevalence of Plasmodium falciparum resistance markers to amodiaquine despite its wide scale use as ACT partner drug in Zanzibar</span>.”</span> <em>Malaria Journal</em> 11 (1): 321. https://doi.org/<a href="https://doi.org/10.1186/1475-2875-11-321 PMID  - 22966778">10.1186/1475-2875-11-321 PMID - 22966778</a>.
+</div>
+<div id="ref-Gesase2009" class="csl-entry" role="listitem">
+Gesase, Samwel, Roly D Gosling, Ramadhan Hashim, Rosalynn Ord, Inbarani Naidoo, Rashid A Madebe, Jacklin F Mosha, et al. 2009. <span>“<span class="nocase">High Resistance of Plasmodium falciparum to Sulphadoxine/Pyrimethamine in Northern Tanzania and the Emergence of dhps Resistance Mutation at Codon 581</span>.”</span> <em>PLoS ONE</em> 4 (2): e4569. <a href="https://doi.org/10.1371/journal.pone.0004569">https://doi.org/10.1371/journal.pone.0004569</a>.
+</div>
+<div id="ref-Guemas2023" class="csl-entry" role="listitem">
+Guémas, Emilie, Romain Coppée, Sandie Ménard, Milena du Manoir, Sandrine Eveline Nsango, Dieudonné Makaba Mvumbi, Emmanuel Nakoune, et al. 2023. <span>“<span class="nocase">Evolution and spread of Plasmodium falciparum mutations associated with resistance to sulfadoxine–pyrimethamine in central Africa: a cross-sectional study</span>.”</span> <em>The Lancet Microbe</em>. <a href="https://doi.org/10.1016/s2666-5247(23)00211-2">https://doi.org/10.1016/s2666-5247(23)00211-2</a>.
+</div>
+<div id="ref-Happi2006" class="csl-entry" role="listitem">
+Happi, Christian T, G O Gbotosho, Onikepe A Folarin, Oluseye O Bolaji, Akintunde Sowunmi, Dennis E Kyle, Wilbur K Milhous, Dyann F Wirth, and Ayoade M J Oduola. 2006. <span>“<span class="nocase">Association between mutations in Plasmodium falciparum chloroquine resistance transporter and P. falciparum multidrug resistance 1 genes and in vivo amodiaquine resistance in P. falciparum malaria-infected children in Nigeria.</span>”</span> <em>The American Journal of Tropical Medicine and Hygiene</em> 75 (1): 155–61.
+</div>
+<div id="ref-Holmgren2007" class="csl-entry" role="listitem">
+Holmgren, Gabrielle, Johan Hamrin, Jenny Svärd, Andreas Mårtensson, José Pedro Gil, and Anders Björkman. 2007. <span>“<span class="nocase">Selection of pfmdr1 mutations after amodiaquine monotherapy and amodiaquine plus artemisinin combination therapy in East Africa</span>.”</span> <em>Infection, Genetics and Evolution</em> 7 (5): 562–69. https://doi.org/<a href="https://doi.org/10.1016/j.meegid.2007.03.005 PMID  - 17467344">10.1016/j.meegid.2007.03.005 PMID - 17467344</a>.
+</div>
+<div id="ref-Humphreys2007" class="csl-entry" role="listitem">
+Humphreys, Georgina S, I Merinopoulos, J Ahmed, C J M Whitty, Theonest Mutabingwa, Colin J Sutherland, and Rachel L Hallett. 2007. <span>“<span class="nocase">Amodiaquine and Artemether-Lumefantrine Select Distinct Alleles of the Plasmodium falciparum mdr1 Gene in Tanzanian Children Treated for Uncomplicated Malaria▿</span>.”</span> <em>Antimicrobial Agents and Chemotherapy</em> 51 (3): 991–97. <a href="https://doi.org/10.1128/aac.00875-06 PMID - 17194834">https://doi.org/10.1128/aac.00875-06 PMID - 17194834</a>.
+</div>
+<div id="ref-Juliano2023" class="csl-entry" role="listitem">
+Juliano, Jonathan J, David J Giesbrecht, Alfred Simkin, Abebe A Fola, Beatus M Lyimo, Dativa Pereus, Catherine Bakari, et al. 2023. <span>“<span class="nocase">Country wide surveillance reveals prevalent artemisinin partial resistance mutations with evidence for multiple origins and expansion of sulfadoxine-pyrimethamine resistance mutations in northwest Tanzania</span>.”</span> <em>medRxiv</em>. <a href="https://doi.org/10.1101/2023.11.07.23298207">https://doi.org/10.1101/2023.11.07.23298207</a>.
+</div>
+<div id="ref-Kirby2022" class="csl-entry" role="listitem">
+Kirby, Rebecca, David J Giesbrecht, Corine Karema, Oliver J Watson, Savannah Lewis, Tharcisse Munyaneza, Jean de Dieu Butera, Jonathan J Juliano, Jeffrey A Bailey, and Jean-Baptiste Mazarati. 2022. <span>“<span class="nocase">Examining the early distribution of the artemisinin-resistant Plasmodium falciparum kelch13 R561H mutation in Rwanda</span>.”</span> <em>bioRxiv</em>, 2022.10.26.513523. <a href="https://doi.org/10.1101/2022.10.26.513523">https://doi.org/10.1101/2022.10.26.513523</a>.
+</div>
+<div id="ref-Minja2013" class="csl-entry" role="listitem">
+Minja, Daniel T R, Christentze Schmiegelow, Bruno Mmbando, Stéphanie Boström, Mayke Oesterholt, Pamela Magistrado, Caroline Pehrson, et al. 2013. <span>“<span class="nocase">Plasmodium falciparum Mutant Haplotype Infection during Pregnancy Associated with Reduced Birthweight, Tanzania - Volume 19, Number 9—September 2013 - Emerging Infectious Diseases journal - CDC</span>.”</span> <em>Emerging Infectious Diseases</em> 19 (9): 1446–54. <a href="https://doi.org/10.3201/eid1909.130133">https://doi.org/10.3201/eid1909.130133</a>.
+</div>
+<div id="ref-Moser2020" class="csl-entry" role="listitem">
+Moser, Kara A, Rashid A Madebe, Ozkan Aydemir, Mercy G Chiduo, Celine I Mandara, Susan F Rumisha, Frank Chaky, et al. 2020. <span>“<span class="nocase">Describing the current status of Plasmodium falciparum population structure and drug resistance within mainland Tanzania using molecular inversion probes</span>.”</span> <em>Molecular Ecology</em>. https://doi.org/<a href="https://doi.org/10.1111/mec.15706 PMID  - 33107096">10.1111/mec.15706 PMID - 33107096</a>.
+</div>
+<div id="ref-Naidoo2013" class="csl-entry" role="listitem">
+Naidoo, Inbarani, and Cally Roper. 2013. <span>“<span class="nocase">Mapping ‘partially resistant’, ‘fully resistant’, and ‘super resistant’ malaria</span>.”</span> <em>Trends in Parasitology</em> 29 (10): 505–15. <a href="https://doi.org/10.1016/j.pt.2013.08.002">https://doi.org/10.1016/j.pt.2013.08.002</a>.
+</div>
+<div id="ref-Nguyen2015" class="csl-entry" role="listitem">
+Nguyen, Tran Dang, Piero L Olliaro, Arjen M Dondorp, J Kevin Baird, Ha Minh Lam, Jeremy Farrar, Guy E Thwaites, Nicholas J White, and Maciej F Boni. 2015. <span>“<span class="nocase">Optimum population-level use of artemisinin combination therapies: a modelling study</span>.”</span> <em>The Lancet Global Health</em> 3 (12): e758–66. https://doi.org/<a href="https://doi.org/10.1016/s2214-109x(15)00162-x PMID  - 26545449">10.1016/s2214-109x(15)00162-x PMID - 26545449</a>.
+</div>
+<div id="ref-Ochong2003" class="csl-entry" role="listitem">
+Ochong, Edwin O, Ingrid V F van den Broek, Kees Keus, and Alexis M Nzila. 2003. <span>“<span class="nocase">Short report: association between chloroquine and amodiaquine resistance and allelic variation in the Plasmodium falciparum multiple drug resistance 1 gene and the chloroquine resistance transporter gene in isolates from the upper Nile in southern Sudan.</span>”</span> <em>The American Journal of Tropical Medicine and Hygiene</em> 69 (2): 184–87.
+</div>
+<div id="ref-Okell2018" class="csl-entry" role="listitem">
+Okell, Lucy C, Lisa Malene Reiter, Lene Sandø Ebbe, Vito Baraka, Donal Bisanzio, Oliver J Watson, Adam Bennett, et al. 2018. <span>“<span class="nocase">Emerging implications of policies on malaria treatment: genetic changes in the Pfmdr-1 gene affecting susceptibility to artemether–lumefantrine and artesunate–amodiaquine in Africa</span>.”</span> <em>BMJ Global Health</em> 3 (5): e000999. <a href="https://doi.org/10.1136/bmjgh-2018-000999 PMID - 30397515">https://doi.org/10.1136/bmjgh-2018-000999 PMID - 30397515</a>.
+</div>
+<div id="ref-Otienoburu2016" class="csl-entry" role="listitem">
+Otienoburu, Sabina Dahlström, Oumou Maïga-Ascofaré, Birgit Schramm, Vincent Jullien, Joel J Jones, Yah M Zolia, Pascal Houzé, et al. 2016. <span>“<span class="nocase">Selection of Plasmodium falciparum pfcrt and pfmdr1 polymorphisms after treatment with artesunate–amodiaquine fixed dose combination or artemether–lumefantrine in Liberia</span>.”</span> <em>Malaria Journal</em> 15 (1): 452. https://doi.org/<a href="https://doi.org/10.1186/s12936-016-1503-3 PMID  - 27596849">10.1186/s12936-016-1503-3 PMID - 27596849</a>.
+</div>
+<div id="ref-Owoloye2021" class="csl-entry" role="listitem">
+Owoloye, Afolabi, Michael Juwon Olufemi, Emmanuel Taiwo Idowu, and Kolapo Muyiwa Oyebola. 2021. <span>“<span class="nocase">Prevalence of potential mediators of artemisinin resistance in African isolates of Plasmodium falciparum</span>.”</span> <a href="https://doi.org/10.21203/rs.3.rs-696177/v1">https://doi.org/10.21203/rs.3.rs-696177/v1</a>.
+</div>
+<div id="ref-Pandit2023" class="csl-entry" role="listitem">
+Pandit, Kushankur, Namita Surolia, Souvik Bhattacharjee, and Krishanpal Karmodiya. 2023. <span>“<span class="nocase">The many paths to artemisinin resistance in Plasmodium falciparum</span>.”</span> <em>Trends in Parasitology</em>. <a href="https://doi.org/10.1016/j.pt.2023.09.011">https://doi.org/10.1016/j.pt.2023.09.011</a>.
+</div>
+<div id="ref-Plowe1997" class="csl-entry" role="listitem">
+Plowe, Christopher V, Joseph F Cortese, Abdoulaye A Djimdé, Okey C Nwanyanwu, William M Watkins, Peter A Winstanley, Jose G Estrada Franco, et al. 1997. <span>“<span class="nocase">Mutations in Plasmodium falciparum Dihydrofolate Reductase and Dihydropteroate Synthase and Epidemiologic Patterns of Pyrimethamine-Sulfadoxine Use and Resistance</span>.”</span> <em>The Journal of Infectious Diseases</em> 176 (6): 1590–96. <a href="https://doi.org/10.1086/514159">https://doi.org/10.1086/514159</a>.
+</div>
+<div id="ref-Sidhu2005" class="csl-entry" role="listitem">
+Sidhu, Amar Bir Singh, Stephanie Gaw Valderramos, and David A Fidock. 2005. <span>“<span class="nocase">pfmdr1 mutations contribute to quinine resistance and enhance mefloquine and artemisinin sensitivity in Plasmodium falciparum</span>.”</span> <em>Molecular Microbiology</em> 57 (4): 913–26. <a href="https://doi.org/10.1111/j.1365-2958.2005.04729.x">https://doi.org/10.1111/j.1365-2958.2005.04729.x</a>.
+</div>
+<div id="ref-Sirawaraporn1997" class="csl-entry" role="listitem">
+Sirawaraporn, Worachart, Tanajit Sathitkul, Rachada Sirawaraporn, Yongyuth Yuthavong, and Daniel V. Santi. 1997. <span>“<span class="nocase">Antifolate-resistant mutants of Plasmodium falciparum dihydrofolate reductase</span>.”</span> <em>Proceedings of the National Academy of Sciences</em> 94 (4): 1124–29. <a href="https://doi.org/10.1073/pnas.94.4.1124">https://doi.org/10.1073/pnas.94.4.1124</a>.
+</div>
+<div id="ref-Sondo2016" class="csl-entry" role="listitem">
+Sondo, Paul, Karim Derra, Seydou Diallo Nakanabo, Zekiba Tarnagda, Adama Kazienga, Odile Zampa, Innocent Valéa, et al. 2016. <span>“<span class="nocase">Artesunate-Amodiaquine and Artemether-Lumefantrine Therapies and Selection of Pfcrt and Pfmdr1 Alleles in Nanoro, Burkina Faso</span>.”</span> <em>PLOS ONE</em> 11 (3): e0151565. https://doi.org/<a href="https://doi.org/10.1371/journal.pone.0151565 PMID  - 27031231">10.1371/journal.pone.0151565 PMID - 27031231</a>.
+</div>
+<div id="ref-Sutherland2009" class="csl-entry" role="listitem">
+Sutherland, Colin J, Helen Fifer, Richard J Pearce, Faisal bin Reza, Meredydd Nicholas, Thomas Haustein, Njah E Njimgye-Tekumafor, et al. 2009. <span>“<span class="nocase">Novel pfdhps Haplotypes among Imported Cases of Plasmodium falciparum Malaria in the United Kingdom</span>.”</span> <em>Antimicrobial Agents and Chemotherapy</em> 53 (8): 3405–10. <a href="https://doi.org/10.1128/aac.00024-09">https://doi.org/10.1128/aac.00024-09</a>.
+</div>
+<div id="ref-Tinto2008" class="csl-entry" role="listitem">
+Tinto, Halidou, Lougué Guekoun, Issaka Zongo, Tinga Robert Guiguemdé, Umberto D’Alessandro, and Jean-Bosco Ouédraogo. 2008. <span>“<span class="nocase">Chloroquine‐resistance molecular markers (Pfcrt T76 and Pfmdr‐1 Y86) and amodiaquine resistance in Burkina Faso</span>.”</span> <em>Tropical Medicine &amp; International Health</em> 13 (2): 238–40. https://doi.org/<a href="https://doi.org/10.1111/j.1365-3156.2007.01995.x PMID  - 18304270">10.1111/j.1365-3156.2007.01995.x PMID - 18304270</a>.
+</div>
+<div id="ref-Triglia1997" class="csl-entry" role="listitem">
+Triglia, Tony, John G T Menting, Craig Wilson, and Alan F Cowman. 1997. <span>“<span class="nocase">Mutations in dihydropteroate synthase are responsible for sulfone and sulfonamide resistance in Plasmodium falciparum</span>.”</span> <em>Proceedings of the National Academy of Sciences</em> 94 (25): 13944–49. <a href="https://doi.org/10.1073/pnas.94.25.13944">https://doi.org/10.1073/pnas.94.25.13944</a>.
+</div>
+<div id="ref-Uwimana2020" class="csl-entry" role="listitem">
+Uwimana, Aline, Eric Legrand, Barbara H Stokes, Jean-Louis Mangala Ndikumana, Marian Warsame, Noella Umulisa, Daniel Ngamije, et al. 2020. <span>“<span class="nocase">Emergence and clonal expansion of in vitro artemisinin-resistant Plasmodium falciparum kelch13 R561H mutant parasites in Rwanda</span>.”</span> <em>Nature Medicine</em>, 1–7. <a href="https://doi.org/10.1038/s41591-020-1005-2">https://doi.org/10.1038/s41591-020-1005-2</a>.
+</div>
+<div id="ref-Valderramos2010" class="csl-entry" role="listitem">
+Valderramos, Stephanie Gaw, Juan-Carlos Valderramos, Lise Musset, Lisa A Purcell, Odile Mercereau-Puijalon, Eric Legrand, and David A Fidock. 2010. <span>“<span class="nocase">Identification of a Mutant PfCRT-Mediated Chloroquine Tolerance Phenotype in Plasmodium falciparum</span>.”</span> <em>PLoS Pathogens</em> 6 (5): e1000887. https://doi.org/<a href="https://doi.org/10.1371/journal.ppat.1000887 PMID  - 20485514">10.1371/journal.ppat.1000887 PMID - 20485514</a>.
+</div>
+<div id="ref-Veiga2016" class="csl-entry" role="listitem">
+Veiga, Maria Isabel, Satish K Dhingra, Philipp P Henrich, Judith Straimer, Nina F Gnädig, Anne-Catrin Uhlemann, Rowena E Martin, Adele M Lehane, and David A Fidock. 2016. <span>“<span class="nocase">Globally prevalent PfMDR1 mutations modulate Plasmodium falciparum susceptibility to artemisinin-based combination therapies</span>.”</span> <em>Nature Communications</em> 7 (1): 11553. https://doi.org/<a href="https://doi.org/10.1038/ncomms11553 PMID  - 27189525">10.1038/ncomms11553 PMID - 27189525</a>.
+</div>
+<div id="ref-Venkatesan2014" class="csl-entry" role="listitem">
+Venkatesan, Meera, Nahla B Gadalla, Kasia Stepniewska, Prabin Dahal, Christian Nsanzabana, Clarissa Moriera, Ric N Price, et al. 2014. <span>“<span class="nocase">Polymorphisms in Plasmodium falciparum Chloroquine Resistance Transporter and Multidrug Resistance 1 Genes: Parasite Risk Factors That Affect Treatment Outcomes for P. falciparum Malaria After Artemether-Lumefantrine and Artesunate-Amodiaquine</span>.”</span> <em>The American Journal of Tropical Medicine and Hygiene</em> 91 (4): 833–43. <a href="https://doi.org/10.4269/ajtmh.14-0031 PMID - 25048375">https://doi.org/10.4269/ajtmh.14-0031 PMID - 25048375</a>.
+</div>
+<div id="ref-Wicht2020" class="csl-entry" role="listitem">
+Wicht, Kathryn J, Sachel Mok, and David A Fidock. 2020. <span>“<span class="nocase">Molecular Mechanisms of Drug Resistance in Plasmodium falciparum Malaria</span>.”</span> <em>Annual Review of Microbiology</em> 74 (1): 431–54. <a href="https://doi.org/10.1146/annurev-micro-020518-115546">https://doi.org/10.1146/annurev-micro-020518-115546</a>.
+</div>
+<div id="ref-WorldHealthOrganisation2020" class="csl-entry" role="listitem">
+World Health Organisation. 2020. <span>“<span>World Malaria Report 2020</span>.”</span> December. Vol. WHO/HTM/GM. <a href="https://doi.org/ISBN 978 92 4 1564403">https://doi.org/ISBN 978 92 4 1564403</a>.
+</div>
+<div id="ref-Yeka2015" class="csl-entry" role="listitem">
+Yeka, Adoke, Ruth Kigozi, Melissa D Conrad, Myers Lugemwa, Peter Okui, Charles Katureebe, Kassahun Belay, et al. 2015. <span>“<span class="nocase">Artesunate/Amodiaquine Versus Artemether/Lumefantrine for the Treatment of Uncomplicated Malaria in Uganda: A Randomized Trial</span>.”</span> <em>Journal of Infectious Diseases</em> 213 (7): 1134–42. https://doi.org/<a href="https://doi.org/10.1093/infdis/jiv551 PMID  - 26597254">10.1093/infdis/jiv551 PMID - 26597254</a>.
+</div>
+<div id="ref-Zhu2018" class="csl-entry" role="listitem">
+Zhu, Lei, Jaishree Tripathi, Frances Maureen Rocamora, Olivo Miotto, Rob W van der Pluijm, Till S Voss, Sachel Mok, et al. 2018. <span>“<span class="nocase">The origins of malaria artemisinin resistance defined by a genetic and transcriptomic background</span>.”</span> <em>Nature Communications</em> 9 (1): 5158. <a href="https://doi.org/10.1038/s41467-018-07588-x">https://doi.org/10.1038/s41467-018-07588-x</a>.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link" aria-label="Welcome">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Welcome</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./About_Markers.html" class="pagination-link" aria-label="Marker Choice">
+        <span class="nav-page-text">Marker Choice</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Copyright 2024, Dionne C. Argyropoulos</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/dionnecargy">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/DionneArgy">
+      <i class="bi bi-twitter" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

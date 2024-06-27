@@ -1,0 +1,157 @@
+---
+title: "Step 1: SeekDeep"
+bibliography: SeekDeep.bib
+---
+
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(kableExtra)
+options(knitr.table.format = "html") 
+knitr::opts_chunk$set(cache=TRUE)
+theme_set(theme_bw())
+```
+
+Data processing of data using this SeekDeep made by [Nick Nathaway](https://github.com/bailey-lab/SeekDeep). Here is a link to a step-by-step guide for [installation](https://seekdeep.brown.edu/installingSeekDeep_Ubuntu.html).
+
+We used Illumina sequencing data and would like to run all of the three pipelines. We therefore use the global function [setupTarAmpAnalysis](https://seekdeep.brown.edu/setupTarAmpAnalysis_usage.html). The data files were made in accordance to the [Initial Set-Up Guidelines for Paired End Reads with MIDs](https://seekdeep.brown.edu/tutorial_PairedEnd_withMIDs.html).
+
+**STEP 1: Must run this before SeekDeep can work:**
+
+`export PATH=/home/software/SeekDeep-3.0.1/bin/:$PATH`
+
+**STEP 2: Run the SeekDeep command**
+
+```{r}
+#| echo: false
+#| results: asis
+cat('SeekDeep setupTarAmpAnalysis --samples sampleNamesP1.tab.txt --outDir output --inputDir . --idFile multipleGenePairs.id.txt --overlapStatusFnp overlapStatuses.txt --refSeqsDir markerRefSeqs/forSeekDeep/refSeqs/ --extraExtractorCmds="--barcodeErrors 0 --midWithinStart 8 --primerWithinStart 8 --checkRevComplementForMids true --checkRevComplementForPrimers true" --extraProcessClusterCmds="--fracCutOff 0.078 --sampleMinTotalReadCutOff 100" \n')
+```
+
+This command was developed after testing for a wide number of parameters outlined here [SeekDeep](https://seekdeep.brown.edu/) [@Hathaway2017]. We used the controls in our pools to parameterise. 
+
+## setupTarAmpAnalysis
+
+**Sequencing Files**: `--inputDir` Input Directory of raw data files; required. These files include: 
+
+-   `--fastq1` Input sequence filename, only need 1, fastq first mate text file; required
+-   `--fastq1gz` Input sequence filename, only need 1, fastq first mate gzipped file; required
+-   `--fastq2` Input sequence filename, only needed with --fastq1, fastq second mate text file; required
+-   `--fastq2gz` Input sequence filename, only needed with --fastq1gz, fastq second mate gzipped file; required
+
+**ID Files**:
+
+-   `--idFile` = ID file containing primer and possible additional MIDs; required. 
+-   `--samples` = A file containing the samples names, columns should go target, sample, pcr1, pcr2 (optional) etc; required. 
+
+**Illumina Stitching**: `--overlapStatusFnp` A file with two columns, target,status; status column should contain 1 of 3 values (capitalization doesn't matter): `r1BegOverR2End`,`r1EndOverR2Beg`,`NoOverlap`.
+
+-   `r1BegOverR2End` = target size \< read length (causes read through),
+-   `r1EndOverR2Beg` = target size \> read length less than 2 x read length,
+-   `NoOverlap` = target size \> 2 x read length; required. 
+
+
+**Output**: `--outDir` Directory to setup for analysis; required. 
+
+## Extra Commands
+
+::: panel-tabset
+
+### Add Reference
+
+**Step 1: Set up the reference genomes:**
+
+`export PATH=/home/software/samtools-1.15.1/bin:$PATH` 
+
+`export PATH=/home/software/bowtie2-2.4.5-linux-x86_64:$PATH`
+
+```{r Ref Genome Command, comment = ''}
+#| echo: false
+#| code-overflow: wrap
+#| results: asis
+cat('SeekDeep genTargetInfoFromGenomes --gffDir pfgenomes/gff/ --genomeDir pfgenomes/genomes/ --primers GeneID.tab.txt --pairedEndLength 250 --dout markerRefSeqs --numThreads 19 --overWriteDir true --verbose \n' )
+```
+
+**Step 2: Run the command**
+
+```{r Ref Genome Run Command, comment = ''}
+#| echo: false
+#| code-overflow: wrap
+#| results: asis
+cat('SeekDeep setupTarAmpAnalysis --samples sampleNamesP8.tab.txt --outDir Run-Pool-8-WRefs --inputDir . --idFile multipleGenePairs.id.txt --overlapStatusFnp overlapStatuses.txt --refSeqsDir markerRefSeqs/markerFasta/ --extraExtractorCmds="--midWithinStart 100 --primerWithinStart 100 --qualCheckCutOff .75 --qualCheckLevel 30 --checkRevComplementForMids true --checkRevComplementForPrimers true" \n' )
+```
+
+### extractor
+
+All of these commands and their uses are discussed in the [SeekDeep extractor Tutorial](https://seekdeep.brown.edu/extractor_usage.html). The aim of this pipeline is to extract sequences from various sequences input types (fastq,fasta,sff,etc.) with primers and barcodes plus some filtering.
+
+**Barcodes**:
+
+`--barcodeErrors 0` =  To further reduce any ambiguity and specifically select for NO errors. 
+
+
+`--midWithinStart 8` = By default the primer or barcodes are searched at the very beginning of seq, use this flag to extended the search, should be kept low to cut down on false positives; default=0;
+`--primerWithinStart 8` By default the primer or barcodes are searched at the very beginning of seq, use this flag to extended the search, should be kept low to cut down on false positives; default=0;
+
+Roche MID 47, TGTGAGTAGT, is **within** the dhps-1 sequence and the output therefore being preferentially labelled as "MID47". Because of this, we discovered that our midWithinStart and primerWithinStart commands could be adjusted. Reducing the parameter to 0 produced **no** data. This is because there are 7bp at the start of each sequence preceding the MID. By changing the midWithinStart and primerWithinStart parameters to a smaller value, we can use MID 47 for dhps-2.
+
+Our optimal **golidlocks** value was --midWithinStart 8 --primerWithinStart 8.
+
+`--checkRevComplementForMids true` =  Check the Reverse Complement of the Seqs As Well For MIDs 
+`--checkRevComplementForPrimers true` = Check the Reverse Complement of the Seqs As Well For Primers
+
+### qluster
+These commands and uses are discussed in the [SeekDeep qluster Tutorial](https://seekdeep.brown.edu/qluster_usage.html). The qluster pipeline aims to cluster input sequences by collapsing on set differences between the sequences. We did not modify anything from the default parameters. 
+
+### processCluster
+The [SeekDeep processClusters Tutorial](https://seekdeep.brown.edu/processClusters_usage.html) provides help for these commands and their uses. Here, we adjusted some **filtering** parameters to remove low-frequency variants based on preliminary analysis of mock mixed infections of controls. 
+
+`--fracCutOff 0.078` = Final cluster Fraction Cut off; default=0.005; 
+
+Instead of specifying a hard read count cut-off e.g., `--clusterCutOff`, I opted to try and remove haplotypes that were represented at a frequency in the sample using the function `—-fracCutOff`: 
+
+- 5% [@Boyce2019; @Wamae2022a; @Wamae2022b]
+- 3.5% [@Hemming2020]
+- 1% [@Brazeau2019; @Pringle2019; @Osoti2022]
+- 0.5% [@Aydemir2018; @Bal2022; @Topazian2022]
+
+For our data, a cut-off of 0.078 or 7.8% was used. 
+
+`--sampleMinTotalReadCutOff 100` = Sample Minimum Total Read Cut Off, if the total read count for the sample is below this it will be thrown out; default=250;
+
+This new parameter was added in the SeekDeep v. 3.0.1 that was used for the final analysis of the drug resistance dataset in 2023/2024. We realised that there was a new default parameter that removed isolates that had less than 250 total reads (i.e., 250X coverage) in the selected clusters output file. 
+
+We then amended this, based on a visualisation of the total read density per marker - this showed that for some markers like dhps-1/2, dhfr and mdr1-2 there were more isolates that had ~100X-250X coverage. We therefore created a threshold of 100X coverage. 
+
+:::
+
+
+## Output Interpretation 
+
+::: panel-tabset
+
+## extractor
+
+-   `extractionProfile.tab.txt`: This breaks down the filtering per final extraction sequence file
+-   `extractionStats.tab.txt`: This has info how the whole extraction went
+
+## processCluster
+
+All the data from the analysis done by [processClusters](https://seekdeep.brown.edu/processClusters_usage.html) is located in the file: **selectedClustersInfo.tab.txt**.
+
+Our main variables of interest are: 
+
+-   `s_Sample` = The name of the sample the haplotype appears in
+-   `h_popUID` =  The population id given to haplotype. These are named with PopUID.XX where XX is the population rank number and this number is determined by the number of samples the haplotype appears in
+-   `c_clusterID` =  The id given to the cluster in the sample, the lower the number the higher the relative abundance in the sample
+-   `c_ReadCnt` = The total number of reads associated with this cluster summed over all replicates
+-   `c_Consensus` = The consensus sequence for this cluster
+-   `c_bestExpected` = A string with the name of the closest reference sequence see below to see how to compare against expected references
+
+::: 
+
+## References {.unnumbered}
+
+::: {#refs}
+:::
