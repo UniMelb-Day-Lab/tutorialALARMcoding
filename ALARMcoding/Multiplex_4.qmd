@@ -1,3 +1,196 @@
 ---
 title: "Multiplex 4: aat1, pfs47"
+bibliography: DrugR_About.bib
 ---
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(kableExtra)
+options(knitr.table.format = "html") 
+knitr::opts_chunk$set(cache=TRUE)
+theme_set(theme_bw())
+
+alarmcoding_PCR <- read.csv("Data/ALARMcoding_PCR.csv")
+alarmcoding_PCR_multiplex_4 <- alarmcoding_PCR %>% filter(Multiplex == 4)
+```
+
+## Primers
+
+Round 1 PCR primers were obtained from [@Onyango2021] and round 2 PCR primers were designed using Geneious Prime R9 to target smaller fragments. Novel pfaat1 primers were designed using Geneious Prime R9 for both round 1 and round 2 PCR primers surrounding the codons of interest.
+
+```{r}
+#| echo: false
+
+colnames(alarmcoding_PCR_multiplex_4)[colnames(alarmcoding_PCR_multiplex_4)=="Nucleotide.position"] <- "Nucleotide position"
+colnames(alarmcoding_PCR_multiplex_4)[colnames(alarmcoding_PCR_multiplex_4)=="Sequence"] <- "Sequence (5' to 3')"
+names(alarmcoding_PCR_multiplex_4)[6] <- paste0(names(alarmcoding_PCR_multiplex_4)[6],  footnote_marker_alphabet(1))
+
+alarmcoding_PCR_multiplex_4 %>%
+  select(-c(Gene, Length:Codons)) %>% 
+  knitr::kable(caption = "Details about primers used in Multiplex 4 of the <em>ALARM</em>coding PCR genotyping protocol", align = "lcccc", escape = FALSE) %>% 
+      # Remember this escape = F
+  kable_styling(bootstrap_options = c("condensed", "responsive"), full_width = T) %>% 
+  group_rows("Putative amino acid transporter (<em>pfaat1r</em>: PF3D7_0629500)", 1, 4, escape = FALSE) %>% 
+  group_rows("6-cysteine protein (<em>pfs47r</em>: PF3D7_1346800)", 5, 10, escape = FALSE) %>%
+  footnote(general = "Blank references denote that the primer was created by this author. Manuscript in preparation.",
+           number = c(" ", " ", "Onyango et al., 2021"),
+           alphabet = c("Nucleotide position relative ot the 3D7 v3 reference genome"),
+           footnote_as_chunk = T)
+```
+
+## PCR Instructions 
+
+### Round 1. 
+
+The first round PCR was carried out in a total volume of 25 μL with 1 x buffer, 500 uM dNTPs mix (Promega), 5 mM MgCl2, 200 nM of each primer (forward (F) and reverse (R)), 1.3 units of GoTaq Flexi Polymerase (Promega) and only 2 μL of genomic DNA.
+
+```{r}
+#| echo: false
+multiplex_4_round_1 <- data.frame(
+    Reagent = c("Water", "5X Buffer", "MgCl2 (25mM)", "dNTP", "K13-out-F", "K13-out-R", "mdr1-1-out-F", "mdr1-1-out-R", "G2 Flexi Taq (5U/μL)"), 
+    Concentration = c("", "1x", "5 mM", "0.5 μM", "0.2 μM", "0.2 μM", "0.2 μM", "0.2 μM", "1.3 U/μL"), 
+    Volume = c(9.49, 5, 5, 1.25, 0.5, 0.5, 0.5, 0.5, 0.26)
+  ) %>% 
+  mutate(Volume_x8 = Volume*8)
+
+colnames(multiplex_4_round_1)[colnames(multiplex_4_round_1)=="Concentration"] <- "Final Concentration"
+colnames(multiplex_4_round_1)[colnames(multiplex_4_round_1)=="Volume"] <- "Volume x1 (μL)"
+colnames(multiplex_4_round_1)[colnames(multiplex_4_round_1)=="Volume_x8"] <- "Volume x8 (μL)"
+multiplex_4_round_1  %>% 
+  knitr::kable(align = "lcccc") %>% 
+  kable_styling(bootstrap_options = c("condensed", "responsive"), full_width = T)  
+```
+
+Cycling conditions: 
+
+* 95°C/2 min 
+* 40 cycles of: 
+  * 95°C/20 sec, 
+  * 58°C/2 min, 
+  * 72/2 min;
+* 72°C/10 min
+* Resting at 4°C. 
+
+
+### Round 2. 
+
+The second-round simplex PCRs were carried out in separate reactions per inner fragment primer pair.
+
+::: panel-tabset
+
+#### aat1
+
+For *pfaat1*, there was a total volume of 25 μL containing 1x Buffer, 500 uM dNTPs mix, 5 mM MgCl2, 200 nM of each primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round. 
+
+```{r}
+#| echo: false
+multiplex_4_round_2_aat1 <- data.frame(
+    Reagent = c("Water", "5X Buffer", "MgCl2 (25mM)", "dNTP", "aat1-in-F", "aat1-in-R", "G2 Flexi Taq (5U/μL)"), 
+    Concentration = c("", "1x", "2 mM", "0.5 μM", "0.2 μM", "0.2 μM", "1.3 U/μL"), 
+    Volume = c(14.49, 5, 2, 1.25, 0.5, 0.5, 0.26)
+  ) %>% 
+  mutate(Volume_x8 = Volume*8)
+
+colnames(multiplex_4_round_2_aat1)[colnames(multiplex_4_round_2_aat1)=="Concentration"] <- "Final Concentration"
+colnames(multiplex_4_round_2_aat1)[colnames(multiplex_4_round_2_aat1)=="Volume"] <- "Volume x1 (μL)"
+colnames(multiplex_4_round_2_aat1)[colnames(multiplex_4_round_2_aat1)=="Volume_x8"] <- "Volume x8 (μL)"
+multiplex_4_round_2_aat1  %>% 
+  knitr::kable(align = "lcccc") %>% 
+  kable_styling(bootstrap_options = c("condensed", "responsive"), full_width = T)  
+```
+
+Cycling conditions:
+
+* 95°C/2 min
+* 40 cycles of: 
+  * 95°C/20 sec
+  * **56**°C/2 min
+  * 72/2 min;
+* 72°C/10 min
+* Resting at 4°C. 
+
+#### pfs47-1
+
+For *pfs47* fragments 1 and 2, there conditions were as follows: a total volume of 20 μL containing 1x Buffer, 125 uM dNTPs mix, 2 mM MgCl2, 125 nM of each primer (F/R), 0.4 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round. 
+
+```{r}
+#| echo: false
+multiplex_4_round_2_pfs471 <- data.frame(
+    Reagent = c("Water", "5X Buffer", "MgCl2 (25mM)", "dNTP", "pfs47-1-in-F", "pfs47-1-in-R", "G2 Flexi Taq (5U/μL)"), 
+    Concentration = c("", "1x", "2 mM", "0.125 μM", "0.125 μM", "0.125 μM", "0.4 U/μL"), 
+    Volume = c(11.07, 4, 1.6, 0.25, 1, 1, 0.08)
+  ) %>% 
+  mutate(Volume_x8 = Volume*8)
+
+colnames(multiplex_4_round_2_pfs471)[colnames(multiplex_4_round_2_pfs471)=="Concentration"] <- "Final Concentration"
+colnames(multiplex_4_round_2_pfs471)[colnames(multiplex_4_round_2_pfs471)=="Volume"] <- "Volume x1 (μL)"
+colnames(multiplex_4_round_2_pfs471)[colnames(multiplex_4_round_2_pfs471)=="Volume_x8"] <- "Volume x8 (μL)"
+multiplex_4_round_2_pfs471  %>% 
+  knitr::kable(align = "lcccc") %>% 
+  kable_styling(bootstrap_options = c("condensed", "responsive"), full_width = T)  
+```
+
+
+Cycling conditions:
+
+* 95°C/2 min
+* 40 cycles of: 
+  * 95°C/20 sec
+  * **59**°C/2 min
+  * 72/2 min;
+* 72°C/10 min
+* Resting at 4°C. 
+
+#### pfs47-2
+
+For *pfs47* fragments 1 and 2, there conditions were as follows: a total volume of 20 μL containing 1x Buffer, 125 uM dNTPs mix, 2 mM MgCl2, 125 nM of each primer (F/R), 0.4 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round. 
+
+```{r}
+#| echo: false
+multiplex_4_round_2_pfs472 <- data.frame(
+    Reagent = c("Water", "5X Buffer", "MgCl2 (25mM)", "dNTP", "pfs47-1-in-F", "pfs47-1-in-R", "G2 Flexi Taq (5U/μL)"), 
+    Concentration = c("", "1x", "2 mM", "0.125 μM", "0.125 μM", "0.125 μM", "0.4 U/μL"), 
+    Volume = c(11.07, 4, 1.6, 0.25, 1, 1, 0.08)
+  ) %>% 
+  mutate(Volume_x8 = Volume*8)
+
+colnames(multiplex_4_round_2_pfs472)[colnames(multiplex_4_round_2_pfs472)=="Concentration"] <- "Final Concentration"
+colnames(multiplex_4_round_2_pfs472)[colnames(multiplex_4_round_2_pfs472)=="Volume"] <- "Volume x1 (μL)"
+colnames(multiplex_4_round_2_pfs472)[colnames(multiplex_4_round_2_pfs472)=="Volume_x8"] <- "Volume x8 (μL)"
+multiplex_4_round_2_pfs472  %>% 
+  knitr::kable(align = "lcccc") %>% 
+  kable_styling(bootstrap_options = c("condensed", "responsive"), full_width = T)  
+```
+
+Cycling conditions:
+
+* 95°C/2 min
+* 40 cycles of: 
+  * 95°C/20 sec
+  * **59**°C/2 min
+  * 72/2 min;
+* 72°C/10 min
+* Resting at 4°C. 
+
+
+:::
+
+## Final Sequences 
+
+```{r}
+#| echo: false
+
+alarmcoding_PCR_multiplex_4 %>%
+  distinct(Length, PCR_Round, Codons) %>% 
+  mutate(Marker = case_when(Length==969 ~ "aat1 Round 1 Product",
+                            Length==448 ~ "aat1",
+                            Length==1320 ~ "pfs47 Round 1 Product",
+                            Length==390 ~ "pfs47-1",
+                            Length==429 ~ "pfs47-2", .default = "CHECK")) %>%
+  select(Marker, Length, PCR_Round, Codons) %>% 
+  knitr::kable(caption = "Table 2. Details about sequences genotyped in Multiplex 4 of the <em>ALARM</em>coding protocol", align = "lcccc", escape = FALSE) %>% 
+  kable_styling(bootstrap_options = c("condensed", "responsive"), full_width = T) %>% 
+  group_rows("Putative amino acid transporter (<em>pfaat1r</em>: PF3D7_0629500)", 1, 2, escape = FALSE) %>% 
+  group_rows("6-cysteine protein (<em>pfs47r</em>: PF3D7_1346800)", 3, 5, escape = FALSE)
+```

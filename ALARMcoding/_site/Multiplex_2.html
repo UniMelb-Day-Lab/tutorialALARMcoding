@@ -20,7 +20,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -71,6 +91,8 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="styles.css">
@@ -246,8 +268,11 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
           <li class="sidebar-item">
- <span class="menu-text">3_Custom.qmd</span>
-  </li>
+  <div class="sidebar-item-container"> 
+  <a href="./3_Custom.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Step 3: Processing in R</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -256,7 +281,19 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#primers" id="toc-primers" class="nav-link active" data-scroll-target="#primers">Primers</a></li>
+  <li><a href="#pcr-instructions" id="toc-pcr-instructions" class="nav-link" data-scroll-target="#pcr-instructions">PCR Instructions</a>
+  <ul class="collapse">
+  <li><a href="#round-1." id="toc-round-1." class="nav-link" data-scroll-target="#round-1.">Round 1.</a></li>
+  <li><a href="#round-2." id="toc-round-2." class="nav-link" data-scroll-target="#round-2.">Round 2.</a></li>
+  </ul></li>
+  <li><a href="#final-sequences" id="toc-final-sequences" class="nav-link" data-scroll-target="#final-sequences">Final Sequences</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -280,10 +317,532 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="primers" class="level2">
+<h2 class="anchored" data-anchor-id="primers">Primers</h2>
+<p>Round 1 PCR primers were designed using Geneious Prime R9 to target larger fragments that surrounded the codons of interest per marker. The forward and reverse primers for pfmdr1.1.2 and pfmdr1.1.3 and the forward primer for pfcrt from <span class="citation" data-cites="Nag2017">(<a href="#ref-Nag2017" role="doc-biblioref">Nag et al. 2017</a>)</span> were used as the round 2 PCR primers, and a novel pfcrt reverse primer was developed using Geneious Prime R9.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-condensed caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<caption>Details about primers used in Multiplex 2 of the <em>ALARM</em>coding PCR genotyping protocol</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Primer</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Chromosome</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Sequence (5' to 3')</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Reference</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Nucleotide position<sup>a</sup></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd" data-grouplength="6">
+<td colspan="5" style="border-bottom: 1px solid"><strong>Multidrug resistance gene 1 (<em>pfmdr1</em>: Pf3D7_0523000)</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding-left: 2em;" data-indentlevel="1">mdr1-out-F2</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">CCCAGGTGTTTTATCTGCACA</td>
+<td style="text-align: center;">NA</td>
+<td style="text-align: center;">960544-960564</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding-left: 2em;" data-indentlevel="1">mdr1-out-R2</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">AGATGCAATTCTGTGGGCAA</td>
+<td style="text-align: center;">NA</td>
+<td style="text-align: center;">962011-961992</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding-left: 2em;" data-indentlevel="1">mdr1-in-F2</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">TTTGTCCAATTGTTGCAGCTGTATTAACTTT</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">960672-960702</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding-left: 2em;" data-indentlevel="1">mdr1-in-R2</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">TGCATTTTCTGAATCTCCTTTTAAGGACATT</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">961159-961129</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding-left: 2em;" data-indentlevel="1">mdr1-in-F3</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">GGTAAAGTTGATATTAAAGATGTAAATTTCC</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">961259-961289</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding-left: 2em;" data-indentlevel="1">mdr1-in-R3</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">TGGTCCAACATTTGTATCATATTTATTTGG</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">961810-961781</td>
+</tr>
+<tr class="even" data-grouplength="4">
+<td colspan="5" style="border-bottom: 1px solid"><strong>Chloroquine resistance transporter (<em>pfcrt</em>: PF3D7_070900)</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding-left: 2em;" data-indentlevel="1">crt-out-F</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">CAAGCAAAAATGACGAGCGT</td>
+<td style="text-align: center;">NA</td>
+<td style="text-align: center;">403259-403278</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding-left: 2em;" data-indentlevel="1">crt-out-R</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">CCAGTAGTTCTTGTAAGACCTATGA</td>
+<td style="text-align: center;">NA</td>
+<td style="text-align: center;">404035-404011</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding-left: 2em;" data-indentlevel="1">crt-in-F</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">TGGCTCACGTTTAGGTGGAGGTTCTTG</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">403491-403517</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding-left: 2em;" data-indentlevel="1">crt-in-R</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">CATACAAATAAAGTTGTGAGTTTCGGATGTTAC</td>
+<td style="text-align: center;">NA</td>
+<td style="text-align: center;">403704-403672</td>
+</tr>
+</tbody><tfoot>
+<tr class="odd">
+<td style="padding: 0"><span style="font-style: italic;">Note: </span> <sup></sup> Blank references denote that the primer was created by this author. Manuscript in preparation.</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="padding: 0"><sup>1</sup> <sup>2</sup> Nag et al., 2017</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="padding: 0"><sup>a</sup> Nucleotide position relative ot the 3D7 v3 reference genome</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tfoot>
+
+</table>
+</div>
+
+
+</div>
+</div>
+</section>
+<section id="pcr-instructions" class="level2">
+<h2 class="anchored" data-anchor-id="pcr-instructions">PCR Instructions</h2>
+<section id="round-1." class="level3">
+<h3 class="anchored" data-anchor-id="round-1.">Round 1.</h3>
+<p>The first round PCR was carried out in a total volume of 25 μL with 1 x buffer, 500 uM dNTPs mix (Promega), 5 mM MgCl2, 200 nM of each primer (forward (F) and reverse (R)), 1.3 units of GoTaq Flexi Polymerase (Promega) and only 2 μL of genomic DNA.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-condensed caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Reagent</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Final Concentration</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Volume x1 (μL)</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Volume x8 (μL)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Water</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">9.49</td>
+<td style="text-align: center;">75.92</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">5X Buffer</td>
+<td style="text-align: center;">1x</td>
+<td style="text-align: center;">5.00</td>
+<td style="text-align: center;">40.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MgCl2 (25mM)</td>
+<td style="text-align: center;">5 mM</td>
+<td style="text-align: center;">5.00</td>
+<td style="text-align: center;">40.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dNTP</td>
+<td style="text-align: center;">0.5 μM</td>
+<td style="text-align: center;">1.25</td>
+<td style="text-align: center;">10.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mdr1-2-out-F</td>
+<td style="text-align: center;">0.2 μM</td>
+<td style="text-align: center;">0.50</td>
+<td style="text-align: center;">4.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mdr1-2-out-R</td>
+<td style="text-align: center;">0.2 μM</td>
+<td style="text-align: center;">0.50</td>
+<td style="text-align: center;">4.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">crt-out-F</td>
+<td style="text-align: center;">0.2 μM</td>
+<td style="text-align: center;">0.50</td>
+<td style="text-align: center;">4.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">crt-out-R</td>
+<td style="text-align: center;">0.2 μM</td>
+<td style="text-align: center;">0.50</td>
+<td style="text-align: center;">4.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">G2 Flexi Taq (5U/μL)</td>
+<td style="text-align: center;">1.3 U/μL</td>
+<td style="text-align: center;">0.26</td>
+<td style="text-align: center;">2.08</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+</div>
+</div>
+<p>Cycling conditions:</p>
+<ul>
+<li>95°C/2 min</li>
+<li>40 cycles of:
+<ul>
+<li>95°C/20 sec,</li>
+<li>58°C/2 min,</li>
+<li>72/2 min;</li>
+</ul></li>
+<li>72°C/10 min</li>
+<li>Resting at 4°C.</li>
+</ul>
+</section>
+<section id="round-2." class="level3">
+<h3 class="anchored" data-anchor-id="round-2.">Round 2.</h3>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">mdr1-2</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">mdr1-3</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">crt</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>For both pfmdr1 markers (mdr1-2/mdr1-3), the simplex PCR was performed in separate reactions for each inner primer pair with a total volume of 25μL, with a master mix that contained 1x Buffer, 500 uM dNTPs mix, 5 mM MgCl2, 300 nM per primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-condensed caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Reagent</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Final Concentration</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Volume x1 (μL)</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Volume x8 (μL)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Water</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">10.99</td>
+<td style="text-align: center;">87.92</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">5X Buffer</td>
+<td style="text-align: center;">1x</td>
+<td style="text-align: center;">5.00</td>
+<td style="text-align: center;">40.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MgCl2 (25mM)</td>
+<td style="text-align: center;">5 mM</td>
+<td style="text-align: center;">5.00</td>
+<td style="text-align: center;">40.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dNTP</td>
+<td style="text-align: center;">0.5 μM</td>
+<td style="text-align: center;">1.25</td>
+<td style="text-align: center;">10.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mdr1-2-in-F</td>
+<td style="text-align: center;">0.3 μM</td>
+<td style="text-align: center;">0.75</td>
+<td style="text-align: center;">6.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mdr1-2-in-R</td>
+<td style="text-align: center;">0.3 μM</td>
+<td style="text-align: center;">0.75</td>
+<td style="text-align: center;">6.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">G2 Flexi Taq (5U/μL)</td>
+<td style="text-align: center;">1.3 U/μL</td>
+<td style="text-align: center;">0.26</td>
+<td style="text-align: center;">2.08</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+</div>
+</div>
+<p>Cycling conditions:</p>
+<ul>
+<li>95°C/2 min</li>
+<li>40 cycles of:
+<ul>
+<li>95°C/20 sec</li>
+<li>58°C/2 min</li>
+<li>72/2 min;</li>
+</ul></li>
+<li>72°C/10 min</li>
+<li>Resting at 4°C.</li>
+</ul>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>For both pfmdr1 markers (mdr1-2/mdr1-3), the simplex PCR was performed in separate reactions for each inner primer pair with a total volume of 25μL, with a master mix that contained 1x Buffer, 500 uM dNTPs mix, 5 mM MgCl2, 300 nM per primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-condensed caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Reagent</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Final Concentration</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Volume x1 (μL)</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Volume x8 (μL)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Water</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">10.99</td>
+<td style="text-align: center;">87.92</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">5X Buffer</td>
+<td style="text-align: center;">1x</td>
+<td style="text-align: center;">5.00</td>
+<td style="text-align: center;">40.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MgCl2 (25mM)</td>
+<td style="text-align: center;">5 mM</td>
+<td style="text-align: center;">5.00</td>
+<td style="text-align: center;">40.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dNTP</td>
+<td style="text-align: center;">0.5 μM</td>
+<td style="text-align: center;">1.25</td>
+<td style="text-align: center;">10.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mdr1-3-in-F</td>
+<td style="text-align: center;">0.3 μM</td>
+<td style="text-align: center;">0.75</td>
+<td style="text-align: center;">6.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mdr1-3-in-R</td>
+<td style="text-align: center;">0.3 μM</td>
+<td style="text-align: center;">0.75</td>
+<td style="text-align: center;">6.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">G2 Flexi Taq (5U/μL)</td>
+<td style="text-align: center;">1.3 U/μL</td>
+<td style="text-align: center;">0.26</td>
+<td style="text-align: center;">2.08</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+</div>
+</div>
+<p>Cycling conditions:</p>
+<ul>
+<li>95°C/2 min</li>
+<li>40 cycles of:
+<ul>
+<li>95°C/20 sec</li>
+<li>58°C/2 min</li>
+<li>72/2 min;</li>
+</ul></li>
+<li>72°C/10 min</li>
+<li>Resting at 4°C.</li>
+</ul>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<p>For pfcrt, the master mix contained 1x Buffer, 500 uM dNTPs mix, 5 mM MgCl2, 200 nM per primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-condensed caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Reagent</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Final Concentration</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Volume x1 (μL)</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Volume x8 (μL)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Water</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">11.49</td>
+<td style="text-align: center;">91.92</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">5X Buffer</td>
+<td style="text-align: center;">1x</td>
+<td style="text-align: center;">5.00</td>
+<td style="text-align: center;">40.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MgCl2 (25mM)</td>
+<td style="text-align: center;">5 mM</td>
+<td style="text-align: center;">5.00</td>
+<td style="text-align: center;">40.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dNTP</td>
+<td style="text-align: center;">0.5 μM</td>
+<td style="text-align: center;">1.25</td>
+<td style="text-align: center;">10.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">crt-in-F</td>
+<td style="text-align: center;">0.2 μM</td>
+<td style="text-align: center;">0.50</td>
+<td style="text-align: center;">4.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">crt-in-R</td>
+<td style="text-align: center;">0.2 μM</td>
+<td style="text-align: center;">0.50</td>
+<td style="text-align: center;">4.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">G2 Flexi Taq (5U/μL)</td>
+<td style="text-align: center;">1.3 U/μL</td>
+<td style="text-align: center;">0.26</td>
+<td style="text-align: center;">2.08</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+</div>
+</div>
+<p>Cycling conditions:</p>
+<ul>
+<li>95°C/2 min</li>
+<li>40 cycles of:
+<ul>
+<li>95°C/20 sec</li>
+<li><strong>62</strong>°C/2 min</li>
+<li>72/2 min;</li>
+</ul></li>
+<li>72°C/10 min</li>
+<li>Resting at 4°C.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="final-sequences" class="level2">
+<h2 class="anchored" data-anchor-id="final-sequences">Final Sequences</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-condensed caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<caption>Table 2. Details about sequences genotyped in Multiplex 2 of the <em>ALARM</em>coding protocol</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Marker</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Length</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">PCR_Round</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Codons</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd" data-grouplength="3">
+<td colspan="4" style="border-bottom: 1px solid"><strong>Multidrug resistance gene 1 (<em>pfmdr1</em>: Pf3D7_0523000)</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding-left: 2em;" data-indentlevel="1">mdr1-2 Round 1 Product</td>
+<td style="text-align: center;">1468</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding-left: 2em;" data-indentlevel="1">mdr1-2</td>
+<td style="text-align: center;">488</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1034, 1042</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding-left: 2em;" data-indentlevel="1">mdr1-3</td>
+<td style="text-align: center;">552</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1246</td>
+</tr>
+<tr class="odd" data-grouplength="2">
+<td colspan="4" style="border-bottom: 1px solid"><strong>Chloroquine resistance transporter (<em>pfcrt</em>: PF3D7_070900)</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding-left: 2em;" data-indentlevel="1">crt Round 1 Product</td>
+<td style="text-align: center;">777</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding-left: 2em;" data-indentlevel="1">crt</td>
+<td style="text-align: center;">214</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">72, 73, 74, 75, 76</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+</div>
+</div>
 
 
 
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Nag2017" class="csl-entry" role="listitem">
+Nag, Sidsel, Marlene D Dalgaard, Poul-Erik Kofoed, Johan Ursing, Maria P Crespo, Lee O’Brien Andersen, Frank Møller Aarestrup, Ole Lund, and Michael Alifrangis. 2017. <span>“<span class="nocase">High throughput resistance profiling of Plasmodium falciparum infections based on custom dual indexing and Illumina next generation sequencing-technology</span>.”</span> <em>Scientific Reports</em> 7 (1): 2398. https://doi.org/<a href="https://doi.org/10.1038/s41598-017-02724-x PMID  - 28546554">10.1038/s41598-017-02724-x PMID - 28546554</a>.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -853,7 +1412,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Copyright 2023, Dionne C. Argyropoulos</p>
+<p>Copyright 2024, Dionne C. Argyropoulos</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

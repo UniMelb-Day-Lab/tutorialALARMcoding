@@ -274,7 +274,7 @@
     "href": "Multiplex_1.html",
     "title": "Multiplex 1: K13 and mdr1 (86, 184)",
     "section": "",
-    "text": "Back to top",
+    "text": "The first round for multiplex 1 was modified from (Narh et al. 2020) and amplifies two regions of pfk13 and pfmdr1 fragment 1 (mdr1-1; codons 86, 184). Inner primers for each simplex reaction were used from (Narh et al. 2020).\n\n\n\n\nTable 1. Details about primers used in multiplex 1 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nKelch protein (pfk13: PF3D7_1343700)\n\n\nK13-out-F\n13\nAGTGGAAGACATCATGTAACCAG\n1\n1725857-1725835\n\n\nK13-out-R\n13\nAATTGCCATCTTTTATTAAATGGTTGA\n1\n1725013-1725039\n\n\nK13-in-F1\n13\nAGCCTTGTTGAAAGAAGCAGA\n1\n1725720-1725700\n\n\nK13-in-R1\n13\nTGATCATATGCTTCTACATTCGGT\n1\n1725319-1725342\n\n\nK13-in-F2\n13\nGGGGGATATGATGGCTCTTCT\n1\n1725368-1725348\n\n\nK13-in-R2\n13\nTCAACGGAATCTAATATGTTATGTTCA\n1\n1725046-1725072\n\n\nMultidrug resistance gene 1 (pfmdr1: Pf3D7_0523000)\n\n\nmdr1-out-F1\n5\nACCGTTTAAATGTTTACCTGCACA\n1\n958021-958044\n\n\nmdr1-out-R1\n5\nGCCTCTTCTATAATGGACATGGT\n1\n958599-958577\n\n\nmdr1-in-F1\n5\nGTGCTGTATTATCAGGAGGAACA\n1\n958077-958099\n\n\nmdr1-in-R1\n5\nGCAAGTAATACATAAAGTCAAACGTGC\n1\n958489-958463\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 Narh et al., 2020 2 Nag et al., 2017\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
     "crumbs": [
       "Home",
       "PCR Protocol",
@@ -286,7 +286,7 @@
     "href": "Multiplex_2.html",
     "title": "Multiplex 2: crt, mdr1 (1034, 1042, 1246)",
     "section": "",
-    "text": "Back to top",
+    "text": "Round 1 PCR primers were designed using Geneious Prime R9 to target larger fragments that surrounded the codons of interest per marker. The forward and reverse primers for pfmdr1.1.2 and pfmdr1.1.3 and the forward primer for pfcrt from (Nag et al. 2017) were used as the round 2 PCR primers, and a novel pfcrt reverse primer was developed using Geneious Prime R9.\n\n\n\n\nDetails about primers used in Multiplex 2 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nMultidrug resistance gene 1 (pfmdr1: Pf3D7_0523000)\n\n\nmdr1-out-F2\n5\nCCCAGGTGTTTTATCTGCACA\nNA\n960544-960564\n\n\nmdr1-out-R2\n5\nAGATGCAATTCTGTGGGCAA\nNA\n962011-961992\n\n\nmdr1-in-F2\n5\nTTTGTCCAATTGTTGCAGCTGTATTAACTTT\n2\n960672-960702\n\n\nmdr1-in-R2\n5\nTGCATTTTCTGAATCTCCTTTTAAGGACATT\n2\n961159-961129\n\n\nmdr1-in-F3\n5\nGGTAAAGTTGATATTAAAGATGTAAATTTCC\n2\n961259-961289\n\n\nmdr1-in-R3\n5\nTGGTCCAACATTTGTATCATATTTATTTGG\n2\n961810-961781\n\n\nChloroquine resistance transporter (pfcrt: PF3D7_070900)\n\n\ncrt-out-F\n7\nCAAGCAAAAATGACGAGCGT\nNA\n403259-403278\n\n\ncrt-out-R\n7\nCCAGTAGTTCTTGTAAGACCTATGA\nNA\n404035-404011\n\n\ncrt-in-F\n7\nTGGCTCACGTTTAGGTGGAGGTTCTTG\n2\n403491-403517\n\n\ncrt-in-R\n7\nCATACAAATAAAGTTGTGAGTTTCGGATGTTAC\nNA\n403704-403672\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 2 Nag et al., 2017\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
     "crumbs": [
       "Home",
       "PCR Protocol",
@@ -339,6 +339,234 @@
       "Home",
       "Drug Resistance Pipeline",
       "Step 1: SeekDeep"
+    ]
+  },
+  {
+    "objectID": "Multiplex_4.html",
+    "href": "Multiplex_4.html",
+    "title": "Multiplex 4: aat1, pfs47",
+    "section": "",
+    "text": "Round 1 PCR primers were obtained from (Onyango et al. 2021) and round 2 PCR primers were designed using Geneious Prime R9 to target smaller fragments. Novel pfaat1 primers were designed using Geneious Prime R9 for both round 1 and round 2 PCR primers surrounding the codons of interest.\n\n\n\n\nDetails about primers used in Multiplex 4 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nPutative amino acid transporter (pfaat1r: PF3D7_0629500)\n\n\naat1-out-F\n6\nGTAGAACATTTAGTCGATTTACACC\nNA\n1215527-1215503\n\n\naat1-out-R\n6\nTGGCTGAATATCCAGTTCTT\nNA\n1214559-1214578\n\n\naat1-in-F\n6\nTGTACCTCGTCATTAGAACA\nNA\n1215345-1215326\n\n\naat1-in-R\n6\nCATTTGGTTGTTGAGAGAAGG\nNA\n1214898-1214918\n\n\n6-cysteine protein (pfs47r: PF3D7_1346800)\n\n\npfs47-out-F\n13\nATGTGTATGGGAAGAATGATCA\n3\n1880194-1880173\n\n\npfs47-out-R\n13\nACAAGTTCATTCATATGCTAACATA\n3\n1878865-1878889\n\n\npfs47-in-F1\n13\nSame as pfs47-out-F\n3\n1880194-1880173\n\n\npfs47-in-R1\n13\nATCACTGAACGATGAATTTATTGCA\nNA\n1879805-1879829\n\n\npfs47-in-F2\n13\nGGATTAGTAAAAATAATTTTAAGAAACC\nNA\n1879678-1879651\n\n\npfs47-in-R2\n13\nACATATACGTTCTTCTTCATTTGG\nNA\n1879250-1879273\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 2 3 Onyango et al., 2021\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 4: aat1, pfs47"
+    ]
+  },
+  {
+    "objectID": "Multiplex_3.html",
+    "href": "Multiplex_3.html",
+    "title": "Multiplex 3: dhfr, dhps",
+    "section": "",
+    "text": "The round 1 PCR primers were designed using Geneious Prime R9 to target larger fragments that encapsulated the primers described in (Nag et al. 2017) that were used as the round 2 PCR primers.\n\n\n\n\nDetails about primers used in Multiplex 3 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nDihydropteroate synthase (pfdhps: PF3D7_0810800)\n\n\ndhps-out-F\n8\nACAACACACAGATATAGCATACTTTT\nNA\n549342-549367\n\n\ndhps-out-R\n8\nAATAGCTGTAGGAAGCAATTGC\nNA\n550530-550509\n\n\ndhps-in-F1\n8\nACCATCAGATGTTTATATAACAAATATGTG\n2\n549417-549446\n\n\ndhps-in-R1\n8\nCTGGATTATTTGTACAAGCACTAATATCA\n2\n549909-549881\n\n\ndhps-in-F2\n8\nAGAATGTGTTGATAATGATTTAGTTGATAT\n2\n549845-549874\n\n\ndhps-in-R2\n8\nGATATAAAAGTTGATCCTTGTCTTTCCT\n2\n550365-550338\n\n\nDihydrofolate reductase (pfdhfr: PF3D7_0417200)\n\n\ndhfr-out-F\n4\nGCCATTTTTGTATTCCCAAATAGC\nNA\n747913-747936\n\n\ndhfr-out-R\n4\nTGTCATCATTCTTTAAAGGCATATCA\nNA\n748853-748828\n\n\ndhfr-in-F\n4\nATGATGGAACAAGTCTGCGACGTTTTCGA\n2\n748088-748116\n\n\ndhfr-in-R\n4\nCTAAAAATTCTTGATAAACAACGGAACCTCC\n2\n748610-748580\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 2 Nag et al., 2017\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 3: dhfr, dhps"
+    ]
+  },
+  {
+    "objectID": "Multiplex_4.html#multiplex-3",
+    "href": "Multiplex_4.html#multiplex-3",
+    "title": "Multiplex 4: aat1, pfs47",
+    "section": "",
+    "text": "Details about primers used in Multiplex 4 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nPutative amino acid transporter (pfaat1r: PF3D7_0629500)\n\n\naat1-out-F\n6\nGTAGAACATTTAGTCGATTTACACC\nNA\n1215527-1215503\n\n\naat1-out-R\n6\nTGGCTGAATATCCAGTTCTT\nNA\n1214559-1214578\n\n\naat1-in-F\n6\nTGTACCTCGTCATTAGAACA\nNA\n1215345-1215326\n\n\naat1-in-R\n6\nCATTTGGTTGTTGAGAGAAGG\nNA\n1214898-1214918\n\n\n6-cysteine protein (pfs47r: PF3D7_1346800)\n\n\npfs47-out-F\n13\nATGTGTATGGGAAGAATGATCA\n3\n1880194-1880173\n\n\npfs47-out-R\n13\nACAAGTTCATTCATATGCTAACATA\n3\n1878865-1878889\n\n\npfs47-in-F1\n13\nSame as pfs47-out-F\n3\n1880194-1880173\n\n\npfs47-in-R1\n13\nATCACTGAACGATGAATTTATTGCA\nNA\n1879805-1879829\n\n\npfs47-in-F2\n13\nGGATTAGTAAAAATAATTTTAAGAAACC\nNA\n1879678-1879651\n\n\npfs47-in-R2\n13\nACATATACGTTCTTCTTCATTTGG\nNA\n1879250-1879273\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 2 3 Onyango et al., 2021\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 4: aat1, pfs47"
+    ]
+  },
+  {
+    "objectID": "Multiplex_2.html#multiplex-2",
+    "href": "Multiplex_2.html#multiplex-2",
+    "title": "Multiplex 2: crt, mdr1 (1034, 1042, 1246)",
+    "section": "",
+    "text": "Details about primers used in Multiplex 2 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nMultidrug resistance gene 1 (pfmdr1: Pf3D7_0523000)\n\n\nmdr1-out-F2\n5\nCCCAGGTGTTTTATCTGCACA\nNA\n960544-960564\n\n\nmdr1-out-R2\n5\nAGATGCAATTCTGTGGGCAA\nNA\n962011-961992\n\n\nmdr1-in-F2\n5\nTTTGTCCAATTGTTGCAGCTGTATTAACTTT\n2\n960672-960702\n\n\nmdr1-in-R2\n5\nTGCATTTTCTGAATCTCCTTTTAAGGACATT\n2\n961159-961129\n\n\nmdr1-in-F3\n5\nGGTAAAGTTGATATTAAAGATGTAAATTTCC\n2\n961259-961289\n\n\nmdr1-in-R3\n5\nTGGTCCAACATTTGTATCATATTTATTTGG\n2\n961810-961781\n\n\nChloroquine resistance transporter (pfcrt: PF3D7_070900)\n\n\ncrt-out-F\n7\nCAAGCAAAAATGACGAGCGT\nNA\n403259-403278\n\n\ncrt-out-R\n7\nCCAGTAGTTCTTGTAAGACCTATGA\nNA\n404035-404011\n\n\ncrt-in-F\n7\nTGGCTCACGTTTAGGTGGAGGTTCTTG\n2\n403491-403517\n\n\ncrt-in-R\n7\nCATACAAATAAAGTTGTGAGTTTCGGATGTTAC\nNA\n403704-403672\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 2 Nag et al., 2017\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 2: crt, mdr1 (1034, 1042, 1246)"
+    ]
+  },
+  {
+    "objectID": "Multiplex_1.html#multiplex-1",
+    "href": "Multiplex_1.html#multiplex-1",
+    "title": "Multiplex 1: K13 and mdr1 (86, 184)",
+    "section": "",
+    "text": "Details about primers used in Multiplex 1 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nKelch protein (pfk13: PF3D7_1343700)\n\n\nK13-out-F\n13\nAGTGGAAGACATCATGTAACCAG\n1\n1725857-1725835\n\n\nK13-out-R\n13\nAATTGCCATCTTTTATTAAATGGTTGA\n1\n1725013-1725039\n\n\nK13-in-F1\n13\nAGCCTTGTTGAAAGAAGCAGA\n1\n1725720-1725700\n\n\nK13-in-R1\n13\nTGATCATATGCTTCTACATTCGGT\n1\n1725319-1725342\n\n\nK13-in-F2\n13\nGGGGGATATGATGGCTCTTCT\n1\n1725368-1725348\n\n\nK13-in-R2\n13\nTCAACGGAATCTAATATGTTATGTTCA\n1\n1725046-1725072\n\n\nMultidrug resistance gene 1 (pfmdr1: Pf3D7_0523000)\n\n\nmdr1-out-F1\n5\nACCGTTTAAATGTTTACCTGCACA\n1\n958021-958044\n\n\nmdr1-out-R1\n5\nGCCTCTTCTATAATGGACATGGT\n1\n958599-958577\n\n\nmdr1-in-F1\n5\nGTGCTGTATTATCAGGAGGAACA\n1\n958077-958099\n\n\nmdr1-in-R1\n5\nGCAAGTAATACATAAAGTCAAACGTGC\n1\n958489-958463\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 Narh et al., 2020 2 Nag et al., 2017\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 1: K13 and mdr1 (86, 184)"
+    ]
+  },
+  {
+    "objectID": "Multiplex_3.html#multiplex-3",
+    "href": "Multiplex_3.html#multiplex-3",
+    "title": "Multiplex 3: dhfr, dhps",
+    "section": "",
+    "text": "Details about primers used in Multiplex 3 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nDihydropteroate synthase (pfdhps: PF3D7_0810800)\n\n\ndhps-out-F\n8\nACAACACACAGATATAGCATACTTTT\nNA\n549342-549367\n\n\ndhps-out-R\n8\nAATAGCTGTAGGAAGCAATTGC\nNA\n550530-550509\n\n\ndhps-in-F1\n8\nACCATCAGATGTTTATATAACAAATATGTG\n2\n549417-549446\n\n\ndhps-in-R1\n8\nCTGGATTATTTGTACAAGCACTAATATCA\n2\n549909-549881\n\n\ndhps-in-F2\n8\nAGAATGTGTTGATAATGATTTAGTTGATAT\n2\n549845-549874\n\n\ndhps-in-R2\n8\nGATATAAAAGTTGATCCTTGTCTTTCCT\n2\n550365-550338\n\n\nDihydrofolate reductase (pfdhfr: PF3D7_0417200)\n\n\ndhfr-out-F\n4\nGCCATTTTTGTATTCCCAAATAGC\nNA\n747913-747936\n\n\ndhfr-out-R\n4\nTGTCATCATTCTTTAAAGGCATATCA\nNA\n748853-748828\n\n\ndhfr-in-F\n4\nATGATGGAACAAGTCTGCGACGTTTTCGA\n2\n748088-748116\n\n\ndhfr-in-R\n4\nCTAAAAATTCTTGATAAACAACGGAACCTCC\n2\n748610-748580\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 2 Nag et al., 2017\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 3: dhfr, dhps"
+    ]
+  },
+  {
+    "objectID": "Multiplex_2.html#primers",
+    "href": "Multiplex_2.html#primers",
+    "title": "Multiplex 2: crt, mdr1 (1034, 1042, 1246)",
+    "section": "",
+    "text": "Round 1 PCR primers were designed using Geneious Prime R9 to target larger fragments that surrounded the codons of interest per marker. The forward and reverse primers for pfmdr1.1.2 and pfmdr1.1.3 and the forward primer for pfcrt from (Nag et al. 2017) were used as the round 2 PCR primers, and a novel pfcrt reverse primer was developed using Geneious Prime R9.\n\n\n\n\nDetails about primers used in Multiplex 2 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nMultidrug resistance gene 1 (pfmdr1: Pf3D7_0523000)\n\n\nmdr1-out-F2\n5\nCCCAGGTGTTTTATCTGCACA\nNA\n960544-960564\n\n\nmdr1-out-R2\n5\nAGATGCAATTCTGTGGGCAA\nNA\n962011-961992\n\n\nmdr1-in-F2\n5\nTTTGTCCAATTGTTGCAGCTGTATTAACTTT\n2\n960672-960702\n\n\nmdr1-in-R2\n5\nTGCATTTTCTGAATCTCCTTTTAAGGACATT\n2\n961159-961129\n\n\nmdr1-in-F3\n5\nGGTAAAGTTGATATTAAAGATGTAAATTTCC\n2\n961259-961289\n\n\nmdr1-in-R3\n5\nTGGTCCAACATTTGTATCATATTTATTTGG\n2\n961810-961781\n\n\nChloroquine resistance transporter (pfcrt: PF3D7_070900)\n\n\ncrt-out-F\n7\nCAAGCAAAAATGACGAGCGT\nNA\n403259-403278\n\n\ncrt-out-R\n7\nCCAGTAGTTCTTGTAAGACCTATGA\nNA\n404035-404011\n\n\ncrt-in-F\n7\nTGGCTCACGTTTAGGTGGAGGTTCTTG\n2\n403491-403517\n\n\ncrt-in-R\n7\nCATACAAATAAAGTTGTGAGTTTCGGATGTTAC\nNA\n403704-403672\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 2 Nag et al., 2017\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 2: crt, mdr1 (1034, 1042, 1246)"
+    ]
+  },
+  {
+    "objectID": "Multiplex_1.html#primers",
+    "href": "Multiplex_1.html#primers",
+    "title": "Multiplex 1: K13 and mdr1 (86, 184)",
+    "section": "",
+    "text": "The first round for multiplex 1 was modified from (Narh et al. 2020) and amplifies two regions of pfk13 and pfmdr1 fragment 1 (mdr1-1; codons 86, 184). Inner primers for each simplex reaction were used from (Narh et al. 2020).\n\n\n\n\nTable 1. Details about primers used in multiplex 1 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nKelch protein (pfk13: PF3D7_1343700)\n\n\nK13-out-F\n13\nAGTGGAAGACATCATGTAACCAG\n1\n1725857-1725835\n\n\nK13-out-R\n13\nAATTGCCATCTTTTATTAAATGGTTGA\n1\n1725013-1725039\n\n\nK13-in-F1\n13\nAGCCTTGTTGAAAGAAGCAGA\n1\n1725720-1725700\n\n\nK13-in-R1\n13\nTGATCATATGCTTCTACATTCGGT\n1\n1725319-1725342\n\n\nK13-in-F2\n13\nGGGGGATATGATGGCTCTTCT\n1\n1725368-1725348\n\n\nK13-in-R2\n13\nTCAACGGAATCTAATATGTTATGTTCA\n1\n1725046-1725072\n\n\nMultidrug resistance gene 1 (pfmdr1: Pf3D7_0523000)\n\n\nmdr1-out-F1\n5\nACCGTTTAAATGTTTACCTGCACA\n1\n958021-958044\n\n\nmdr1-out-R1\n5\nGCCTCTTCTATAATGGACATGGT\n1\n958599-958577\n\n\nmdr1-in-F1\n5\nGTGCTGTATTATCAGGAGGAACA\n1\n958077-958099\n\n\nmdr1-in-R1\n5\nGCAAGTAATACATAAAGTCAAACGTGC\n1\n958489-958463\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 Narh et al., 2020 2 Nag et al., 2017\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 1: K13 and mdr1 (86, 184)"
+    ]
+  },
+  {
+    "objectID": "Multiplex_1.html#final-sequences",
+    "href": "Multiplex_1.html#final-sequences",
+    "title": "Multiplex 1: K13 and mdr1 (86, 184)",
+    "section": "Final Sequences",
+    "text": "Final Sequences\n\n\n\n\nTable 2. Details about sequences genotyped in the multiplex 1 of the ALARMcoding protocol\n\n\nMarker\nLength\nPCR_Round\nCodons\n\n\n\n\nKelch protein (pfk13: PF3D7_1343700)\n\n\nK13 Round 1 Product\n845\n1\n\n\n\nK13-1\n412\n2\n426-560\n\n\nK13-2\n333\n2\n542-651\n\n\nMultidrug resistance gene 1 (pfmdr1: Pf3D7_0523000)\n\n\nmdr1-1 Round 1 Product\n579\n1\n\n\n\nmdr1-1\n423\n2\n86, 184",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 1: K13 and mdr1 (86, 184)"
+    ]
+  },
+  {
+    "objectID": "Multiplex_1.html#pcr-instructions",
+    "href": "Multiplex_1.html#pcr-instructions",
+    "title": "Multiplex 1: K13 and mdr1 (86, 184)",
+    "section": "PCR Instructions",
+    "text": "PCR Instructions\n\nRound 1.\nThe first round PCR was carried out in a total Volume of 25 μL with 1 x buffer, 500 μM dNTPs mix (Promega), 5 mM MgCl2, 200 nM of each primer (forward (F) and reverse (R)), 1.3 units of GoTaq Flexi Polymerase (Promega) and 3 μL of genomic DNA.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n8.49\n67.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\nK13-out-F\n0.2 μM\n0.50\n4.00\n\n\nK13-out-R\n0.2 μM\n0.50\n4.00\n\n\nmdr1-1-out-F\n0.2 μM\n0.50\n4.00\n\n\nmdr1-1-out-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec,\n58°C/2 min,\n72/2 min;\n\n72°C/10 min\nResting at 4°C.\n\n\n\nRound 2.\n\nK13-1K13-2mdr1-1\n\n\nThe pfk13 fragment 1 (K13-1) simplex PCR was in a total Volume of 25 μL with 1x Buffer, 500 μM dNTPs mix, 1.5 mM MgCl2, 300 nM of each primer (F/R), 1 unit of GoTaq Flexi Polymerase and 2 μL of PCR product from the first round.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n13.05\n104.4\n\n\n5X Buffer\n1x\n5.00\n40.0\n\n\nMgCl2 (25mM)\n2 mM\n2.00\n16.0\n\n\ndNTP\n0.5 μM\n1.25\n10.0\n\n\nK13-1-in-F\n0.3 μM\n0.75\n6.0\n\n\nK13-1-in-R\n0.3 μM\n0.75\n6.0\n\n\nG2 Flexi Taq (5U/μL)\n1 U/μL\n0.20\n1.6\n\n\n\n\n\n\n\n\n\n\nThe pfk13 fragment 2 (K13-2) simplex PCR °Ccurred with the same concentrations except that only 200 nM per primer (F/R was used).\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n13.55\n108.4\n\n\n5X Buffer\n1x\n5.00\n40.0\n\n\nMgCl2 (25mM)\n2 mM\n2.00\n16.0\n\n\ndNTP\n0.5 μM\n1.25\n10.0\n\n\nK13-2-in-F\n0.2 μM\n0.50\n4.0\n\n\nK13-2-in-R\n0.2 μM\n0.50\n4.0\n\n\nG2 Flexi Taq (5U/μL)\n1 U/μL\n0.20\n1.6\n\n\n\n\n\n\n\n\n\n\nThe simplex reaction for pfmdr1 fragment 1 (mdr1-1) had total Volume of 25 μL with 1x Buffer, 500 μM dNTPs mix, 1.5 mM MgCl2, 200 nM of each primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 2 μL of PCR product from the first round.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n13.99\n111.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n1.5 mM\n2.00\n16.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\nmdr1-1-in-F\n0.2 μM\n0.50\n4.00\n\n\nmdr1-1-in-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\n\n\n\nCycling conditions for each simplex reaction:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec\n58°C/2 min\n72/2 min;\n\n72°C/10 min\nResting at 4°C.",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 1: K13 and mdr1 (86, 184)"
+    ]
+  },
+  {
+    "objectID": "Multiplex_4.html#primers",
+    "href": "Multiplex_4.html#primers",
+    "title": "Multiplex 4: aat1, pfs47",
+    "section": "",
+    "text": "Round 1 PCR primers were obtained from (Onyango et al. 2021) and round 2 PCR primers were designed using Geneious Prime R9 to target smaller fragments. Novel pfaat1 primers were designed using Geneious Prime R9 for both round 1 and round 2 PCR primers surrounding the codons of interest.\n\n\n\n\nDetails about primers used in Multiplex 4 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nPutative amino acid transporter (pfaat1r: PF3D7_0629500)\n\n\naat1-out-F\n6\nGTAGAACATTTAGTCGATTTACACC\nNA\n1215527-1215503\n\n\naat1-out-R\n6\nTGGCTGAATATCCAGTTCTT\nNA\n1214559-1214578\n\n\naat1-in-F\n6\nTGTACCTCGTCATTAGAACA\nNA\n1215345-1215326\n\n\naat1-in-R\n6\nCATTTGGTTGTTGAGAGAAGG\nNA\n1214898-1214918\n\n\n6-cysteine protein (pfs47r: PF3D7_1346800)\n\n\npfs47-out-F\n13\nATGTGTATGGGAAGAATGATCA\n3\n1880194-1880173\n\n\npfs47-out-R\n13\nACAAGTTCATTCATATGCTAACATA\n3\n1878865-1878889\n\n\npfs47-in-F1\n13\nSame as pfs47-out-F\n3\n1880194-1880173\n\n\npfs47-in-R1\n13\nATCACTGAACGATGAATTTATTGCA\nNA\n1879805-1879829\n\n\npfs47-in-F2\n13\nGGATTAGTAAAAATAATTTTAAGAAACC\nNA\n1879678-1879651\n\n\npfs47-in-R2\n13\nACATATACGTTCTTCTTCATTTGG\nNA\n1879250-1879273\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 2 3 Onyango et al., 2021\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 4: aat1, pfs47"
+    ]
+  },
+  {
+    "objectID": "Multiplex_3.html#primers",
+    "href": "Multiplex_3.html#primers",
+    "title": "Multiplex 3: dhfr, dhps",
+    "section": "",
+    "text": "The round 1 PCR primers were designed using Geneious Prime R9 to target larger fragments that encapsulated the primers described in (Nag et al. 2017) that were used as the round 2 PCR primers.\n\n\n\n\nDetails about primers used in Multiplex 3 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nDihydropteroate synthase (pfdhps: PF3D7_0810800)\n\n\ndhps-out-F\n8\nACAACACACAGATATAGCATACTTTT\nNA\n549342-549367\n\n\ndhps-out-R\n8\nAATAGCTGTAGGAAGCAATTGC\nNA\n550530-550509\n\n\ndhps-in-F1\n8\nACCATCAGATGTTTATATAACAAATATGTG\n2\n549417-549446\n\n\ndhps-in-R1\n8\nCTGGATTATTTGTACAAGCACTAATATCA\n2\n549909-549881\n\n\ndhps-in-F2\n8\nAGAATGTGTTGATAATGATTTAGTTGATAT\n2\n549845-549874\n\n\ndhps-in-R2\n8\nGATATAAAAGTTGATCCTTGTCTTTCCT\n2\n550365-550338\n\n\nDihydrofolate reductase (pfdhfr: PF3D7_0417200)\n\n\ndhfr-out-F\n4\nGCCATTTTTGTATTCCCAAATAGC\nNA\n747913-747936\n\n\ndhfr-out-R\n4\nTGTCATCATTCTTTAAAGGCATATCA\nNA\n748853-748828\n\n\ndhfr-in-F\n4\nATGATGGAACAAGTCTGCGACGTTTTCGA\n2\n748088-748116\n\n\ndhfr-in-R\n4\nCTAAAAATTCTTGATAAACAACGGAACCTCC\n2\n748610-748580\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 2 Nag et al., 2017\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 3: dhfr, dhps"
+    ]
+  },
+  {
+    "objectID": "Multiplex_1.html#round-1.",
+    "href": "Multiplex_1.html#round-1.",
+    "title": "multiplex 1: K13 and mdr1 (86, 184)",
+    "section": "Round 1.",
+    "text": "Round 1.\nThe first round PCR was carried out in a total Volume of 25 μL with 1 x buffer, 500 μM dNTPs mix (Promega), 5 mM MgCl2, 200 nM of each primer (forward (F) and reverse (R)), 1.3 units of GoTaq Flexi Polymerase (Promega) and 3 μL of genomic DNA.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n8.49\n67.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\nK13-out-F\n0.2 μM\n0.50\n4.00\n\n\nK13-out-R\n0.2 μM\n0.50\n4.00\n\n\nmdr1-1-out-F\n0.2 μM\n0.50\n4.00\n\n\nmdr1-1-out-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95oC/2 min\n40 cycles of:\n\n95oC/20 sec,\n58oC/2 min,\n72/2 min;\n\n72oC/10 min\nResting at 4oC.\n\n\nRound 2.\n\n\n\nK13-1\nThe pfk13 fragment 1 (K13-1) simplex PCR was in a total Volume of 25 μL with 1x Buffer, 500 μM dNTPs mix, 1.5 mM MgCl2, 300 nM of each primer (F/R), 1 unit of GoTaq Flexi Polymerase and 2 μL of PCR product from the first round.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n13.05\n104.4\n\n\n5X Buffer\n1x\n5.00\n40.0\n\n\nMgCl2 (25mM)\n2 mM\n2.00\n16.0\n\n\ndNTP\n0.5 μM\n1.25\n10.0\n\n\nK13-1-in-F\n0.3 μM\n0.75\n6.0\n\n\nK13-1-in-R\n0.3 μM\n0.75\n6.0\n\n\nG2 Flexi Taq (5U/μL)\n1 U/μL\n0.20\n1.6\n\n\n\n\n\n\n\n\n\n\nK13-2\nThe pfk13 fragment 2 (K13-2) simplex PCR occurred with the same concentrations except that only 200 nM per primer (F/R was used).\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n13.05\n104.4\n\n\n5X Buffer\n1x\n5.00\n40.0\n\n\nMgCl2 (25mM)\n2 mM\n2.00\n16.0\n\n\ndNTP\n0.5 μM\n1.25\n10.0\n\n\nK13-2-in-F\n0.2 μM\n0.50\n4.0\n\n\nK13-2-in-R\n0.2 μM\n0.50\n4.0\n\n\nG2 Flexi Taq (5U/μL)\n1 U/μL\n0.20\n1.6\n\n\n\n\n\n\n\n\n\nmdr1-1\nThe simplex reaction for pfmdr1 fragment 1 (mdr1-1) had total Volume of 25 μL with 1x Buffer, 500 μM dNTPs mix, 1.5 mM MgCl2, 200 nM of each primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 2 μL of PCR product from the first round.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n13.05\n104.40\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n1.5 mM\n2.00\n16.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\nmdr1-1-in-F\n0.2 μM\n0.50\n4.00\n\n\nmdr1-1-in-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\n\n\n\n\n\nCycling conditions for each simplex reaction: * 95oC/2 min * 40 cycles of: * 95oC/20 sec * 58oC/2 min * 72/2 min; * 72oC/10 min * Resting at 4oC.",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "multiplex 1: K13 and mdr1 (86, 184)"
+    ]
+  },
+  {
+    "objectID": "Multiplex_2.html#pcr-instructions",
+    "href": "Multiplex_2.html#pcr-instructions",
+    "title": "Multiplex 2: crt, mdr1 (1034, 1042, 1246)",
+    "section": "PCR Instructions",
+    "text": "PCR Instructions\n\nRound 1.\nThe first round PCR was carried out in a total volume of 25 μL with 1 x buffer, 500 uM dNTPs mix (Promega), 5 mM MgCl2, 200 nM of each primer (forward (F) and reverse (R)), 1.3 units of GoTaq Flexi Polymerase (Promega) and only 2 μL of genomic DNA.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n9.49\n75.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\nmdr1-2-out-F\n0.2 μM\n0.50\n4.00\n\n\nmdr1-2-out-R\n0.2 μM\n0.50\n4.00\n\n\ncrt-out-F\n0.2 μM\n0.50\n4.00\n\n\ncrt-out-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec,\n58°C/2 min,\n72/2 min;\n\n72°C/10 min\nResting at 4°C.\n\n\n\nRound 2.\n\nmdr1-2mdr1-3crt\n\n\nFor both pfmdr1 markers (mdr1-2/mdr1-3), the simplex PCR was performed in separate reactions for each inner primer pair with a total volume of 25μL, with a master mix that contained 1x Buffer, 500 uM dNTPs mix, 5 mM MgCl2, 300 nM per primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n10.99\n87.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\nmdr1-2-in-F\n0.3 μM\n0.75\n6.00\n\n\nmdr1-2-in-R\n0.3 μM\n0.75\n6.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec\n58°C/2 min\n72/2 min;\n\n72°C/10 min\nResting at 4°C.\n\n\n\nFor both pfmdr1 markers (mdr1-2/mdr1-3), the simplex PCR was performed in separate reactions for each inner primer pair with a total volume of 25μL, with a master mix that contained 1x Buffer, 500 uM dNTPs mix, 5 mM MgCl2, 300 nM per primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n10.99\n87.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\nmdr1-3-in-F\n0.3 μM\n0.75\n6.00\n\n\nmdr1-3-in-R\n0.3 μM\n0.75\n6.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec\n58°C/2 min\n72/2 min;\n\n72°C/10 min\nResting at 4°C.\n\n\n\nFor pfcrt, the master mix contained 1x Buffer, 500 uM dNTPs mix, 5 mM MgCl2, 200 nM per primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n11.49\n91.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\ncrt-in-F\n0.2 μM\n0.50\n4.00\n\n\ncrt-in-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec\n62°C/2 min\n72/2 min;\n\n72°C/10 min\nResting at 4°C.",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 2: crt, mdr1 (1034, 1042, 1246)"
+    ]
+  },
+  {
+    "objectID": "Multiplex_2.html#final-sequences",
+    "href": "Multiplex_2.html#final-sequences",
+    "title": "Multiplex 2: crt, mdr1 (1034, 1042, 1246)",
+    "section": "Final Sequences",
+    "text": "Final Sequences\n\n\n\n\nTable 2. Details about sequences genotyped in Multiplex 2 of the ALARMcoding protocol\n\n\nMarker\nLength\nPCR_Round\nCodons\n\n\n\n\nMultidrug resistance gene 1 (pfmdr1: Pf3D7_0523000)\n\n\nmdr1-2 Round 1 Product\n1468\n1\n\n\n\nmdr1-2\n488\n2\n1034, 1042\n\n\nmdr1-3\n552\n2\n1246\n\n\nChloroquine resistance transporter (pfcrt: PF3D7_070900)\n\n\ncrt Round 1 Product\n777\n1\n\n\n\ncrt\n214\n2\n72, 73, 74, 75, 76",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 2: crt, mdr1 (1034, 1042, 1246)"
+    ]
+  },
+  {
+    "objectID": "Multiplex_3.html#pcr-instructions",
+    "href": "Multiplex_3.html#pcr-instructions",
+    "title": "Multiplex 3: dhfr, dhps",
+    "section": "PCR Instructions",
+    "text": "PCR Instructions\n\nRound 1.\nThe first round PCR was carried out in a total volume of 25 μL with 1 x buffer, 500 uM dNTPs mix (Promega), 5 mM MgCl2, 200 nM of each primer (forward (F) and reverse (R)), 1.3 units of GoTaq Flexi Polymerase (Promega) and only 2 μL of genomic DNA.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n9.49\n75.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\nK13-out-F\n0.2 μM\n0.50\n4.00\n\n\nK13-out-R\n0.2 μM\n0.50\n4.00\n\n\nmdr1-1-out-F\n0.2 μM\n0.50\n4.00\n\n\nmdr1-1-out-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec,\n58°C/2 min,\n72/2 min;\n\n72°C/10 min\nResting at 4°C.\n\n\n\nRound 2.\nThe second round of the nested PCR was carried out in separate reactions containing a single inner fragment primer pair and with a total volume of 25 μL containing 1x Buffer, 500 uM dNTPs mix, 5 mM MgCl2, 200 nM of each primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 1 μL of PCR product from round 1.\n\ndhps-1dhps-2dhfr\n\n\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n11.49\n91.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\ndhps-1-in-F\n0.2 μM\n0.50\n4.00\n\n\ndhps-1-in-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n11.49\n91.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\ndhps-2-in-F\n0.2 μM\n0.50\n4.00\n\n\ndhps-2-in-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n11.49\n91.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\ndhfr-in-F\n0.2 μM\n0.50\n4.00\n\n\ndhfr-in-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\n\n\n\nCycling conditions for each simplex reaction:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec\n58°C/2 min\n72/2 min;\n\n72°C/10 min\nResting at 4°C.",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 3: dhfr, dhps"
+    ]
+  },
+  {
+    "objectID": "Multiplex_3.html#final-sequences",
+    "href": "Multiplex_3.html#final-sequences",
+    "title": "Multiplex 3: dhfr, dhps",
+    "section": "Final Sequences",
+    "text": "Final Sequences\n\n\n\n\nTable 2. Details about sequences genotyped in Multiplex 3 of the ALARMcoding protocol\n\n\nMarker\nLength\nPCR_Round\nCodons\n\n\n\n\nDihydropteroate synthase (pfdhps: PF3D7_0810800)\n\n\ndhps Round 1 Product\n1189\n1\n\n\n\ndhps-1\n493\n2\n431, 436, 437\n\n\ndhps-2\n521\n2\n540, 581, 613\n\n\nDihydrofolate reductase (pfdhfr: PF3D7_0417200)\n\n\ndhfr Round 1 Product\n766\n1\n\n\n\ndhfr\n523\n2\n16, 50, 51, 59, 108, 164",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 3: dhfr, dhps"
+    ]
+  },
+  {
+    "objectID": "Multiplex_4.html#pcr-instructions",
+    "href": "Multiplex_4.html#pcr-instructions",
+    "title": "Multiplex 4: aat1, pfs47",
+    "section": "PCR Instructions",
+    "text": "PCR Instructions\n\nRound 1.\nThe first round PCR was carried out in a total volume of 25 μL with 1 x buffer, 500 uM dNTPs mix (Promega), 5 mM MgCl2, 200 nM of each primer (forward (F) and reverse (R)), 1.3 units of GoTaq Flexi Polymerase (Promega) and only 2 μL of genomic DNA.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n9.49\n75.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\nK13-out-F\n0.2 μM\n0.50\n4.00\n\n\nK13-out-R\n0.2 μM\n0.50\n4.00\n\n\nmdr1-1-out-F\n0.2 μM\n0.50\n4.00\n\n\nmdr1-1-out-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec,\n58°C/2 min,\n72/2 min;\n\n72°C/10 min\nResting at 4°C.\n\n\n\nRound 2.\nThe second-round simplex PCRs were carried out in separate reactions per inner fragment primer pair.\n\naat1pfs47-1pfs47-2\n\n\nFor pfaat1, there was a total volume of 25 μL containing 1x Buffer, 500 uM dNTPs mix, 5 mM MgCl2, 200 nM of each primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n14.49\n115.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n2 mM\n2.00\n16.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\naat1-in-F\n0.2 μM\n0.50\n4.00\n\n\naat1-in-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec\n56°C/2 min\n72/2 min;\n\n72°C/10 min\nResting at 4°C.\n\n\n\nFor pfs47 fragments 1 and 2, there conditions were as follows: a total volume of 20 μL containing 1x Buffer, 125 uM dNTPs mix, 2 mM MgCl2, 125 nM of each primer (F/R), 0.4 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n11.07\n88.56\n\n\n5X Buffer\n1x\n4.00\n32.00\n\n\nMgCl2 (25mM)\n2 mM\n1.60\n12.80\n\n\ndNTP\n0.125 μM\n0.25\n2.00\n\n\npfs47-1-in-F\n0.125 μM\n1.00\n8.00\n\n\npfs47-1-in-R\n0.125 μM\n1.00\n8.00\n\n\nG2 Flexi Taq (5U/μL)\n0.4 U/μL\n0.08\n0.64\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec\n59°C/2 min\n72/2 min;\n\n72°C/10 min\nResting at 4°C.\n\n\n\nFor pfs47 fragments 1 and 2, there conditions were as follows: a total volume of 20 μL containing 1x Buffer, 125 uM dNTPs mix, 2 mM MgCl2, 125 nM of each primer (F/R), 0.4 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n11.07\n88.56\n\n\n5X Buffer\n1x\n4.00\n32.00\n\n\nMgCl2 (25mM)\n2 mM\n1.60\n12.80\n\n\ndNTP\n0.125 μM\n0.25\n2.00\n\n\npfs47-1-in-F\n0.125 μM\n1.00\n8.00\n\n\npfs47-1-in-R\n0.125 μM\n1.00\n8.00\n\n\nG2 Flexi Taq (5U/μL)\n0.4 U/μL\n0.08\n0.64\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec\n59°C/2 min\n72/2 min;\n\n72°C/10 min\nResting at 4°C.",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 4: aat1, pfs47"
+    ]
+  },
+  {
+    "objectID": "Multiplex_4.html#final-sequences",
+    "href": "Multiplex_4.html#final-sequences",
+    "title": "Multiplex 4: aat1, pfs47",
+    "section": "Final Sequences",
+    "text": "Final Sequences\n\n\n\n\nTable 2. Details about sequences genotyped in Multiplex 4 of the ALARMcoding protocol\n\n\nMarker\nLength\nPCR_Round\nCodons\n\n\n\n\nPutative amino acid transporter (pfaat1r: PF3D7_0629500)\n\n\naat1 Round 1 Product\n969\n1\n\n\n\naat1\n448\n2\n258, 313\n\n\n6-cysteine protein (pfs47r: PF3D7_1346800)\n\n\npfs47 Round 1 Product\n1320\n1\n\n\n\npfs47-1\n390\n2\n1-120\n\n\npfs47-2\n429\n2\n172-302",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 4: aat1, pfs47"
     ]
   }
 ]
