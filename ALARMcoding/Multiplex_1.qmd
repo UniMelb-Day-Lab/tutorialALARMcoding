@@ -17,7 +17,7 @@ alarmcoding_PCR_multiplex_1 <- alarmcoding_PCR %>% filter(Multiplex == 1)
 
 ## Primers
 
-The first round for multiplex 1 was modified from [@Narh2020] and amplifies two regions of pfk13 and pfmdr1 fragment 1 (mdr1-1; codons 86, 184). Inner primers for each simplex reaction were used from [@Narh2020]. 
+The first round for multiplex 1 was modified from [@Narh2020] and amplifies two regions of pfk13 and pfmdr1 fragment 1 (mdr1-1; codons 86, 184). Inner primers for each simplex reaction were used from [@Narh2020].
 
 ```{r}
 #| echo: false
@@ -39,10 +39,11 @@ alarmcoding_PCR_multiplex_1 %>%
            footnote_as_chunk = T)
 ```
 
-## PCR Instructions 
+## PCR Instructions
 
-### Round 1. 
-The first round PCR was carried out in a total Volume of 25 μL with 1 x buffer, 500 μM dNTPs mix (Promega), 5 mM MgCl2, 200 nM of each primer (forward (F) and reverse (R)), 1.3 units of GoTaq Flexi Polymerase (Promega) and 3 μL of genomic DNA. 
+### Round 1.
+
+The first round PCR was carried out in a total Volume of 25 μL with 1 x buffer, 500 μM dNTPs mix (Promega), 5 mM MgCl2, 200 nM of each primer (forward (F) and reverse (R)), 1.3 units of GoTaq Flexi Polymerase (Promega) and 3 μL of genomic DNA.
 
 ```{r}
 #| echo: false
@@ -61,24 +62,22 @@ multiplex_1_round_1  %>%
   kable_styling(bootstrap_options = c("condensed", "responsive"), full_width = T)  
 ```
 
-Cycling conditions: 
+Cycling conditions:
 
-* 95°C/2 min 
-* 40 cycles of: 
-  * 95°C/20 sec, 
-  * 58°C/2 min, 
-  * 72/2 min;
-* 72°C/10 min
-* Resting at 4°C. 
+-   95°C/2 min
+-   40 cycles of:
+    -   95°C/20 sec,
+    -   58°C/2 min,
+    -   72/2 min;
+-   72°C/10 min
+-   Resting at 4°C.
 
-
-### Round 2. 
+### Round 2.
 
 ::: panel-tabset
+#### K13-1
 
-#### K13-1 
-
-The pfk13 fragment 1 (K13-1) simplex PCR was in a total Volume of 25 μL with 1x Buffer, 500 μM dNTPs mix, 1.5 mM MgCl2, 300 nM of each primer (F/R), 1 unit of GoTaq Flexi Polymerase and 2 μL of PCR product from the first round. 
+The pfk13 fragment 1 (K13-1) simplex PCR was in a total Volume of 25 μL with 1x Buffer, 500 μM dNTPs mix, 1.5 mM MgCl2, 300 nM of each primer (F/R), 1 unit of GoTaq Flexi Polymerase and 2 μL of PCR product from the first round.
 
 ```{r}
 #| echo: false
@@ -99,7 +98,7 @@ multiplex_1_round_2_k131  %>%
 
 #### K13-2
 
-The pfk13 fragment 2 (K13-2) simplex PCR °Ccurred with the same concentrations except that only 200 nM per primer (F/R was used). 
+The pfk13 fragment 2 (K13-2) simplex PCR °Ccurred with the same concentrations except that only 200 nM per primer (F/R was used).
 
 ```{r}
 #| echo: false
@@ -120,7 +119,7 @@ multiplex_1_round_2_k132  %>%
 
 #### mdr1-1
 
-The simplex reaction for pfmdr1 fragment 1 (mdr1-1) had total Volume of 25 μL with 1x Buffer, 500 μM dNTPs mix, 1.5 mM MgCl2, 200 nM of each primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 2 μL of PCR product from the first round. 
+The simplex reaction for pfmdr1 fragment 1 (mdr1-1) had total Volume of 25 μL with 1x Buffer, 500 μM dNTPs mix, 1.5 mM MgCl2, 200 nM of each primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 2 μL of PCR product from the first round.
 
 ```{r}
 #| echo: false
@@ -138,20 +137,19 @@ multiplex_1_round_2_mdr11  %>%
   knitr::kable(align = "lcccc") %>% 
   kable_styling(bootstrap_options = c("condensed", "responsive"), full_width = T)  
 ```
-
 :::
 
 Cycling conditions for each simplex reaction:
 
-* 95°C/2 min
-* 40 cycles of: 
-  * 95°C/20 sec
-  * 58°C/2 min
-  * 72/2 min;
-* 72°C/10 min
-* Resting at 4°C. 
+-   95°C/2 min
+-   40 cycles of:
+    -   95°C/20 sec
+    -   58°C/2 min
+    -   72/2 min;
+-   72°C/10 min
+-   Resting at 4°C.
 
-## Final Sequences 
+## Final Sequences
 
 ```{r}
 #| echo: false
@@ -169,4 +167,3 @@ alarmcoding_PCR_multiplex_1 %>%
   group_rows("Kelch protein (<em>pfk13</em>: PF3D7_1343700)", 1, 3, escape = FALSE) %>% 
   group_rows("Multidrug resistance gene 1 (<em>pfmdr1</em>: Pf3D7_0523000)", 4, 5, escape = FALSE)
 ```
-

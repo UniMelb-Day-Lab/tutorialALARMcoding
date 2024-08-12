@@ -1,0 +1,150 @@
+---
+title: "PCR: Important Notes"
+---
+
+```{r}
+#| echo: false
+
+library(tidyverse)
+library(kableExtra)
+options(knitr.table.format = "html") 
+knitr::opts_chunk$set(cache=TRUE)
+theme_set(theme_bw())
+
+electrophoresis <- read.csv("Data/ALARMcoding_Gel.csv")
+```
+
+## PCR General Workflow
+
+This two-step protocol requires first, the amplification of the "outer" fragment and second, the amplification of the "inner" fragment. You can set up your plates with either 32 or 48 samples at a time. Handling more samples is not advisable, as it may lead to longer processing times and an increased risk of human error when adding gDNA. An example of conducting the PCR with 32 samples at a time is provided below.
+
+**For Step 1:**
+
+Each master mix is exactly the same. 
+
+![](Images/PCR_Plate_1.png)
+
+**For Step 2:**
+
+Master mix differ by each row - corresponding to the molecular identifier (MID) tag on the forward primer, the reverse primer remains the same for each master mix. You will need to order **unique MIDs + forward primer per molecular marker** for each set of isolates you plan to pool together. In this work, I used 110 MIDs. See the list of MID tags [here](https://www.yumpu.com/en/document/read/24794008/roche-mid-adapters). 
+
+![](Images/PCR_Plate_2.png)
+
+### PCR Round 1: Plate Set Up
+
+::: panel-tabset
+#### 32 samples
+
+-   For each PCR set up 32 samples (4 columns)
+-   Prepare 16 Master Mix (MM) solutions of “4x” per Multiplex Reaction (must have one negative control per MM)
+-   Add each reagent in the order listed above
+-   In each MM there will be two Primer sets (forward and reverse for each primer)
+-   Pipette 22 or 23 uL of each MM into the PCR plate as indicated below, then add gDNA in biosafety cabinet
+
+![](Images/PCR_Plate_3.png)
+
+#### 48 Samples
+
+-   For each PCR set up 48 samples (6 columns)
+-   Prepare 8 Master Mix (MM) solutions of “8x” per Multiplex Reaction (must have one negative control per MM)
+-   Add each reagent in the order listed above
+-   In each MM there will be two Primer sets (forward and reverse for each primer)
+-   Pipette 22 uL of each MM into the PCR plate as indicated below, then add gDNA in biosafety cabinet
+
+![](Images/PCR_Plate_4.png)
+:::
+
+### PCR Round 2: Plate Set Up
+
+::: panel-tabset
+#### 32 samples
+
+-   For each PCR set up 32 samples (4 columns)
+-   Prepare 16 Master Mix (MM) solutions of “4x” per Multiplex Reaction (must have one negative control and MID per MM)
+-   Add each reagent in the order listed above
+-   In each MM there will be two Primer sets (forward and reverse for each primer)
+-   Pipette 23 or 24 uL of each MM into the PCR plate as indicated below, then add gDNA in biosafety cabinet
+
+![](Images/PCR_Plate_5.png)
+
+#### 48 Samples
+
+-   For each PCR set up 48 samples (6 columns)
+-   Prepare 8 Master Mix (MM) solutions of “8x” per Multiplex Reaction (must have one negative control and MID per MM)
+-   Add each reagent in the order listed above
+-   In each MM there will be two Primer sets (forward and reverse for each primer)
+-   Pipette 23 or 24 uL of each MM into the PCR plate as indicated below, then add gDNA in biosafety cabinet
+
+![](Images/PCR_Plate_6.png)
+:::
+
+## Gel Electrophoresis
+
+### Expected Bands 
+After every PCR Round 2, 5 μL per well of each sample was visualised by a gel electrophoresis. Run a 2% agarose gel at 100 V for 110 minutes EXCEPT for crt which should be run at 100 minutes (smaller fragment).
+
+```{r}
+#| echo: false
+colnames(electrophoresis)[colnames(electrophoresis)=="Fragment.name"] <- "Marker name"
+colnames(electrophoresis)[colnames(electrophoresis)=="Fragment.length"] <- "Length (base pairs, bp)"
+colnames(electrophoresis)[colnames(electrophoresis)=="Expected.position.on.gel..bp."] <- "Expected position on gel (bp)"
+colnames(electrophoresis)[colnames(electrophoresis)=="Codons.of.interest"] <- "Diagnostic codons"
+
+electrophoresis %>%
+  knitr::kable(caption = "Table 1. Expected fragment sizes in the <em>ALARM</em>coding PCR genotyping protocol",
+               align = "lcccc", escape = FALSE) %>% 
+  kable_styling(bootstrap_options = c("condensed", "responsive"), full_width = T) 
+```
+
+### Expected Gel 
+For example, here are 18 isolates and 2 negative controls for K13-1:
+
+![](Images/Gel_Image.png)
+
+### Agarose-gel densitometry 
+
+For each reaction, agarose-gel densitometry (EZQuant, Biorad, US) was used to quantify the DNA concentration of the fragment sizes using a 100bp ladder standard (Axygen, CA, US and MaestroGen, Taiwan).
+
+Keep these tabulations and refer to [Post-PCR: Prepare for Sequencing](Prepare_Sequencing.qmd)
+
+![](Images/Gel_Concentrations.png)
+
+## Reagents and Equipment
+
+Reagents:
+
+-   Nuclease-free water
+-   5x Buffer
+-   MgCl2 (25 mM)
+-   dNTPs (10 mM)
+-   G2 Flexi Taq (5U/μL)
+-   100bp ladder standard
+
+Laboratory consumables:
+
+-   96-well plates
+-   1 mL centrifuge tubes
+-   10 μL micropipette and tips
+-   20 μL micropipette and tips
+-   200 μL micropipette and tips
+-   Molecular Grade Agarose
+
+Equipment:
+
+-   PCR Machine and agarose-gel densitometry capabilities: Gel Doc$^{TM}$ EM System
+-   Electrophoresis Apparatus
+
+## Troubleshooting
+
+### Gel Electrophoresis
+
+-   Bands can be seen at the extreme bottom of the gel: primer dimers
+-   Bands can be seen at the round 1 product length:
+    -   K13-out: 845 bp
+    -   mdr1-out-1: 579 bp
+    -   mdr1-out-2: 1,468 bp
+    -   crt-out: 777 bp
+    -   dhfr-out: 766 bp
+    -   dhps-out: 1,189 bp
+    -   aat1-out: 969 bp
+    -   pfs47-out: 1,320 bp

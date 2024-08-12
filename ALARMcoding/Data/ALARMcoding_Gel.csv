@@ -1,0 +1,13 @@
+Fragment name ,Fragment length,Expected position on gel (bp),Codons of interest
+K13-in-1,412 bp + MID (10 bp),422,426-560
+K13-in-2,333 bp + MID (10 bp),343,540-651
+mdr1-in-1,432 bp + MID (10 bp),442,"86, 184"
+mdr1-in-2,488 bp + MID (10 bp),498,"1034, 1042"
+mdr1-in-3,522 bp + MID (10 bp),532,1246
+crt-in,214 bp + MID (10 bp),224,72-76
+dhfr-in,523 bp + MID (10 bp),533,"16, 51, 59, 108, 164"
+dhps-in-1,492 bp + MID (10 bp),502,"431, 436, 437"
+dhps-in-2,521 bp + MID (10 bp),531,"540, 581, 613"
+aat1-in,448 bp + MID (10 bp),458,"258, 313"
+pfs47-in-1,390 bp + MID (10 bp),400,1-120
+pfs47-in-2,429 bp + MID (10 bp),439,172-302

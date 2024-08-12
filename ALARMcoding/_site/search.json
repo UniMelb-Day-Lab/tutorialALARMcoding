@@ -568,5 +568,77 @@
       "PCR Protocol",
       "Multiplex 4: aat1, pfs47"
     ]
+  },
+  {
+    "objectID": "PCR_Important.html",
+    "href": "PCR_Important.html",
+    "title": "PCR: Important Notes",
+    "section": "",
+    "text": "This two-step protocol requires first, the amplification of the “outer” fragment and second, the amplification of the “inner” fragment. You can set up your plates with either 32 or 48 samples at a time. Handling more samples is not advisable, as it may lead to longer processing times and an increased risk of human error when adding gDNA. An example of conducting the PCR with 32 samples at a time is provided below.\nFor Step 1:\nEach master mix is exactly the same.\n\nFor Step 2:\nMaster mix differ by each row - corresponding to the molecular identifier (MID) tag on the forward primer, the reverse primer remains the same for each master mix. You will need to order unique MIDs + forward primer per molecular marker for each set of isolates you plan to pool together. In this work, I used 110 MIDs. See the list of MID tags here.\n\n\n\n\n32 samples48 Samples\n\n\n\nFor each PCR set up 32 samples (4 columns)\nPrepare 16 Master Mix (MM) solutions of “4x” per Multiplex Reaction (must have one negative control per MM)\nAdd each reagent in the order listed above\nIn each MM there will be two Primer sets (forward and reverse for each primer)\nPipette 22 or 23 uL of each MM into the PCR plate as indicated below, then add gDNA in biosafety cabinet\n\n\n\n\n\nFor each PCR set up 48 samples (6 columns)\nPrepare 8 Master Mix (MM) solutions of “8x” per Multiplex Reaction (must have one negative control per MM)\nAdd each reagent in the order listed above\nIn each MM there will be two Primer sets (forward and reverse for each primer)\nPipette 22 uL of each MM into the PCR plate as indicated below, then add gDNA in biosafety cabinet\n\n\n\n\n\n\n\n\n\n32 samples48 Samples\n\n\n\nFor each PCR set up 32 samples (4 columns)\nPrepare 16 Master Mix (MM) solutions of “4x” per Multiplex Reaction (must have one negative control and MID per MM)\nAdd each reagent in the order listed above\nIn each MM there will be two Primer sets (forward and reverse for each primer)\nPipette 23 or 24 uL of each MM into the PCR plate as indicated below, then add gDNA in biosafety cabinet\n\n\n\n\n\nFor each PCR set up 48 samples (6 columns)\nPrepare 8 Master Mix (MM) solutions of “8x” per Multiplex Reaction (must have one negative control and MID per MM)\nAdd each reagent in the order listed above\nIn each MM there will be two Primer sets (forward and reverse for each primer)\nPipette 23 or 24 uL of each MM into the PCR plate as indicated below, then add gDNA in biosafety cabinet",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "PCR: Important Notes"
+    ]
+  },
+  {
+    "objectID": "PCR_Important.html#pcr-general-workflow",
+    "href": "PCR_Important.html#pcr-general-workflow",
+    "title": "PCR: Important Notes",
+    "section": "",
+    "text": "This two-step protocol requires first, the amplification of the “outer” fragment and second, the amplification of the “inner” fragment. You can set up your plates with either 32 or 48 samples at a time. Handling more samples is not advisable, as it may lead to longer processing times and an increased risk of human error when adding gDNA. An example of conducting the PCR with 32 samples at a time is provided below.\nFor Step 1:\nEach master mix is exactly the same.\n\nFor Step 2:\nMaster mix differ by each row - corresponding to the molecular identifier (MID) tag on the forward primer, the reverse primer remains the same for each master mix. You will need to order unique MIDs + forward primer per molecular marker for each set of isolates you plan to pool together. In this work, I used 110 MIDs. See the list of MID tags here.\n\n\n\n\n32 samples48 Samples\n\n\n\nFor each PCR set up 32 samples (4 columns)\nPrepare 16 Master Mix (MM) solutions of “4x” per Multiplex Reaction (must have one negative control per MM)\nAdd each reagent in the order listed above\nIn each MM there will be two Primer sets (forward and reverse for each primer)\nPipette 22 or 23 uL of each MM into the PCR plate as indicated below, then add gDNA in biosafety cabinet\n\n\n\n\n\nFor each PCR set up 48 samples (6 columns)\nPrepare 8 Master Mix (MM) solutions of “8x” per Multiplex Reaction (must have one negative control per MM)\nAdd each reagent in the order listed above\nIn each MM there will be two Primer sets (forward and reverse for each primer)\nPipette 22 uL of each MM into the PCR plate as indicated below, then add gDNA in biosafety cabinet\n\n\n\n\n\n\n\n\n\n32 samples48 Samples\n\n\n\nFor each PCR set up 32 samples (4 columns)\nPrepare 16 Master Mix (MM) solutions of “4x” per Multiplex Reaction (must have one negative control and MID per MM)\nAdd each reagent in the order listed above\nIn each MM there will be two Primer sets (forward and reverse for each primer)\nPipette 23 or 24 uL of each MM into the PCR plate as indicated below, then add gDNA in biosafety cabinet\n\n\n\n\n\nFor each PCR set up 48 samples (6 columns)\nPrepare 8 Master Mix (MM) solutions of “8x” per Multiplex Reaction (must have one negative control and MID per MM)\nAdd each reagent in the order listed above\nIn each MM there will be two Primer sets (forward and reverse for each primer)\nPipette 23 or 24 uL of each MM into the PCR plate as indicated below, then add gDNA in biosafety cabinet",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "PCR: Important Notes"
+    ]
+  },
+  {
+    "objectID": "PCR_Important.html#reagents-and-equipment",
+    "href": "PCR_Important.html#reagents-and-equipment",
+    "title": "PCR: Important Notes",
+    "section": "Reagents and Equipment",
+    "text": "Reagents and Equipment\nReagents:\n\nNuclease-free water\n5x Buffer\nMgCl2 (25 mM)\ndNTPs (10 mM)\nG2 Flexi Taq (5U/μL)\n100bp ladder standard\n\nLaboratory consumables:\n\n96-well plates\n1 mL centrifuge tubes\n10 μL micropipette and tips\n20 μL micropipette and tips\n200 μL micropipette and tips\nMolecular Grade Agarose\n\nEquipment:\n\nPCR Machine and agarose-gel densitometry capabilities: Gel Doc\\(^{TM}\\) EM System\nElectrophoresis Apparatus",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "PCR: Important Notes"
+    ]
+  },
+  {
+    "objectID": "PCR_Important.html#plates",
+    "href": "PCR_Important.html#plates",
+    "title": "PCR: Important Notes",
+    "section": "Plates",
+    "text": "Plates",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "PCR: Important Notes"
+    ]
+  },
+  {
+    "objectID": "PCR_Important.html#gel-electrophoresis",
+    "href": "PCR_Important.html#gel-electrophoresis",
+    "title": "PCR: Important Notes",
+    "section": "Gel Electrophoresis",
+    "text": "Gel Electrophoresis\n\nExpected Bands\nAfter every PCR Round 2, 5 μL per well of each sample was visualised by a gel electrophoresis. Run a 2% agarose gel at 100 V for 110 minutes EXCEPT for crt which should be run at 100 minutes (smaller fragment).\n\n\n\n\nTable 1. Expected fragment sizes in the ALARMcoding PCR genotyping protocol\n\n\nMarker name\nLength (base pairs, bp)\nExpected position on gel (bp)\nDiagnostic codons\n\n\n\n\nK13-in-1\n412 bp + MID (10 bp)\n422\n426-560\n\n\nK13-in-2\n333 bp + MID (10 bp)\n343\n540-651\n\n\nmdr1-in-1\n432 bp + MID (10 bp)\n442\n86, 184\n\n\nmdr1-in-2\n488 bp + MID (10 bp)\n498\n1034, 1042\n\n\nmdr1-in-3\n522 bp + MID (10 bp)\n532\n1246\n\n\ncrt-in\n214 bp + MID (10 bp)\n224\n72-76\n\n\ndhfr-in\n523 bp + MID (10 bp)\n533\n16, 51, 59, 108, 164\n\n\ndhps-in-1\n492 bp + MID (10 bp)\n502\n431, 436, 437\n\n\ndhps-in-2\n521 bp + MID (10 bp)\n531\n540, 581, 613\n\n\naat1-in\n448 bp + MID (10 bp)\n458\n258, 313\n\n\npfs47-in-1\n390 bp + MID (10 bp)\n400\n1-120\n\n\npfs47-in-2\n429 bp + MID (10 bp)\n439\n172-302\n\n\n\n\n\n\n\n\n\n\nExpected Gel\nFor example, here are 18 isolates and 2 negative controls for K13-1:\n\n\n\nAgarose-gel densitometry\nFor each reaction, agarose-gel densitometry (EZQuant, Biorad, US) was used to quantify the DNA concentration of the fragment sizes using a 100bp ladder standard (Axygen, CA, US and MaestroGen, Taiwan).\nKeep these tabulations and refer to Post-PCR: Prepare for Sequencing",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "PCR: Important Notes"
+    ]
+  },
+  {
+    "objectID": "PCR_Important.html#troubleshooting",
+    "href": "PCR_Important.html#troubleshooting",
+    "title": "PCR: Important Notes",
+    "section": "Troubleshooting",
+    "text": "Troubleshooting\n\nGel Electrophoresis\n\nBands can be seen at the extreme bottom of the gel: primer dimers\nBands can be seen at the round 1 product length:\n\nK13-out: 845 bp\nmdr1-out-1: 579 bp\nmdr1-out-2: 1,468 bp\ncrt-out: 777 bp\ndhfr-out: 766 bp\ndhps-out: 1,189 bp\naat1-out: 969 bp\npfs47-out: 1,320 bp",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "PCR: Important Notes"
+    ]
   }
 ]
