@@ -18,9 +18,9 @@ pooling_pools <- read.csv("Data/ALARMcoding_Pooling_2.csv")
 
 ## "Sub-Pools"
 
-After completing all PCRs, gel electrophoresis and gel densitometry measurements, we can then pool isolates together at equimolar concentrations of 200 ng/μL. Here we wish to combine all isolates with unique MIDs per marker into one pool. 
+After completing all PCRs, gel electrophoresis and gel densitometry measurements, we can then pool isolates together at equimolar concentrations of 200 ng/μL. Here we wish to combine all isolates with unique MIDs per marker into one pool.
 
-⚠️ **REMEMBER**: Ensure that there is only ONE of each MID per pool: this is important when **demultiplexing** bioinformatically. 
+⚠️ **REMEMBER**: Ensure that there is only ONE of each MID per pool: this is important when **demultiplexing** bioinformatically.
 
 Once you have collated all of your absolute quantity data, you can then generate a table as below. Note, each pool should have AT LEAST ONE POSITIVE CONTROL, e.g., 3D7. Each isolate genotyped with **K13-1** with a unique **MID** are added to a unique "sub-pool", in this case labelled **"1A"**.
 
@@ -43,12 +43,12 @@ pooling_isolates %>%
 variable_to_calculate <- pooling_isolates %>% mutate(vol = `Volume (μL) to add to pool`, 
                                                      dna = `DNA concentration<sup>a</sup>`)
 ```
- 
-Next, you can calculate the total volume (μL) (`r variable_to_calculate %>% summarise(sum(vol))`) and total DNA concentration (ng/μL) (`r variable_to_calculate %>% summarise(sum(dna))`). This information is relevant for the following section. 
 
-## "Master-Pools" 
+Next, you can calculate the total volume (μL) (`r variable_to_calculate %>% summarise(sum(vol))`) and total DNA concentration (ng/μL) (`r variable_to_calculate %>% summarise(sum(dna))`). This information is relevant for the following section.
 
-Now that we have our "sub-pools", we can add all of our "Pool 1's" for each marker together. However, before proceeding, we need to **offset** for fragment length to ensure that one marker isn't preferentially sequenced over another. For the *ALARM*coding protocol, this is our offsetting calculation: 
+## "Master-Pools"
+
+Now that we have our "sub-pools", we can add all of our "Pool 1's" for each marker together. However, before proceeding, we need to **offset** for fragment length to ensure that one marker isn't preferentially sequenced over another. For the *ALARM*coding protocol, this is our offsetting calculation:
 
 ```{r}
 #| echo: false
@@ -61,7 +61,7 @@ offsetting %>%
   kable_styling(bootstrap_options = c("condensed", "responsive"), full_width = T)
 ```
 
-Armoured with this, we can create our "master-pools" containing one "sub-pool" of each marker. 
+Armoured with this, we can create our "master-pools" containing one "sub-pool" of each marker.
 
 ```{r}
 #| echo: false
@@ -84,10 +84,10 @@ pooling_pools %>%
            footnote_as_chunk = TRUE, escape = FALSE) 
 ```
 
-Now add these volumes together to create the master-pool! 
+Now add these volumes together to create the master-pool!
 
-## Purification and Quantification 
+## Purification and Quantification
 
-These "master-pools" were then **purified** using a Agencourt AMPure XP magnetic beads at 1.8X bead-to-sample ratio as described by the manufacturer (Beckman Coulter) and **quantified** using a PicoGreen Assay as described by the manufacturer (Thermo Scientific). 
+These "master-pools" were then **purified** using a Agencourt AMPure XP magnetic beads at 1.8X bead-to-sample ratio as described by the manufacturer (Beckman Coulter) and **quantified** using a PicoGreen Assay as described by the manufacturer (Thermo Scientific).
 
 **Now you're ready to send it off for sequencing!**

@@ -2,3 +2,25 @@
 title: "Step 3: Processing in R"
 ---
 
+```{r}
+#| echo: false
+
+library(tidyverse)
+library(kableExtra)
+options(knitr.table.format = "html") 
+knitr::opts_chunk$set(cache=TRUE)
+theme_set(theme_bw())
+
+#sample_MACSE_output <- read.csv()
+#sample_SeekDeep_output <- read.csv()
+```
+
+The final outputs from MASCE and SeekDeep are as follows:
+
+```{r}
+
+```
+
+Our goal now is to interpret these results.
+
+The following code was used to process the data:
