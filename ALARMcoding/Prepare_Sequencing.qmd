@@ -2,4 +2,92 @@
 title: "Post-PCR: Prepare for Sequencing"
 ---
 
-## A
+```{r}
+#| echo: false
+
+library(tidyverse)
+library(kableExtra)
+options(knitr.table.format = "html") 
+knitr::opts_chunk$set(cache=TRUE)
+theme_set(theme_bw())
+
+pooling_isolates <- read.csv("Data/ALARMcoding_Pooling_1.csv")
+offsetting <- read.csv("Data/ALARMcoding_offsetting.csv")
+pooling_pools <- read.csv("Data/ALARMcoding_Pooling_2.csv")
+```
+
+## "Sub-Pools"
+
+After completing all PCRs, gel electrophoresis and gel densitometry measurements, we can then pool isolates together at equimolar concentrations of 200 ng/μL. Here we wish to combine all isolates with unique MIDs per marker into one pool. 
+
+⚠️ **REMEMBER**: Ensure that there is only ONE of each MID per pool: this is important when **demultiplexing** bioinformatically. 
+
+Once you have collated all of your absolute quantity data, you can then generate a table as below. Note, each pool should have AT LEAST ONE POSITIVE CONTROL, e.g., 3D7. Each isolate genotyped with **K13-1** with a unique **MID** are added to a unique "sub-pool", in this case labelled **"1A"**.
+
+```{r}
+#| echo: false
+colnames(pooling_isolates)[colnames(pooling_isolates)=="StudyID"] <- "Sample Name"
+colnames(pooling_isolates)[colnames(pooling_isolates)=="Plate.Position"] <- "Plate Position"
+colnames(pooling_isolates)[colnames(pooling_isolates)=="X.DNA."] <- "DNA concentration"
+colnames(pooling_isolates)[colnames(pooling_isolates)=="Volume..uL..for.200ng.to.add.to.pool"] <- "Volume (μL) to add to pool"
+colnames(pooling_isolates)[colnames(pooling_isolates)=="Cumulative.Volume"] <- "Cumulative volume"
+names(pooling_isolates)[6] <- paste0(names(pooling_isolates)[6],  footnote_marker_alphabet(1))
+
+pooling_isolates %>%
+  knitr::kable(caption = "Table 2. Example table to organise pooling of isolates per marker in 'sub-pools'",
+               align = "lcccc", escape = FALSE) %>% 
+  kable_styling(bootstrap_options = c("condensed", "responsive"), full_width = TRUE) %>%
+  footnote(alphabet = c("Agarose gel densitometry data"),
+           footnote_as_chunk = TRUE)
+
+variable_to_calculate <- pooling_isolates %>% mutate(vol = `Volume (μL) to add to pool`, 
+                                                     dna = `DNA concentration<sup>a</sup>`)
+```
+ 
+Next, you can calculate the total volume (μL) (`r variable_to_calculate %>% summarise(sum(vol))`) and total DNA concentration (ng/μL) (`r variable_to_calculate %>% summarise(sum(dna))`). This information is relevant for the following section. 
+
+## "Master-Pools" 
+
+Now that we have our "sub-pools", we can add all of our "Pool 1's" for each marker together. However, before proceeding, we need to **offset** for fragment length to ensure that one marker isn't preferentially sequenced over another. For the *ALARM*coding protocol, this is our offsetting calculation: 
+
+```{r}
+#| echo: false
+colnames(offsetting)[colnames(offsetting)=="bp"] <- "Size (bp)"
+colnames(offsetting)[colnames(offsetting)=="MID...bp"] <- "Size + MID (bp)"
+
+offsetting %>%
+  knitr::kable(caption = "Table 3. Offsetting by marker fragment size.",
+               align = "lcccc", escape = FALSE) %>% 
+  kable_styling(bootstrap_options = c("condensed", "responsive"), full_width = T)
+```
+
+Armoured with this, we can create our "master-pools" containing one "sub-pool" of each marker. 
+
+```{r}
+#| echo: false
+
+colnames(pooling_pools)[colnames(pooling_pools)=="Sub.Pool"] <- "Sub-Pool"
+colnames(pooling_pools)[colnames(pooling_pools)=="Amplicon.size...MID..bp."] <- "Amplicon Size (bp)"
+colnames(pooling_pools)[colnames(pooling_pools)=="Pool.Offset.Ratio"] <- "Pool Offset Ratio"
+colnames(pooling_pools)[colnames(pooling_pools)=="REAL.DATA..Sub.pool.volume..uL."] <- "Sub-pool Total Volume (μL)"
+colnames(pooling_pools)[colnames(pooling_pools)=="DNA.per.sub.pool..ng."] <- "DNA per sub-pool (ng)"
+colnames(pooling_pools)[colnames(pooling_pools)=="REAL.DATA..Sub.pool.....ng.uL."] <- "Sub-pool Total DNA (ng/μL)"
+colnames(pooling_pools)[colnames(pooling_pools)=="DNA.per.sub.pool.required.for.master.pool..ng."] <- "DNA per sub-pool required for master-pool (ng)"
+colnames(pooling_pools)[colnames(pooling_pools)=="Volume.per.sub.pool.required.for.master.pool..uL."] <- "Volume per sub-pool required for master-pool (ng)"
+names(pooling_isolates)[8] <- paste0(names(pooling_isolates)[8],  footnote_marker_alphabet(1))
+pooling_pools %>%
+  select(-Pool.Offset.Percentage) %>% 
+  knitr::kable(caption = "Table 4. Example table to organise pooling of isolates per marker in 'sub-pools'",
+               align = "lcccc", escape = FALSE) %>% 
+  kable_styling(bootstrap_options = c("condensed", "responsive"), full_width = TRUE) %>%
+  footnote(alphabet = c("Calculated as the number of isolates per sub-pool (104) times the 200 ng/uL per amplicon equimolar concentration standardisation: 20,800 ng total"),
+           footnote_as_chunk = TRUE, escape = FALSE) 
+```
+
+Now add these volumes together to create the master-pool! 
+
+## Purification and Quantification 
+
+These "master-pools" were then **purified** using a Agencourt AMPure XP magnetic beads at 1.8X bead-to-sample ratio as described by the manufacturer (Beckman Coulter) and **quantified** using a PicoGreen Assay as described by the manufacturer (Thermo Scientific). 
+
+**Now you're ready to send it off for sequencing!**

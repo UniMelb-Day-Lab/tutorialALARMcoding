@@ -298,7 +298,7 @@
     "href": "Prepare_Sequencing.html",
     "title": "Post-PCR: Prepare for Sequencing",
     "section": "",
-    "text": "Back to top",
+    "text": "After completing all PCRs, gel electrophoresis and gel densitometry measurements, we can then pool isolates together at equimolar concentrations of 200 ng/μL. Here we wish to combine all isolates with unique MIDs per marker into one pool.\n⚠️ REMEMBER: Ensure that there is only ONE of each MID per pool: this is important when demultiplexing bioinformatically.\nOnce you have collated all of your absolute quantity data, you can then generate a table as below. Note, each pool should have AT LEAST ONE POSITIVE CONTROL, e.g., 3D7. Each isolate genotyped with K13-1 with a unique MID are added to a unique “sub-pool”, in this case labelled “1A”.\n\n\n\n\nTable 2. Example table to organise pooling of isolates per marker in 'sub-pools'\n\n\nSample Name\nMID\nMarker\nPool\nPlate Position\nDNA concentrationa\nVolume (μL) to add to pool\nCumulative volume\n\n\n\n\nIsolate 1\n1\nK13-1\n1A\n2A\n62.65\n3.2\n3.2\n\n\nIsolate 2\n2\nK13-1\n1A\n2B\n65.74\n3.0\n6.2\n\n\nIsolate 3\n3\nK13-1\n1A\n2C\n129.47\n1.5\n7.7\n\n\nIsolate 4\n4\nK13-1\n1A\n2D\n92.17\n2.2\n9.9\n\n\nIsolate 5\n5\nK13-1\n1A\n2E\n144.59\n1.4\n11.3\n\n\n3D7\n108\nK13-1\n1A\n7A\n129.00\n1.6\n12.9\n\n\n\na Agarose gel densitometry data\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNext, you can calculate the total volume (μL) (12.9) and total DNA concentration (ng/μL) (623.62). This information is relevant for the following section.",
     "crumbs": [
       "Home",
       "PCR Protocol",
@@ -639,6 +639,102 @@
       "Home",
       "PCR Protocol",
       "PCR: Important Notes"
+    ]
+  },
+  {
+    "objectID": "Prepare_Sequencing.html#pooling-isolates",
+    "href": "Prepare_Sequencing.html#pooling-isolates",
+    "title": "Post-PCR: Prepare for Sequencing",
+    "section": "",
+    "text": "After completing all PCRs, gel electrophoresis and gel densitometry measurements, we can then pool isolates together at equimolar concentrations of 200 ng/μL.\n⚠️ REMEMBER: Ensure that there is only ONE of each MID per pool: this is important when demultiplexing bioinformatically.",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Post-PCR: Prepare for Sequencing"
+    ]
+  },
+  {
+    "objectID": "Prepare_Sequencing.html#sub-pools-combining-all-isolates-with-unique-mids-per-marker-into-one-pool",
+    "href": "Prepare_Sequencing.html#sub-pools-combining-all-isolates-with-unique-mids-per-marker-into-one-pool",
+    "title": "Post-PCR: Prepare for Sequencing",
+    "section": "",
+    "text": "After completing all PCRs, gel electrophoresis and gel densitometry measurements, we can then pool isolates together at equimolar concentrations of 200 ng/μL.\n⚠️ REMEMBER: Ensure that there is only ONE of each MID per pool: this is important when demultiplexing bioinformatically.\nOnce you have collated all of your absolute quantity data, you can then generate a table as below. Note, each pool should have AT LEAST ONE POSITIVE CONTROL, e.g., 3D7. Each isolate genotyped with K13-1 with a unique MID are added to a unique “sub-pool”, in this case labelled “1A”.\n\n\n\n\nTable 2. Expected fragment sizes in the ALARMcoding PCR genotyping protocol\n\n\nSample Name\nMID\nMarker\nPool\nPlate Position\nDNA concentrationa\nVolume (μL) to add to pool\nCumulative volume\n\n\n\n\nIsolate 1\n1\nK13-1\n1A\n2A\n62.65\n3.2\n3.2\n\n\nIsolate 2\n2\nK13-1\n1A\n2B\n65.74\n3.0\n6.2\n\n\nIsolate 3\n3\nK13-1\n1A\n2C\n129.47\n1.5\n7.7\n\n\nIsolate 4\n4\nK13-1\n1A\n2D\n92.17\n2.2\n9.9\n\n\nIsolate 5\n5\nK13-1\n1A\n2E\n144.59\n1.4\n11.3\n\n\n3D7\n108\nK13-1\n1A\n7A\n129.00\n1.6\n12.9\n\n\n\na Agarose gel densitometry data\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNext, you can calculate the total volume (μL) (12.9) and total DNA concentration (ng/μL) (623.62). This information is relevant for the following section.",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Post-PCR: Prepare for Sequencing"
+    ]
+  },
+  {
+    "objectID": "Prepare_Sequencing.html#master-pools-combining-sub-pools-of-each-marker-and-offsetting-based-on-fragment-size",
+    "href": "Prepare_Sequencing.html#master-pools-combining-sub-pools-of-each-marker-and-offsetting-based-on-fragment-size",
+    "title": "Post-PCR: Prepare for Sequencing",
+    "section": "“Master-Pools”: Combining “sub-pools” of each marker and offsetting based on fragment size",
+    "text": "“Master-Pools”: Combining “sub-pools” of each marker and offsetting based on fragment size\n\n\n\n\nTable 3. Offsetting by marker fragment size.\n\n\nMarker\nSize (bp)\nSize + MID (bp)\nOffset\n\n\n\n\nmdr1-3\n552\n562\n1.000\n\n\ndhfr\n523\n533\n0.948\n\n\ndhps-2\n521\n531\n0.945\n\n\ndhps-1\n493\n503\n0.895\n\n\nmdr1-2\n488\n498\n0.886\n\n\naat1\n448\n458\n0.815\n\n\npfs47-2\n429\n439\n0.781\n\n\nmdr1-1\n413\n423\n0.753\n\n\nK13-1\n402\n412\n0.733\n\n\npfs47-1\n390\n400\n0.712\n\n\nK13-2\n323\n333\n0.593\n\n\ncrt\n214\n224\n0.399\n\n\n\n\n\n\n\n\n\npooling_pools\n\n  Pool Sub.Pool Isolates Marker Amplicon.size...MID..bp. Pool.Offset.Ratio\n1    1       1E      104 mdr1-3                      562         1.0000000\n2    1       1G      104   dhfr                      533         0.9483986\n3    1       1I      104 dhps-2                      531         0.9448399\n4    1       1H      104 dhps-1                      503         0.8950178\n5    1       1D      104 mdr1-2                      498         0.8861210\n6    1       1C      104 mdr1-1                      423         0.7526690\n7    1       1A      104  K13-1                      412         0.7330961\n8    1       1B      104  K13-2                      333         0.5925267\n9    1       1F      104    crt                      224         0.3985765\n  Pool.Offset.Percentage REAL.DATA..Sub.pool.volume..uL. DNA.per.sub.pool..ng.\n1              1.0000000                           200.6                 20800\n2              0.9483986                           188.8                 20800\n3              0.9448399                           206.5                 20800\n4              0.8950178                           154.5                 20800\n5              0.8861210                           249.1                 20800\n6              0.7526690                           188.4                 20800\n7              0.7330961                           136.3                 20800\n8              0.5925267                           366.7                 20800\n9              0.3985765                           597.4                 20800\n  REAL.DATA..Sub.pool.....ng.uL. DNA.per.sub.pool.required.for.master.pool..ng.\n1                      103.68893                                       3500.000\n2                      110.16949                                       3319.395\n3                      100.72639                                       3306.940\n4                      134.62783                                       3132.562\n5                       83.50060                                       3101.423\n6                      110.40340                                       2634.342\n7                      152.60455                                       2565.836\n8                       56.72212                                       2073.843\n9                       34.81754                                       1395.018\n  Volume.per.sub.pool.required.for.master.pool..uL.\n1                                          33.75481\n2                                          30.12989\n3                                          32.83091\n4                                          23.26831\n5                                          37.14253\n6                                          23.86106\n7                                          16.81363\n8                                          36.56146\n9                                          40.06652",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Post-PCR: Prepare for Sequencing"
+    ]
+  },
+  {
+    "objectID": "Prepare_Sequencing.html#picogreen",
+    "href": "Prepare_Sequencing.html#picogreen",
+    "title": "Post-PCR: Prepare for Sequencing",
+    "section": "PicoGreen",
+    "text": "PicoGreen",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Post-PCR: Prepare for Sequencing"
+    ]
+  },
+  {
+    "objectID": "Prepare_Sequencing.html#now-youre-ready",
+    "href": "Prepare_Sequencing.html#now-youre-ready",
+    "title": "Post-PCR: Prepare for Sequencing",
+    "section": "Now you’re ready!",
+    "text": "Now you’re ready!",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Post-PCR: Prepare for Sequencing"
+    ]
+  },
+  {
+    "objectID": "Prepare_Sequencing.html#sub-pools",
+    "href": "Prepare_Sequencing.html#sub-pools",
+    "title": "Post-PCR: Prepare for Sequencing",
+    "section": "",
+    "text": "After completing all PCRs, gel electrophoresis and gel densitometry measurements, we can then pool isolates together at equimolar concentrations of 200 ng/μL. Here we wish to combine all isolates with unique MIDs per marker into one pool.\n⚠️ REMEMBER: Ensure that there is only ONE of each MID per pool: this is important when demultiplexing bioinformatically.\nOnce you have collated all of your absolute quantity data, you can then generate a table as below. Note, each pool should have AT LEAST ONE POSITIVE CONTROL, e.g., 3D7. Each isolate genotyped with K13-1 with a unique MID are added to a unique “sub-pool”, in this case labelled “1A”.\n\n\n\n\nTable 2. Example table to organise pooling of isolates per marker in 'sub-pools'\n\n\nSample Name\nMID\nMarker\nPool\nPlate Position\nDNA concentrationa\nVolume (μL) to add to pool\nCumulative volume\n\n\n\n\nIsolate 1\n1\nK13-1\n1A\n2A\n62.65\n3.2\n3.2\n\n\nIsolate 2\n2\nK13-1\n1A\n2B\n65.74\n3.0\n6.2\n\n\nIsolate 3\n3\nK13-1\n1A\n2C\n129.47\n1.5\n7.7\n\n\nIsolate 4\n4\nK13-1\n1A\n2D\n92.17\n2.2\n9.9\n\n\nIsolate 5\n5\nK13-1\n1A\n2E\n144.59\n1.4\n11.3\n\n\n3D7\n108\nK13-1\n1A\n7A\n129.00\n1.6\n12.9\n\n\n\na Agarose gel densitometry data\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNext, you can calculate the total volume (μL) (12.9) and total DNA concentration (ng/μL) (623.62). This information is relevant for the following section.",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Post-PCR: Prepare for Sequencing"
+    ]
+  },
+  {
+    "objectID": "Prepare_Sequencing.html#master-pools",
+    "href": "Prepare_Sequencing.html#master-pools",
+    "title": "Post-PCR: Prepare for Sequencing",
+    "section": "“Master-Pools”",
+    "text": "“Master-Pools”\nNow that we have our “sub-pools”, we can add all of our “Pool 1’s” for each marker together. However, before proceeding, we need to offset for fragment length to ensure that one marker isn’t preferentially sequenced over another. For the ALARMcoding protocol, this is our offsetting calculation:\n\n\n\n\nTable 3. Offsetting by marker fragment size.\n\n\nMarker\nSize (bp)\nSize + MID (bp)\nOffset\n\n\n\n\nmdr1-3\n552\n562\n1.000\n\n\ndhfr\n523\n533\n0.948\n\n\ndhps-2\n521\n531\n0.945\n\n\ndhps-1\n493\n503\n0.895\n\n\nmdr1-2\n488\n498\n0.886\n\n\naat1\n448\n458\n0.815\n\n\npfs47-2\n429\n439\n0.781\n\n\nmdr1-1\n413\n423\n0.753\n\n\nK13-1\n402\n412\n0.733\n\n\npfs47-1\n390\n400\n0.712\n\n\nK13-2\n323\n333\n0.593\n\n\ncrt\n214\n224\n0.399\n\n\n\n\n\n\n\n\nArmoured with this, we can create our “master-pools” containing one “sub-pool” of each marker.\n\n\n\n\nTable 4. Example table to organise pooling of isolates per marker in 'sub-pools'\n\n\nPool\nSub-Pool\nIsolates\nMarker\nAmplicon Size (bp)\nPool Offset Ratio\nSub-pool Total Volume (μL)\nDNA per sub-pool (ng)\nSub-pool Total DNA (ng/μL)\nDNA per sub-pool required for master-pool (ng)\nVolume per sub-pool required for master-pool (ng)\n\n\n\n\n1\n1E\n104\nmdr1-3\n562\n1.0000000\n296.3\n20800\n70.19912\n5000.000\n71.22596\n\n\n1\n1G\n104\ndhfr\n533\n0.9483986\n322.4\n20800\n64.51613\n4741.993\n73.50089\n\n\n1\n1I\n104\ndhps-2\n531\n0.9448399\n323.2\n20800\n64.35644\n4724.199\n73.40679\n\n\n1\n1H\n104\ndhps-1\n503\n0.8950178\n299.6\n20800\n69.42590\n4475.089\n64.45849\n\n\n1\n1D\n104\nmdr1-2\n498\n0.8861210\n449.9\n20800\n46.23250\n4430.605\n95.83313\n\n\n1\n1L\n104\naat1\n458\n0.8149466\n460.1\n20800\n45.20756\n4074.733\n90.13388\n\n\n1\n1K\n104\npfs47-2\n439\n0.7811388\n410.9\n20800\n50.62059\n3905.694\n77.15623\n\n\n1\n1C\n104\nmdr1-1\n423\n0.7526690\n285.0\n20800\n72.98246\n3763.345\n51.56507\n\n\n1\n1A\n104\nK13-1\n412\n0.7330961\n266.1\n20800\n78.16610\n3665.480\n46.89348\n\n\n1\n1J\n104\npfs47-1\n400\n0.7117438\n356.7\n20800\n58.31231\n3558.719\n61.02861\n\n\n1\n1B\n104\nK13-2\n333\n0.5925267\n613.9\n20800\n33.88174\n2962.633\n87.44042\n\n\n1\n1F\n104\ncrt\n224\n0.3985765\n474.8\n20800\n43.80792\n1992.883\n45.49138\n\n\n\na Calculated as the number of isolates per sub-pool (104) times the 200 ng/uL per amplicon equimolar concentration standardisation: 20,800 ng total\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNow add these volumes together to create the master-pool!",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Post-PCR: Prepare for Sequencing"
+    ]
+  },
+  {
+    "objectID": "Prepare_Sequencing.html#purification-and-quantification",
+    "href": "Prepare_Sequencing.html#purification-and-quantification",
+    "title": "Post-PCR: Prepare for Sequencing",
+    "section": "Purification and Quantification",
+    "text": "Purification and Quantification\nThese “master-pools” were then purified using a Agencourt AMPure XP magnetic beads at 1.8X bead-to-sample ratio as described by the manufacturer (Beckman Coulter) and quantified using a PicoGreen Assay as described by the manufacturer (Thermo Scientific).\nNow you’re ready to send it off for sequencing!",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Post-PCR: Prepare for Sequencing"
     ]
   }
 ]

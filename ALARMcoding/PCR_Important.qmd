@@ -20,13 +20,13 @@ This two-step protocol requires first, the amplification of the "outer" fragment
 
 **For Step 1:**
 
-Each master mix is exactly the same. 
+Each master mix is exactly the same.
 
 ![](Images/PCR_Plate_1.png)
 
 **For Step 2:**
 
-Master mix differ by each row - corresponding to the molecular identifier (MID) tag on the forward primer, the reverse primer remains the same for each master mix. You will need to order **unique MIDs + forward primer per molecular marker** for each set of isolates you plan to pool together. In this work, I used 110 MIDs. See the list of MID tags [here](https://www.yumpu.com/en/document/read/24794008/roche-mid-adapters). 
+Master mix differ by each row - corresponding to the molecular identifier (MID) tag on the forward primer, the reverse primer remains the same for each master mix. You will need to order **unique MIDs + forward primer per molecular marker** for each set of isolates you plan to pool together. In this work, I used 110 MIDs. See the list of MID tags [here](https://www.yumpu.com/en/document/read/24794008/roche-mid-adapters).
 
 ![](Images/PCR_Plate_2.png)
 
@@ -80,7 +80,8 @@ Master mix differ by each row - corresponding to the molecular identifier (MID) 
 
 ## Gel Electrophoresis
 
-### Expected Bands 
+### Expected Bands
+
 After every PCR Round 2, 5 μL per well of each sample was visualised by a gel electrophoresis. Run a 2% agarose gel at 100 V for 110 minutes EXCEPT for crt which should be run at 100 minutes (smaller fragment).
 
 ```{r}
@@ -96,12 +97,13 @@ electrophoresis %>%
   kable_styling(bootstrap_options = c("condensed", "responsive"), full_width = T) 
 ```
 
-### Expected Gel 
+### Expected Gel
+
 For example, here are 18 isolates and 2 negative controls for K13-1:
 
 ![](Images/Gel_Image.png)
 
-### Agarose-gel densitometry 
+### Agarose-gel densitometry
 
 For each reaction, agarose-gel densitometry (EZQuant, Biorad, US) was used to quantify the DNA concentration of the fragment sizes using a 100bp ladder standard (Axygen, CA, US and MaestroGen, Taiwan).
 

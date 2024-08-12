@@ -71,6 +71,8 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="styles.css">
@@ -269,7 +271,9 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#a" id="toc-a" class="nav-link active" data-scroll-target="#a">A</a></li>
+  <li><a href="#sub-pools" id="toc-sub-pools" class="nav-link active" data-scroll-target="#sub-pools">“Sub-Pools”</a></li>
+  <li><a href="#master-pools" id="toc-master-pools" class="nav-link" data-scroll-target="#master-pools">“Master-Pools”</a></li>
+  <li><a href="#purification-and-quantification" id="toc-purification-and-quantification" class="nav-link" data-scroll-target="#purification-and-quantification">Purification and Quantification</a></li>
   </ul>
 </nav>
     </div>
@@ -295,8 +299,412 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="a" class="level2">
-<h2 class="anchored" data-anchor-id="a">A</h2>
+<section id="sub-pools" class="level2">
+<h2 class="anchored" data-anchor-id="sub-pools">“Sub-Pools”</h2>
+<p>After completing all PCRs, gel electrophoresis and gel densitometry measurements, we can then pool isolates together at equimolar concentrations of 200 ng/μL. Here we wish to combine all isolates with unique MIDs per marker into one pool.</p>
+<p>⚠️ <strong>REMEMBER</strong>: Ensure that there is only ONE of each MID per pool: this is important when <strong>demultiplexing</strong> bioinformatically.</p>
+<p>Once you have collated all of your absolute quantity data, you can then generate a table as below. Note, each pool should have AT LEAST ONE POSITIVE CONTROL, e.g., 3D7. Each isolate genotyped with <strong>K13-1</strong> with a unique <strong>MID</strong> are added to a unique “sub-pool”, in this case labelled <strong>“1A”</strong>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-condensed caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<caption>Table 2. Example table to organise pooling of isolates per marker in 'sub-pools'</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Sample Name</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">MID</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Marker</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Pool</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Plate Position</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">DNA concentration<sup>a</sup></th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Volume (μL) to add to pool</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Cumulative volume</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Isolate 1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">K13-1</td>
+<td style="text-align: center;">1A</td>
+<td style="text-align: center;">2A</td>
+<td style="text-align: left;">62.65</td>
+<td style="text-align: center;">3.2</td>
+<td style="text-align: center;">3.2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Isolate 2</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">K13-1</td>
+<td style="text-align: center;">1A</td>
+<td style="text-align: center;">2B</td>
+<td style="text-align: left;">65.74</td>
+<td style="text-align: center;">3.0</td>
+<td style="text-align: center;">6.2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Isolate 3</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">K13-1</td>
+<td style="text-align: center;">1A</td>
+<td style="text-align: center;">2C</td>
+<td style="text-align: left;">129.47</td>
+<td style="text-align: center;">1.5</td>
+<td style="text-align: center;">7.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Isolate 4</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">K13-1</td>
+<td style="text-align: center;">1A</td>
+<td style="text-align: center;">2D</td>
+<td style="text-align: left;">92.17</td>
+<td style="text-align: center;">2.2</td>
+<td style="text-align: center;">9.9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Isolate 5</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">K13-1</td>
+<td style="text-align: center;">1A</td>
+<td style="text-align: center;">2E</td>
+<td style="text-align: left;">144.59</td>
+<td style="text-align: center;">1.4</td>
+<td style="text-align: center;">11.3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3D7</td>
+<td style="text-align: center;">108</td>
+<td style="text-align: center;">K13-1</td>
+<td style="text-align: center;">1A</td>
+<td style="text-align: center;">7A</td>
+<td style="text-align: left;">129.00</td>
+<td style="text-align: center;">1.6</td>
+<td style="text-align: center;">12.9</td>
+</tr>
+</tbody><tfoot>
+<tr class="odd">
+<td style="text-align: left; padding: 0;"><sup>a</sup> Agarose gel densitometry data</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tfoot>
+
+</table>
+</div>
+
+
+</div>
+</div>
+<p>Next, you can calculate the total volume (μL) (12.9) and total DNA concentration (ng/μL) (623.62). This information is relevant for the following section.</p>
+</section>
+<section id="master-pools" class="level2">
+<h2 class="anchored" data-anchor-id="master-pools">“Master-Pools”</h2>
+<p>Now that we have our “sub-pools”, we can add all of our “Pool 1’s” for each marker together. However, before proceeding, we need to <strong>offset</strong> for fragment length to ensure that one marker isn’t preferentially sequenced over another. For the <em>ALARM</em>coding protocol, this is our offsetting calculation:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-condensed caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<caption>Table 3. Offsetting by marker fragment size.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Marker</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Size (bp)</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Size + MID (bp)</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Offset</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">mdr1-3</td>
+<td style="text-align: center;">552</td>
+<td style="text-align: center;">562</td>
+<td style="text-align: center;">1.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dhfr</td>
+<td style="text-align: center;">523</td>
+<td style="text-align: center;">533</td>
+<td style="text-align: center;">0.948</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">dhps-2</td>
+<td style="text-align: center;">521</td>
+<td style="text-align: center;">531</td>
+<td style="text-align: center;">0.945</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dhps-1</td>
+<td style="text-align: center;">493</td>
+<td style="text-align: center;">503</td>
+<td style="text-align: center;">0.895</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mdr1-2</td>
+<td style="text-align: center;">488</td>
+<td style="text-align: center;">498</td>
+<td style="text-align: center;">0.886</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">aat1</td>
+<td style="text-align: center;">448</td>
+<td style="text-align: center;">458</td>
+<td style="text-align: center;">0.815</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pfs47-2</td>
+<td style="text-align: center;">429</td>
+<td style="text-align: center;">439</td>
+<td style="text-align: center;">0.781</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mdr1-1</td>
+<td style="text-align: center;">413</td>
+<td style="text-align: center;">423</td>
+<td style="text-align: center;">0.753</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">K13-1</td>
+<td style="text-align: center;">402</td>
+<td style="text-align: center;">412</td>
+<td style="text-align: center;">0.733</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pfs47-1</td>
+<td style="text-align: center;">390</td>
+<td style="text-align: center;">400</td>
+<td style="text-align: center;">0.712</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">K13-2</td>
+<td style="text-align: center;">323</td>
+<td style="text-align: center;">333</td>
+<td style="text-align: center;">0.593</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">crt</td>
+<td style="text-align: center;">214</td>
+<td style="text-align: center;">224</td>
+<td style="text-align: center;">0.399</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+</div>
+</div>
+<p>Armoured with this, we can create our “master-pools” containing one “sub-pool” of each marker.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-condensed caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<caption>Table 4. Example table to organise pooling of isolates per marker in 'sub-pools'</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Pool</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Sub-Pool</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Isolates</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Marker</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Amplicon Size (bp)</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Pool Offset Ratio</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Sub-pool Total Volume (μL)</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">DNA per sub-pool (ng)</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Sub-pool Total DNA (ng/μL)</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">DNA per sub-pool required for master-pool (ng)</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Volume per sub-pool required for master-pool (ng)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: center;">1E</td>
+<td style="text-align: center;">104</td>
+<td style="text-align: center;">mdr1-3</td>
+<td style="text-align: center;">562</td>
+<td style="text-align: left;">1.0000000</td>
+<td style="text-align: center;">296.3</td>
+<td style="text-align: center;">20800</td>
+<td style="text-align: center;">70.19912</td>
+<td style="text-align: center;">5000.000</td>
+<td style="text-align: left;">71.22596</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: center;">1G</td>
+<td style="text-align: center;">104</td>
+<td style="text-align: center;">dhfr</td>
+<td style="text-align: center;">533</td>
+<td style="text-align: left;">0.9483986</td>
+<td style="text-align: center;">322.4</td>
+<td style="text-align: center;">20800</td>
+<td style="text-align: center;">64.51613</td>
+<td style="text-align: center;">4741.993</td>
+<td style="text-align: left;">73.50089</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: center;">1I</td>
+<td style="text-align: center;">104</td>
+<td style="text-align: center;">dhps-2</td>
+<td style="text-align: center;">531</td>
+<td style="text-align: left;">0.9448399</td>
+<td style="text-align: center;">323.2</td>
+<td style="text-align: center;">20800</td>
+<td style="text-align: center;">64.35644</td>
+<td style="text-align: center;">4724.199</td>
+<td style="text-align: left;">73.40679</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: center;">1H</td>
+<td style="text-align: center;">104</td>
+<td style="text-align: center;">dhps-1</td>
+<td style="text-align: center;">503</td>
+<td style="text-align: left;">0.8950178</td>
+<td style="text-align: center;">299.6</td>
+<td style="text-align: center;">20800</td>
+<td style="text-align: center;">69.42590</td>
+<td style="text-align: center;">4475.089</td>
+<td style="text-align: left;">64.45849</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: center;">1D</td>
+<td style="text-align: center;">104</td>
+<td style="text-align: center;">mdr1-2</td>
+<td style="text-align: center;">498</td>
+<td style="text-align: left;">0.8861210</td>
+<td style="text-align: center;">449.9</td>
+<td style="text-align: center;">20800</td>
+<td style="text-align: center;">46.23250</td>
+<td style="text-align: center;">4430.605</td>
+<td style="text-align: left;">95.83313</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: center;">1L</td>
+<td style="text-align: center;">104</td>
+<td style="text-align: center;">aat1</td>
+<td style="text-align: center;">458</td>
+<td style="text-align: left;">0.8149466</td>
+<td style="text-align: center;">460.1</td>
+<td style="text-align: center;">20800</td>
+<td style="text-align: center;">45.20756</td>
+<td style="text-align: center;">4074.733</td>
+<td style="text-align: left;">90.13388</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: center;">1K</td>
+<td style="text-align: center;">104</td>
+<td style="text-align: center;">pfs47-2</td>
+<td style="text-align: center;">439</td>
+<td style="text-align: left;">0.7811388</td>
+<td style="text-align: center;">410.9</td>
+<td style="text-align: center;">20800</td>
+<td style="text-align: center;">50.62059</td>
+<td style="text-align: center;">3905.694</td>
+<td style="text-align: left;">77.15623</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: center;">1C</td>
+<td style="text-align: center;">104</td>
+<td style="text-align: center;">mdr1-1</td>
+<td style="text-align: center;">423</td>
+<td style="text-align: left;">0.7526690</td>
+<td style="text-align: center;">285.0</td>
+<td style="text-align: center;">20800</td>
+<td style="text-align: center;">72.98246</td>
+<td style="text-align: center;">3763.345</td>
+<td style="text-align: left;">51.56507</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: center;">1A</td>
+<td style="text-align: center;">104</td>
+<td style="text-align: center;">K13-1</td>
+<td style="text-align: center;">412</td>
+<td style="text-align: left;">0.7330961</td>
+<td style="text-align: center;">266.1</td>
+<td style="text-align: center;">20800</td>
+<td style="text-align: center;">78.16610</td>
+<td style="text-align: center;">3665.480</td>
+<td style="text-align: left;">46.89348</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: center;">1J</td>
+<td style="text-align: center;">104</td>
+<td style="text-align: center;">pfs47-1</td>
+<td style="text-align: center;">400</td>
+<td style="text-align: left;">0.7117438</td>
+<td style="text-align: center;">356.7</td>
+<td style="text-align: center;">20800</td>
+<td style="text-align: center;">58.31231</td>
+<td style="text-align: center;">3558.719</td>
+<td style="text-align: left;">61.02861</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: center;">1B</td>
+<td style="text-align: center;">104</td>
+<td style="text-align: center;">K13-2</td>
+<td style="text-align: center;">333</td>
+<td style="text-align: left;">0.5925267</td>
+<td style="text-align: center;">613.9</td>
+<td style="text-align: center;">20800</td>
+<td style="text-align: center;">33.88174</td>
+<td style="text-align: center;">2962.633</td>
+<td style="text-align: left;">87.44042</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: center;">1F</td>
+<td style="text-align: center;">104</td>
+<td style="text-align: center;">crt</td>
+<td style="text-align: center;">224</td>
+<td style="text-align: left;">0.3985765</td>
+<td style="text-align: center;">474.8</td>
+<td style="text-align: center;">20800</td>
+<td style="text-align: center;">43.80792</td>
+<td style="text-align: center;">1992.883</td>
+<td style="text-align: left;">45.49138</td>
+</tr>
+</tbody><tfoot>
+<tr class="odd">
+<td style="text-align: left; padding: 0;"><sup>a</sup> Calculated as the number of isolates per sub-pool (104) times the 200 ng/uL per amplicon equimolar concentration standardisation: 20,800 ng total</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tfoot>
+
+</table>
+</div>
+
+
+</div>
+</div>
+<p>Now add these volumes together to create the master-pool!</p>
+</section>
+<section id="purification-and-quantification" class="level2">
+<h2 class="anchored" data-anchor-id="purification-and-quantification">Purification and Quantification</h2>
+<p>These “master-pools” were then <strong>purified</strong> using a Agencourt AMPure XP magnetic beads at 1.8X bead-to-sample ratio as described by the manufacturer (Beckman Coulter) and <strong>quantified</strong> using a PicoGreen Assay as described by the manufacturer (Thermo Scientific).</p>
+<p><strong>Now you’re ready to send it off for sequencing!</strong></p>
 
 
 </section>
