@@ -17,24 +17,24 @@ library(readr)
 
 # Step 1: Process_Seq
 
-**INPUTS**
+**INPUTS**: 
 
-**Folder**: 04_Compiled_NT_Sequences 
-**Files**: *All_NT_Aligned.csv Use as the sequence file and create haplotypes (e.g., CVMNT)
+- **Folder**: 04_Compiled_NT_Sequences 
+- **Files**: *All_NT_Aligned.csv Use as the sequence file and create haplotypes (e.g., CVMNT)
 
 Aims: 
 - Remove symbols: `*!-` 
 - Separate SeqID code into "Isolate", "MID", "MID_N", "Pool", "Date", "Haplotype" 
 - Create haplotype specific to marker
 
-**OUTPUTS**
+**OUTPUTS**: 
 
-05_All_DrugR_NT_Sequences/Controls/*Controls_Haps.csv
-05_All_DrugR_NT_Sequences/Isolates/*Isolates_Haps.csv
-05_All_DrugR_NT_Sequences/Repeats/*Repeats_Haps.csv 
-05_All_DrugR_Haplotypes/temp/*Haps_only.csv
+- 05_All_DrugR_NT_Sequences/Controls/*Controls_Haps.csv
+- 05_All_DrugR_NT_Sequences/Isolates/*Isolates_Haps.csv
+- 05_All_DrugR_NT_Sequences/Repeats/*Repeats_Haps.csv 
+- 05_All_DrugR_Haplotypes/temp/*Haps_only.csv
 
-The `Controls_Haps`, `Isolates_Haps` and `Repeats_Haps` files will contain the haplotype (Haps), the entire sequence separated by codon number and other info (SeqID, Reference and Marker) The `Haps_only` file will only contain the haplotype information (for the corresponding SeqID, Reference and Marker). 
+The `Controls_Haps`, `Isolates_Haps` and `Repeats_Haps` files will contain the haplotype (Haps), the entire sequence separated by codon number and other info (SeqID, Reference and Marker). The `Haps_only` file will only contain the haplotype information (for the corresponding SeqID, Reference and Marker). 
 
 ## Input File
 
@@ -65,7 +65,7 @@ for (filename in filenames_NT) {
 
   ######## Part 2: Survey Information ######## 
 
-  search_Survey <- c("Survey_2017", "Survey_2022")
+  search_Survey <- c("Survey_2017", "Survey")
 
   # Create an empty column called "Survey" in the data frame
   df_3 <- df_2 %>% mutate(FileNames = INPUT_1_NT, Survey = NA)
@@ -177,7 +177,7 @@ df_7 <- df_6 %>%
 
   ######## Part 2: Survey Information ######## 
 
-  search_Survey <- c("Survey_2017", "Survey_2022")
+  search_Survey <- c("Survey_2017", "Survey")
 
   # Create an empty column called "Survey" in the data frame
   df_AA_3 <- df_AA_2 %>% mutate(FileNames = INPUT_1_AA, Survey = NA)
@@ -274,14 +274,15 @@ for (marker in search_strings) {
 
 # Step 2: Process_YN
 
-**INPUTS**
+**INPUTS**: 
 
-*All_NT_Aligned_YorN.csv: Use to determine how many NT changes from 3D7 reference (e.g., 1 change)
-*All_AA_Aligned_YorN.csv: Use to determine how many AA changes from 3D7 reference (e.g., 1 change)
+- *All_NT_Aligned_YorN.csv: Use to determine how many NT changes from 3D7 reference (e.g., 1 change)
+- *All_AA_Aligned_YorN.csv: Use to determine how many AA changes from 3D7 reference (e.g., 1 change)
 
-**OUTPUTS** 
-*All_NT_Aligned_YorN_Count.csv: Collapsed into a column of the total number of NT differences
-*All_AA_Aligned_YorN_Count.csv: Collapsed into a column of the total number of AA differences
+**OUTPUTS**: 
+
+- *All_NT_Aligned_YorN_Count.csv: Collapsed into a column of the total number of NT differences
+- *All_AA_Aligned_YorN_Count.csv: Collapsed into a column of the total number of AA differences
 
 ## Input File
 
@@ -310,7 +311,7 @@ for (filename_NT_YN in filenames_NT_YN) {
 
   ######## Part 2: Survey Information ######## 
 
-  search_Survey <- c("Survey_2017", "Survey_2022")
+  search_Survey <- c("Survey_2017", "Survey")
 
   # Create an empty column called "Survey" in the data frame
   df_YN_3 <- df_YN_2 %>% mutate(FileNames = INPUT_YN_NT, Survey = NA)
@@ -372,7 +373,7 @@ for (marker in search_strings) {
   
   ######## Part 2: Survey Information ######## 
 
-  search_Survey <- c("Survey_2017", "Survey_2022")
+  search_Survey <- c("Survey_2017", "Survey")
 
   # Create an empty column called "Survey" in the data frame
   df_YN_AA_3 <- df_YN_AA_2 %>% mutate(FileNames = INPUT_YN_AA, Survey = NA)
@@ -427,13 +428,13 @@ for (marker in search_strings) {
 
 **INPUTS**
 
-*All_NT_Aligned_NTchange.csv: Use to determine the actual NT change from 3D7 reference (e.g., AAA76ACA) 
-*All_AA_Aligned_AAchange.csv: Use to determine the actual AA change from 3D7 reference (e.g., K76T)
+- *All_NT_Aligned_NTchange.csv: Use to determine the actual NT change from 3D7 reference (e.g., AAA76ACA) 
+- *All_AA_Aligned_AAchange.csv: Use to determine the actual AA change from 3D7 reference (e.g., K76T)
 
 **OUTPUTS**
 
-*All_NT_Aligned_NTchange_Final.csv: Contains a collapsed column with all NT changes
-*All_NT_Aligned_AAchange_Final.csv: Contains a collapsed column with all AA changes
+- *All_NT_Aligned_NTchange_Final.csv: Contains a collapsed column with all NT changes
+- *All_NT_Aligned_AAchange_Final.csv: Contains a collapsed column with all AA changes
 
 ## Input File
 
@@ -460,7 +461,7 @@ for(filename_NT_NSYN in filenames_NT_NSYN){
 
   ######## Part 2: Survey Information ######## 
 
-  search_Survey <- c("Survey_2017", "Survey_2022")
+  search_Survey <- c("Survey_2017", "Survey")
 
   # Create an empty column called "Survey" in the data frame
   df_nsn_3 <- df_nsn_2 %>% mutate(FileNames = INPUT_NSYN_NT, Survey = NA)
@@ -526,7 +527,7 @@ for(filename_AA_NSYN in filenames_AA_NSYN){
 
   ######## Part 2: Survey Information ######## 
 
-  search_Survey <- c("Survey_2017", "Survey_2022")
+  search_Survey <- c("Survey_2017", "Survey")
 
   # Create an empty column called "Survey" in the data frame
   df_nsn_AA_3 <- df_nsn_AA_2 %>% mutate(FileNames = INPUT_NSYN_AA, Survey = NA)
@@ -616,39 +617,18 @@ merge_files <- function(directory, pattern, common_columns) {
 ## Merge
 
 ```{r}
-Survey_2017_merged_crt_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_2017_crt.*", c("SeqID", "Marker", "Survey", "Reference"))
-Survey_2017_merged_dhfr_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_2017_dhfr.*", c("SeqID", "Marker", "Survey", "Reference"))
-Survey_2017_merged_dhps1_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_2017_dhps1.*", c("SeqID", "Marker", "Survey", "Reference"))
-Survey_2017_merged_dhps2_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_2017_dhps2.*", c("SeqID", "Marker", "Survey", "Reference"))
-Survey_2017_merged_K131_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_2017_K131.*", c("SeqID", "Marker", "Survey", "Reference"))
-Survey_2017_merged_K132_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_2017_K132.*", c("SeqID", "Marker", "Survey", "Reference"))
-Survey_2017_merged_mdr11_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_2017_mdr11.*", c("SeqID", "Marker","Survey",  "Reference"))
-Survey_2017_merged_mdr12_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_2017_mdr12.*", c("SeqID", "Marker","Survey",  "Reference"))
-Survey_2017_merged_mdr13_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_2017_mdr13.*", c("SeqID", "Marker","Survey",  "Reference"))
-
-Survey_2022_merged_crt_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_2022_crt.*", c("SeqID", "Marker", "Survey", "Reference"))
-Survey_2022_merged_dhfr_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_2022_dhfr.*", c("SeqID", "Marker", "Survey", "Reference"))
-Survey_2022_merged_dhps1_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_2022_dhps1.*", c("SeqID", "Marker", "Survey", "Reference"))
-Survey_2022_merged_dhps2_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_2022_dhps2.*", c("SeqID", "Marker", "Survey", "Reference"))
-Survey_2022_merged_K131_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_2022_K131.*", c("SeqID", "Marker", "Survey", "Reference"))
-Survey_2022_merged_K132_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_2022_K132.*", c("SeqID", "Marker", "Survey", "Reference"))
-Survey_2022_merged_mdr11_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_2022_mdr11.*", c("SeqID", "Marker","Survey",  "Reference"))
-Survey_2022_merged_mdr12_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_2022_mdr12.*", c("SeqID", "Marker","Survey",  "Reference"))
-Survey_2022_merged_mdr13_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_2022_mdr13.*", c("SeqID", "Marker","Survey",  "Reference"))
-Survey_2022_merged_aat1_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_2022_aat1.*", c("SeqID", "Marker", "Survey", "Reference"))
-Survey_2022_merged_pfs471_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_2022_pfs471.*", c("SeqID", "Marker", "Survey", "Reference"))
-Survey_2022_merged_pfs472_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_2022_pfs472.*", c("SeqID", "Marker", "Survey", "Reference"))
-
-### Join Surveys ###
-merged_crt_data <- bind_rows(Survey_2017_merged_crt_data, Survey_2022_merged_crt_data)
-merged_dhfr_data <- bind_rows(Survey_2017_merged_dhfr_data, Survey_2022_merged_dhfr_data)
-merged_dhps1_data <- bind_rows(Survey_2017_merged_dhps1_data, Survey_2022_merged_dhps1_data)
-merged_dhps2_data <- bind_rows(Survey_2017_merged_dhps2_data, Survey_2022_merged_dhps2_data)
-merged_K131_data <- bind_rows(Survey_2017_merged_K131_data, Survey_2022_merged_K131_data)
-merged_K132_data <- bind_rows(Survey_2017_merged_K132_data, Survey_2022_merged_K132_data)
-merged_mdr11_data <- bind_rows(Survey_2017_merged_mdr11_data, Survey_2022_merged_mdr11_data)
-merged_mdr12_data <- bind_rows(Survey_2017_merged_mdr12_data, Survey_2022_merged_mdr12_data)
-merged_mdr13_data <- bind_rows(Survey_2017_merged_mdr13_data, Survey_2022_merged_mdr13_data)
+Survey_merged_crt_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_crt.*", c("SeqID", "Marker", "Survey", "Reference"))
+Survey_merged_dhfr_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_dhfr.*", c("SeqID", "Marker", "Survey", "Reference"))
+Survey_merged_dhps1_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_dhps1.*", c("SeqID", "Marker", "Survey", "Reference"))
+Survey_merged_dhps2_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_dhps2.*", c("SeqID", "Marker", "Survey", "Reference"))
+Survey_merged_K131_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_K131.*", c("SeqID", "Marker", "Survey", "Reference"))
+Survey_merged_K132_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_K132.*", c("SeqID", "Marker", "Survey", "Reference"))
+Survey_merged_mdr11_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_mdr11.*", c("SeqID", "Marker","Survey",  "Reference"))
+Survey_merged_mdr12_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_mdr12.*", c("SeqID", "Marker","Survey",  "Reference"))
+Survey_merged_mdr13_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_mdr13.*", c("SeqID", "Marker","Survey",  "Reference"))
+Survey_merged_aat1_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_aat1.*", c("SeqID", "Marker", "Survey", "Reference"))
+Survey_merged_pfs471_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_pfs471.*", c("SeqID", "Marker", "Survey", "Reference"))
+Survey_merged_pfs472_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_pfs472.*", c("SeqID", "Marker", "Survey", "Reference"))
 ```
 
 ## Changes & Isolate Type
@@ -670,18 +650,18 @@ syn_nonsyn_diffs <- function(df) {
 
 ###### Apply to data ###### 
 
-syn_nonsyn_crt <- syn_nonsyn_diffs(merged_crt_data)
-syn_nonsyn_dhfr <- syn_nonsyn_diffs(merged_dhfr_data)
-syn_nonsyn_dhps1 <- syn_nonsyn_diffs(merged_dhps1_data)
-syn_nonsyn_dhps2 <- syn_nonsyn_diffs(merged_dhps2_data)
-syn_nonsyn_K131 <- syn_nonsyn_diffs(merged_K131_data)
-syn_nonsyn_K132 <- syn_nonsyn_diffs(merged_K132_data)
-syn_nonsyn_mdr11 <- syn_nonsyn_diffs(merged_mdr11_data)
-syn_nonsyn_mdr12 <- syn_nonsyn_diffs(merged_mdr12_data)
-syn_nonsyn_mdr13 <- syn_nonsyn_diffs(merged_mdr13_data)
-syn_nonsyn_aat1 <- syn_nonsyn_diffs(Survey_2022_merged_aat1_data)
-syn_nonsyn_pfs471 <- syn_nonsyn_diffs(Survey_2022_merged_pfs471_data)
-syn_nonsyn_pfs472 <- syn_nonsyn_diffs(Survey_2022_merged_pfs472_data)
+syn_nonsyn_crt <- syn_nonsyn_diffs(Survey_merged_crt_data)
+syn_nonsyn_dhfr <- syn_nonsyn_diffs(Survey_merged_dhfr_data)
+syn_nonsyn_dhps1 <- syn_nonsyn_diffs(Survey_merged_dhps1_data)
+syn_nonsyn_dhps2 <- syn_nonsyn_diffs(Survey_merged_dhps2_data)
+syn_nonsyn_K131 <- syn_nonsyn_diffs(Survey_merged_K131_data)
+syn_nonsyn_K132 <- syn_nonsyn_diffs(Survey_merged_K132_data)
+syn_nonsyn_mdr11 <- syn_nonsyn_diffs(Survey_merged_mdr11_data)
+syn_nonsyn_mdr12 <- syn_nonsyn_diffs(Survey_merged_mdr12_data)
+syn_nonsyn_mdr13 <- syn_nonsyn_diffs(Survey_merged_mdr13_data)
+syn_nonsyn_aat1 <- syn_nonsyn_diffs(Survey_merged_aat1_data)
+syn_nonsyn_pfs471 <- syn_nonsyn_diffs(Survey_merged_pfs471_data)
+syn_nonsyn_pfs472 <- syn_nonsyn_diffs(Survey_merged_pfs472_data)
 ```
 
 ### Separate files based on Isolate Type (MRS_Isolate, Control, Repeat)

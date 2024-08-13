@@ -3,7 +3,30 @@ title: "Step_04_Specific_mdr12_dhps2_Cleaning"
 format: html
 ---
 
-Re-formatting mdr1-2 and dhps-2 based on controls.
+Both mdr1-2 and dhps-2 contain isolates that appear to have SAME genotype but are said to be in different clusters. I found that this is because for mdr1-2, either the last one or last six nucleotide differ. For dhps-2 there is a string of A's that are variable. 
+
+- mdr1-2: Remove codons 1077, 1078, 1079
+
+| Last 6 nucleotides      | n |
+| ----------- | ----------- |
+| AAAATG      | 1088       |
+| AAAATT   | 981        |
+| TTTCTG   | 550        |
+
+- dhps-2: Remove codons 520 and 520.1
+
+| Nucleotides 50 to 75      | n |
+| ----------- | ----------- |
+| TTAAAAAAAAAAAAAAACAAATTCT      | 2       |
+| TTAAAAAAAAAAAAAACAAATTCTA   | 204        |
+| TTAAAAAAAAAAAAACAAATTCTAT   | 18        |
+| TTAAAAAAAAAAAACAAATTCTATA      | 1790       |
+| TTAAAAAAAAAACAAATTCTATAGT   | 964        |
+| TTAAAAAAAAAAACAAATTCTATAG   | 1        |
+
+- NOTE: MID 47 (TGTGAGTAGT, [Roche](https://www.yumpu.com/en/document/read/24794008/roche-mid-adapters)) exists within the dhps-2 amplicon sequence. Our current SeekDeep parameters account for this by only searching for the MID in the first 8 nucleotides of the amplicon.  
+
+- This R Notebook contains the re-formatting of mdr1-2 and dhps-2. 
 
 ```{r}
 library(tidyverse)
@@ -11,6 +34,8 @@ library(janitor)
 ```
 
 # Load Data
+
+Load your final dhps2 and mdr12 haplotype ("_Isolates_Final_Haps.csv"), amino acid sequence ("_final_AA_Aligned_Isolates_Final_Haps.csv") and nucleotide sequence ("_final_NT_Aligned_Isolates_Final_Haps.csv") files as below: 
 
 ```{r}
 ######## dhps-2 ######### 
@@ -24,6 +49,9 @@ mdr12_isolates_seq_NT_final <- read.csv("05_All_DrugR_NT_Sequences/Isolates/Surv
 ```
 
 # dhps-2: Codons 520 and 520.1
+
+- Here we are going to remove codons 520 and 520.1 by `  select(-c(X3D7_520, X3D7_520.1)) %>% `
+- And recalculate the frequency and read count of the new list of codons: ` %>%  summarise(Freq_new = sum(Frequency), ReadCnt_new = sum(c_ReadCnt)) %>% mutate(Freq_new = ifelse(Freq_new==0.9999997, 1, Freq_new))`
 
 ```{r}
 new_freqs_seq_NT <- dhps2_isolates_seq_NT_final %>% 
@@ -60,6 +88,8 @@ dhps2_isolates_Haps_final_CLEANED <- dhps2_isolates_Haps_final %>%
 
 # mdr1-2: Remove X3D7_1077, X3D7_1078, X3D7_1079
 
+- Here we are going to remove codons 1077, 1078 and 1079 and recalculate the frequency and read count of the new list of codons: ` %>% mutate(Frequency = as.numeric(Frequency), c_ReadCnt = as.numeric(c_ReadCnt)) %>% unite("Sequence", X3D7_939:X3D7_1076, sep = "")`
+
 ```{r}
 mdr12_new_freqs_seq_NT <- mdr12_isolates_seq_NT_final %>% 
   mutate(Frequency = as.numeric(Frequency), c_ReadCnt = as.numeric(c_ReadCnt)) %>%
@@ -92,6 +122,8 @@ mdr12_isolates_Haps_final_CLEANED <- mdr12_isolates_Haps_final %>%
 ```
 
 # Write new files
+
+Now write these new files and continue with your R journey! 
 
 ```{r}
 write.csv(dhps2_isolates_seq_NT_CLEANED, "05_All_DrugR_NT_Sequences/Isolates/Surveys_dhps2_final_NT_Aligned_Isolates_Final_Adjusted_Haps.csv", row.names = F)

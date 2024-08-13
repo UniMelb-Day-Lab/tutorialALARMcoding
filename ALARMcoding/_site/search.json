@@ -310,7 +310,7 @@
     "href": "3_Custom.html",
     "title": "Step 3: Processing in R",
     "section": "",
-    "text": "Back to top",
+    "text": "The final outputs from MASCE and SeekDeep are as follows:\nOur goal now is to interpret these results.\nThe following code was used to process the data:\n\n\n\n Back to top",
     "crumbs": [
       "Home",
       "Drug Resistance Pipeline",
