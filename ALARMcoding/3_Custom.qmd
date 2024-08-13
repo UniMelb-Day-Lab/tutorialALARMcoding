@@ -7,20 +7,201 @@ title: "Step 3: Processing in R"
 
 library(tidyverse)
 library(kableExtra)
+library(seqinr)
+library(Biostrings)
 options(knitr.table.format = "html") 
 knitr::opts_chunk$set(cache=TRUE)
 theme_set(theme_bw())
 
-#sample_MACSE_output <- read.csv()
-#sample_SeekDeep_output <- read.csv()
+sample_SeekDeep_output <- read.csv("Data/Sample_SeekDeep_output_selectedClusters.csv")
+fastaFile <- readBStringSet("Data/Sample_MACSE_output.fasta")
+seq_name = names(fastaFile)
+sequence = paste(fastaFile)
+sample_MACSE_output <- data.frame(seq_name, sequence)
 ```
 
-The final outputs from MASCE and SeekDeep are as follows:
+## SeekDeep and MACSE Outputs:
+
+The final outputs from MASCE ("\_NT.fasta" or "\_AA.fasta") and SeekDeep ("selectedClustersInfo.tab.txt") are as follows:
+
+::: panel-tabset
+### MACSE
+
+Here you have the sample name (seq_name) and the sequence (sequence).
 
 ```{r}
-
+#| echo: false
+#| 
+sample_MACSE_output %>%
+  knitr::kable(caption = "Table 13. Example of MACSE output", align = "ll", escape = FALSE) %>% 
+  kable_styling(bootstrap_options = c("condensed", "responsive"), full_width = TRUE, position = "left")
 ```
 
-Our goal now is to interpret these results.
+### SeekDeep
 
-The following code was used to process the data:
+The key variables of interest from the SeekDeep outputs include:
+
+-   The suffix in the s_SampleID column:
+    -   `.0_f1`: 0 = Major Haplotype, f1 = 100% of the isolate
+    -   `.0_f0.7328` 0 = Major Haplotype, f0.7328 = 73.28% of the isolate
+    -   `.1_f0.2672` 1 = Minor Haplotype, f0.2672 = 26.72% of the isolate
+-   h_popUID: Same numbers as the major and minor haplotypes denoted in that suffix
+-   c_ReadCnt: Read Count per amplicon/haplotype
+
+Note, "Marker" was a user-generated column to denote which marker these data are attributed to e.g., crt.
+
+```{r}
+#| echo: false
+
+sample_SeekDeep_output %>%
+  knitr::kable(caption = "Table 14. Example of SeekDeep output", align = "ll", escape = FALSE) %>% 
+  kable_styling(bootstrap_options = c("condensed", "responsive"), full_width = TRUE, position = "left")
+```
+:::
+
+## R Processing Guide
+
+Our goal now is to interpret these results. The following code was used to process the data.
+
+Create the following folders in a repository:
+
+```{mermaid}
+%%{init: { 'logLevel': 'debug', 'theme': 'base' } }%%
+gitGraph
+  commit id: "01_SeekDeep_Output"
+  commit id: "02_MACSE_Output_AA"
+  commit id: "02_MACSE_Output_NT"
+  commit id: "03_DrugR_AA_Sequences"
+  commit id: "03_DrugR_NT_Sequences"
+  commit id: "03_DrugR_AA_Changes"
+  commit id: "03_DrugR_NT_Changes"
+  commit id: "04_Compiled_AA_Sequences"
+  commit id: "04_Compiled_NT_Sequences"
+  commit id: "05_All_DrugR_AA_Sequences"
+  commit id: "05_All_DrugR_NT_Sequences"
+  commit id: "05_All_DrugR_Haplotypes"
+```
+
+-   **01_SeekDeep_Output**: Contains `extractionStats.tab.txt`, `selectedClustersInfo.tab.txt`, `extractionProfile.tab.txt` files for each pool and marker output from SeekDeep. This can be used at your own discretion to match processed sequences with read count data etc.
+-   **02_MACSE_Output_AA**: Contains all `_AA.fasta` files output from MACSE.
+-   **02_MACSE_Output_NT**: Contains all `_NT.fasta` files output from MACSE.
+-   **03_DrugR_AA_Sequences**: Output of processed amino acid files created from `Step_01_MACSE_to_R.qmd`.
+-   **03_DrugR_NT_Sequences**: Output of processed nucleotide files created from `Step_01_MACSE_to_R.qmd`.
+-   **03_DrugR_AA_Changes**: Output of processed non-synonymous changes files created from `Step_01_MACSE_to_R.qmd`.
+-   **03_DrugR_NT_Changes**: Output of processed synonymous and non-synonymous changes files created from `Step_01_MACSE_to_R.qmd`.
+-   **04_Compiled_AA_Sequences**: Output of compiling all amino acid files together created from `Step_01_MACSE_to_R.qmd`.
+-   **04_Compiled_NT_Sequences**: Output of compiling all nucleotide files together created from `Step_01_MACSE_to_R.qmd`.
+-   **05_All_DrugR_AA_Sequences**: Output of cleaned amino acid files created from `Step_02_R_Cleaning.qmd`.
+-   **05_All_DrugR_NT_Sequences**: Output of cleaned nucleotide files created from `Step_02_R_Cleaning.qmd`.
+-   **05_All_DrugR_Haplotypes**: Output of cleaned condensed haplotype files created from `Step_02_R_Cleaning.qmd`.
+
+## Step 01 : MACSE to R
+
+First we wish to process the MACSE output data with the suffix "\_NT.fasta" and "\_AA.fasta". This involves:
+
+1.  Aligning to the reference genome e.g., 3D7, Dd2 and HB3 to gain the **position** of each codon.
+2.  For **nucleotide** processing: Ensure columns are created for each codon: each 3 characters, i.e., nucleotides.
+3.  For **amino acid** processing: Ensure columns are created for each codon: each 1 character, i.e., amino acid.
+
+INPUTS:
+
+-   "\_NT.fasta" files: MACSE output
+-   "\_AA.fasta" files: MACSE output
+
+OUTPUTS:
+
+-   "\_NT_Aligned.csv": Data frame of aligned sequences to the 3D7 reference genome where each codon represented by a unique column.
+
+-   "\_NT_Aligned_YorN.csv": Data frame of whether the codon MATCHES YES (Y) or NO (N) the 3D7 reference.
+
+-   "\_NT_Aligned_NTchange.csv": Data frame of when codons DID NOT MATCH 3D7 reference and what the nature of the change is.
+
+-   "\_AA_Aligned.csv": Data frame of aligned sequences to the 3D7 reference genome where each codon represented by a unique column.
+
+-   "\_AA_Aligned_YorN.csv": Data frame of whether the codon MATCHES YES (Y) or NO (N) the 3D7 reference.
+
+-   "\_AA_Aligned_NTchange.csv": Data frame of when codons DID NOT MATCH 3D7 reference and what the nature of the change is.
+
+After we have processed each .fasta file to a .csv file, we can (1, 2) merge all .csv files per marker for NT (nucleotide) sequences and AA (amino acid) sequences and (3) write the .csv file for these merged files.
+
+## Step 02: R Cleaning
+
+The aim of this `.qmd` is to manipulate the **processed** MACSE files into files that contain variables of interest (e.g., **Survey**, **Marker**) and separate files for **Controls**, **Repeats** and **Isolates**. Further, this notebook will calculate the number of **synonymous** and **non-synonymous** mutations per isolate/sample and contain a column with all of the non-synonymous changes (from 3D7 reference).
+
+### Process Sequence Data
+
+AIMS: - Remove symbols: `*!-` - Separate SeqID code into "Isolate", "MID", "MID_N", "Pool", "Date", "Haplotype" - Create haplotype specific to marker
+
+INPUTS:
+
+-   \*All_NT_Aligned.csv Use as the sequence file and create haplotypes (e.g., CVMNT)
+
+OUTPUTS:
+
+-   05_All_DrugR_NT_Sequences/Controls/\*Controls_Haps.csv
+-   05_All_DrugR_NT_Sequences/Isolates/\*Isolates_Haps.csv
+-   05_All_DrugR_NT_Sequences/Repeats/\*Repeats_Haps.csv
+-   05_All_DrugR_Haplotypes/temp/\*Haps_only.csv
+
+The `Controls_Haps`, `Isolates_Haps` and `Repeats_Haps` files will contain the haplotype (Haps), the entire sequence separated by codon number and other info (SeqID, Reference and Marker). The `Haps_only` file will only contain the haplotype information (for the corresponding SeqID, Reference and Marker).
+
+### Process Codon Match Data
+
+INPUTS:
+
+-   \*All_NT_Aligned_YorN.csv: Use to determine how many NT changes from 3D7 reference (e.g., 1 change)
+-   \*All_AA_Aligned_YorN.csv: Use to determine how many AA changes from 3D7 reference (e.g., 1 change)
+
+OUTPUTS:
+
+-   \*All_NT_Aligned_YorN_Count.csv: Collapsed into a column of the total number of NT differences
+-   \*All_AA_Aligned_YorN_Count.csv: Collapsed into a column of the total number of AA differences
+
+### Process Codon Differences
+
+INPUTS:
+
+-   \*All_NT_Aligned_NTchange.csv: Use to determine the actual NT change from 3D7 reference (e.g., AAA76ACA)
+-   \*All_AA_Aligned_AAchange.csv: Use to determine the actual AA change from 3D7 reference (e.g., K76T)
+
+OUTPUTS:
+
+-   \*All_NT_Aligned_NTchange_Final.csv: Contains a collapsed column with all NT changes
+-   \*All_NT_Aligned_AAchange_Final.csv: Contains a collapsed column with all AA changes
+
+### Join Data
+
+INPUTS:
+
+All/temp/files Includes `_Haps.csv`, `YorN_Counts.csv`, `change_Final.csv` for both NT and AA (separated for each Fraction cut-off to analyse and marker)
+
+OUTPUTS:
+
+-   Isolates_Final_Haps
+-   Controls_Final_Haps
+-   Repeats_Final_Haps
+
+All input files are merged at similar columns "SeqID", "Marker" and "Reference"
+
+## Step 03: Specific Changes: dhps-2 and mdr1-2
+
+Both dhps-2 and mdr1-2 contain isolates that appear to have SAME genotype but are said to be in different clusters.
+
+CHALLENGE: For dhps-2 there is a string of A's that are variable. PROPOSED SOLUTION: Remove codons 520 and 520.1 (corresponding to nucleotides 50 to 75 in the sequence files). Also NOTE: MID 47 (TGTGAGTAGT, [Roche](https://www.yumpu.com/en/document/read/24794008/roche-mid-adapters)) exists within the dhps-2 amplicon sequence. Our current SeekDeep parameters account for this by only searching for the MID in the first 8 nucleotides of the amplicon.
+
+| Nucleotides 50 to 75      | n    |
+|---------------------------|------|
+| TTAAAAAAAAAAAAAAACAAATTCT | 2    |
+| TTAAAAAAAAAAAAAACAAATTCTA | 204  |
+| TTAAAAAAAAAAAAACAAATTCTAT | 18   |
+| TTAAAAAAAAAAAACAAATTCTATA | 1790 |
+| TTAAAAAAAAAACAAATTCTATAGT | 964  |
+| TTAAAAAAAAAAACAAATTCTATAG | 1    |
+
+CHALLENGE: I found that this is because for mdr1-2, either the last one or last six nucleotide differ. PROPOSED SOLUTION: Remove codons 1077, 1078, 1079.
+
+| Last 6 nucleotides | n    |
+|--------------------|------|
+| AAAATG             | 1088 |
+| AAAATT             | 981  |
+| TTTCTG             | 550  |

@@ -18,7 +18,7 @@ Below is a **brief** overview of how to perform the bioinformatic post-PCR proce
 
 To Run SeekDeep in **Terminal**, load:
 
-`export PATH=/home/user/software/SeekDeep-3.0.1/bin/:$PATH``
+`export PATH=/home/user/software/SeekDeep-3.0.1/bin/:$PATH`
 
 Run SeekDeep: 
 

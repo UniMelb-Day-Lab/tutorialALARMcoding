@@ -28,7 +28,7 @@ names(alarmcoding_PCR_multiplex_4)[6] <- paste0(names(alarmcoding_PCR_multiplex_
 
 alarmcoding_PCR_multiplex_4 %>%
   select(-c(Gene, Length:Codons)) %>% 
-  knitr::kable(caption = "Details about primers used in Multiplex 4 of the <em>ALARM</em>coding PCR genotyping protocol", align = "lcccc", escape = FALSE) %>% 
+  knitr::kable(caption = "Table 8. Details about primers used in Multiplex 4 of the <em>ALARM</em>coding PCR genotyping protocol", align = "lcccc", escape = FALSE) %>% 
       # Remember this escape = F
   kable_styling(bootstrap_options = c("condensed", "responsive"), full_width = T) %>% 
   group_rows("Putative amino acid transporter (<em>pfaat1r</em>: PF3D7_0629500)", 1, 4, escape = FALSE) %>% 
@@ -39,9 +39,9 @@ alarmcoding_PCR_multiplex_4 %>%
            footnote_as_chunk = T)
 ```
 
-## PCR Instructions 
+## PCR Instructions
 
-### Round 1. 
+### Round 1.
 
 The first round PCR was carried out in a total volume of 25 μL with 1 x buffer, 500 uM dNTPs mix (Promega), 5 mM MgCl2, 200 nM of each primer (forward (F) and reverse (R)), 1.3 units of GoTaq Flexi Polymerase (Promega) and only 2 μL of genomic DNA.
 
@@ -62,26 +62,24 @@ multiplex_4_round_1  %>%
   kable_styling(bootstrap_options = c("condensed", "responsive"), full_width = T)  
 ```
 
-Cycling conditions: 
+Cycling conditions:
 
-* 95°C/2 min 
-* 40 cycles of: 
-  * 95°C/20 sec, 
-  * 58°C/2 min, 
-  * 72/2 min;
-* 72°C/10 min
-* Resting at 4°C. 
+-   95°C/2 min
+-   40 cycles of:
+    -   95°C/20 sec,
+    -   58°C/2 min,
+    -   72/2 min;
+-   72°C/10 min
+-   Resting at 4°C.
 
-
-### Round 2. 
+### Round 2.
 
 The second-round simplex PCRs were carried out in separate reactions per inner fragment primer pair.
 
 ::: panel-tabset
-
 #### aat1
 
-For *pfaat1*, there was a total volume of 25 μL containing 1x Buffer, 500 uM dNTPs mix, 5 mM MgCl2, 200 nM of each primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round. 
+For *pfaat1*, there was a total volume of 25 μL containing 1x Buffer, 500 uM dNTPs mix, 5 mM MgCl2, 200 nM of each primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round.
 
 ```{r}
 #| echo: false
@@ -102,17 +100,17 @@ multiplex_4_round_2_aat1  %>%
 
 Cycling conditions:
 
-* 95°C/2 min
-* 40 cycles of: 
-  * 95°C/20 sec
-  * **56**°C/2 min
-  * 72/2 min;
-* 72°C/10 min
-* Resting at 4°C. 
+-   95°C/2 min
+-   40 cycles of:
+    -   95°C/20 sec
+    -   **56**°C/2 min
+    -   72/2 min;
+-   72°C/10 min
+-   Resting at 4°C.
 
 #### pfs47-1
 
-For *pfs47* fragments 1 and 2, there conditions were as follows: a total volume of 20 μL containing 1x Buffer, 125 uM dNTPs mix, 2 mM MgCl2, 125 nM of each primer (F/R), 0.4 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round. 
+For *pfs47* fragments 1 and 2, there conditions were as follows: a total volume of 20 μL containing 1x Buffer, 125 uM dNTPs mix, 2 mM MgCl2, 125 nM of each primer (F/R), 0.4 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round.
 
 ```{r}
 #| echo: false
@@ -131,20 +129,19 @@ multiplex_4_round_2_pfs471  %>%
   kable_styling(bootstrap_options = c("condensed", "responsive"), full_width = T)  
 ```
 
-
 Cycling conditions:
 
-* 95°C/2 min
-* 40 cycles of: 
-  * 95°C/20 sec
-  * **59**°C/2 min
-  * 72/2 min;
-* 72°C/10 min
-* Resting at 4°C. 
+-   95°C/2 min
+-   40 cycles of:
+    -   95°C/20 sec
+    -   **59**°C/2 min
+    -   72/2 min;
+-   72°C/10 min
+-   Resting at 4°C.
 
 #### pfs47-2
 
-For *pfs47* fragments 1 and 2, there conditions were as follows: a total volume of 20 μL containing 1x Buffer, 125 uM dNTPs mix, 2 mM MgCl2, 125 nM of each primer (F/R), 0.4 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round. 
+For *pfs47* fragments 1 and 2, there conditions were as follows: a total volume of 20 μL containing 1x Buffer, 125 uM dNTPs mix, 2 mM MgCl2, 125 nM of each primer (F/R), 0.4 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round.
 
 ```{r}
 #| echo: false
@@ -165,18 +162,16 @@ multiplex_4_round_2_pfs472  %>%
 
 Cycling conditions:
 
-* 95°C/2 min
-* 40 cycles of: 
-  * 95°C/20 sec
-  * **59**°C/2 min
-  * 72/2 min;
-* 72°C/10 min
-* Resting at 4°C. 
-
-
+-   95°C/2 min
+-   40 cycles of:
+    -   95°C/20 sec
+    -   **59**°C/2 min
+    -   72/2 min;
+-   72°C/10 min
+-   Resting at 4°C.
 :::
 
-## Final Sequences 
+## Final Sequences
 
 ```{r}
 #| echo: false
@@ -189,7 +184,7 @@ alarmcoding_PCR_multiplex_4 %>%
                             Length==390 ~ "pfs47-1",
                             Length==429 ~ "pfs47-2", .default = "CHECK")) %>%
   select(Marker, Length, PCR_Round, Codons) %>% 
-  knitr::kable(caption = "Table 2. Details about sequences genotyped in Multiplex 4 of the <em>ALARM</em>coding protocol", align = "lcccc", escape = FALSE) %>% 
+  knitr::kable(caption = "Table 9. Details about sequences genotyped in Multiplex 4 of the <em>ALARM</em>coding protocol", align = "lcccc", escape = FALSE) %>% 
   kable_styling(bootstrap_options = c("condensed", "responsive"), full_width = T) %>% 
   group_rows("Putative amino acid transporter (<em>pfaat1r</em>: PF3D7_0629500)", 1, 2, escape = FALSE) %>% 
   group_rows("6-cysteine protein (<em>pfs47r</em>: PF3D7_1346800)", 3, 5, escape = FALSE)

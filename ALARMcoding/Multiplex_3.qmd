@@ -28,7 +28,7 @@ names(alarmcoding_PCR_multiplex_3)[6] <- paste0(names(alarmcoding_PCR_multiplex_
 
 alarmcoding_PCR_multiplex_3 %>%
   select(-c(Gene, Length:Codons)) %>% 
-  knitr::kable(caption = "Details about primers used in Multiplex 3 of the <em>ALARM</em>coding PCR genotyping protocol", align = "lcccc", escape = FALSE) %>% 
+  knitr::kable(caption = "Table 6. Details about primers used in Multiplex 3 of the <em>ALARM</em>coding PCR genotyping protocol", align = "lcccc", escape = FALSE) %>% 
       # Remember this escape = F
   kable_styling(bootstrap_options = c("condensed", "responsive"), full_width = T) %>% 
   group_rows("Dihydropteroate synthase (<em>pfdhps</em>: PF3D7_0810800)", 1, 6, escape = FALSE) %>% 
@@ -39,9 +39,10 @@ alarmcoding_PCR_multiplex_3 %>%
            footnote_as_chunk = T)
 ```
 
-## PCR Instructions 
+## PCR Instructions
 
-### Round 1. 
+### Round 1.
+
 The first round PCR was carried out in a total volume of 25 μL with 1 x buffer, 500 uM dNTPs mix (Promega), 5 mM MgCl2, 200 nM of each primer (forward (F) and reverse (R)), 1.3 units of GoTaq Flexi Polymerase (Promega) and only 2 μL of genomic DNA.
 
 ```{r}
@@ -61,22 +62,21 @@ multiplex_3_round_1  %>%
   kable_styling(bootstrap_options = c("condensed", "responsive"), full_width = T)  
 ```
 
-Cycling conditions: 
+Cycling conditions:
 
-* 95°C/2 min 
-* 40 cycles of: 
-  * 95°C/20 sec, 
-  * 58°C/2 min, 
-  * 72/2 min;
-* 72°C/10 min
-* Resting at 4°C. 
+-   95°C/2 min
+-   40 cycles of:
+    -   95°C/20 sec,
+    -   58°C/2 min,
+    -   72/2 min;
+-   72°C/10 min
+-   Resting at 4°C.
 
-### Round 2. 
+### Round 2.
 
-The second round of the nested PCR was carried out in separate reactions containing a single inner fragment primer pair and with a total volume of 25 μL containing 1x Buffer, 500 uM dNTPs mix, 5 mM MgCl2, 200 nM of each primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 1 μL of PCR product from round 1. 
+The second round of the nested PCR was carried out in separate reactions containing a single inner fragment primer pair and with a total volume of 25 μL containing 1x Buffer, 500 uM dNTPs mix, 5 mM MgCl2, 200 nM of each primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 1 μL of PCR product from round 1.
 
 ::: panel-tabset
-
 #### dhps-1
 
 ```{r}
@@ -133,20 +133,19 @@ multiplex_3_round_2_dhfr  %>%
   knitr::kable(align = "lcccc") %>% 
   kable_styling(bootstrap_options = c("condensed", "responsive"), full_width = T)  
 ```
-
 :::
 
 Cycling conditions for each simplex reaction:
 
-* 95°C/2 min
-* 40 cycles of: 
-  * 95°C/20 sec
-  * 58°C/2 min
-  * 72/2 min;
-* 72°C/10 min
-* Resting at 4°C. 
+-   95°C/2 min
+-   40 cycles of:
+    -   95°C/20 sec
+    -   58°C/2 min
+    -   72/2 min;
+-   72°C/10 min
+-   Resting at 4°C.
 
-## Final Sequences 
+## Final Sequences
 
 ```{r}
 #| echo: false
@@ -159,9 +158,8 @@ alarmcoding_PCR_multiplex_3 %>%
                             Length==766 ~ "dhfr Round 1 Product",
                             Length==523 ~ "dhfr", .default = "CHECK")) %>%
   select(Marker, Length, PCR_Round, Codons) %>% 
-  knitr::kable(caption = "Table 2. Details about sequences genotyped in Multiplex 3 of the <em>ALARM</em>coding protocol", align = "lcccc", escape = FALSE) %>% 
+  knitr::kable(caption = "Table 7. Details about sequences genotyped in Multiplex 3 of the <em>ALARM</em>coding protocol", align = "lcccc", escape = FALSE) %>% 
   kable_styling(bootstrap_options = c("condensed", "responsive"), full_width = T) %>% 
   group_rows("Dihydropteroate synthase (<em>pfdhps</em>: PF3D7_0810800)", 1, 3, escape = FALSE) %>% 
   group_rows("Dihydrofolate reductase (<em>pfdhfr</em>: PF3D7_0417200)", 4, 5, escape = FALSE)
 ```
-

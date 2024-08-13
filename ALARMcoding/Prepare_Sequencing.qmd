@@ -34,7 +34,7 @@ colnames(pooling_isolates)[colnames(pooling_isolates)=="Cumulative.Volume"] <- "
 names(pooling_isolates)[6] <- paste0(names(pooling_isolates)[6],  footnote_marker_alphabet(1))
 
 pooling_isolates %>%
-  knitr::kable(caption = "Table 2. Example table to organise pooling of isolates per marker in 'sub-pools'",
+  knitr::kable(caption = "Table 10. Example table to organise pooling of isolates per marker in 'sub-pools'",
                align = "lcccc", escape = FALSE) %>% 
   kable_styling(bootstrap_options = c("condensed", "responsive"), full_width = TRUE) %>%
   footnote(alphabet = c("Agarose gel densitometry data"),
@@ -56,7 +56,7 @@ colnames(offsetting)[colnames(offsetting)=="bp"] <- "Size (bp)"
 colnames(offsetting)[colnames(offsetting)=="MID...bp"] <- "Size + MID (bp)"
 
 offsetting %>%
-  knitr::kable(caption = "Table 3. Offsetting by marker fragment size.",
+  knitr::kable(caption = "Table 11. Offsetting by marker fragment size.",
                align = "lcccc", escape = FALSE) %>% 
   kable_styling(bootstrap_options = c("condensed", "responsive"), full_width = T)
 ```
@@ -77,7 +77,7 @@ colnames(pooling_pools)[colnames(pooling_pools)=="Volume.per.sub.pool.required.f
 names(pooling_isolates)[8] <- paste0(names(pooling_isolates)[8],  footnote_marker_alphabet(1))
 pooling_pools %>%
   select(-Pool.Offset.Percentage) %>% 
-  knitr::kable(caption = "Table 4. Example table to organise pooling of isolates per marker in 'sub-pools'",
+  knitr::kable(caption = "Table 12. Example table to organise pooling of isolates per marker in 'sub-pools'",
                align = "lcccc", escape = FALSE) %>% 
   kable_styling(bootstrap_options = c("condensed", "responsive"), full_width = TRUE) %>%
   footnote(alphabet = c("Calculated as the number of isolates per sub-pool (104) times the 200 ng/uL per amplicon equimolar concentration standardisation: 20,800 ng total"),

@@ -16,7 +16,7 @@ library(Biostrings)
 
 First we wish to process the MACSE output data with the suffix "_NT.fasta" and "_AA.fasta". This involves: 
 
-1. Aligning to the refernece genome e.g., 3D7, Dd2 and HB3 to gain the **position** of each codon. 
+1. Aligning to the reference genome e.g., 3D7, Dd2 and HB3 to gain the **position** of each codon. 
 2. For **nucleotide** processing: Ensure columns are created for each codon: each 3 characters, i.e., nucleotides. 
 3. For **amino acid** processing: Ensure columns are created for each codon: each 1 character, i.e., amino acid. 
 

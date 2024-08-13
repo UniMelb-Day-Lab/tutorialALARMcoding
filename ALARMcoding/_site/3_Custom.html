@@ -70,6 +70,11 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="styles.css">
@@ -264,7 +269,23 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#seekdeep-and-macse-outputs" id="toc-seekdeep-and-macse-outputs" class="nav-link active" data-scroll-target="#seekdeep-and-macse-outputs">SeekDeep and MACSE Outputs:</a></li>
+  <li><a href="#r-processing-guide" id="toc-r-processing-guide" class="nav-link" data-scroll-target="#r-processing-guide">R Processing Guide</a></li>
+  <li><a href="#step-01-macse-to-r" id="toc-step-01-macse-to-r" class="nav-link" data-scroll-target="#step-01-macse-to-r">Step 01 : MACSE to R</a></li>
+  <li><a href="#step-02-r-cleaning" id="toc-step-02-r-cleaning" class="nav-link" data-scroll-target="#step-02-r-cleaning">Step 02: R Cleaning</a>
+  <ul class="collapse">
+  <li><a href="#process-sequence-data" id="toc-process-sequence-data" class="nav-link" data-scroll-target="#process-sequence-data">Process Sequence Data</a></li>
+  <li><a href="#process-codon-match-data" id="toc-process-codon-match-data" class="nav-link" data-scroll-target="#process-codon-match-data">Process Codon Match Data</a></li>
+  <li><a href="#process-codon-differences" id="toc-process-codon-differences" class="nav-link" data-scroll-target="#process-codon-differences">Process Codon Differences</a></li>
+  <li><a href="#join-data" id="toc-join-data" class="nav-link" data-scroll-target="#join-data">Join Data</a></li>
+  </ul></li>
+  <li><a href="#step-03-specific-changes-dhps-2-and-mdr1-2" id="toc-step-03-specific-changes-dhps-2-and-mdr1-2" class="nav-link" data-scroll-target="#step-03-specific-changes-dhps-2-and-mdr1-2">Step 03: Specific Changes: dhps-2 and mdr1-2</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -288,11 +309,316 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>The final outputs from MASCE and SeekDeep are as follows:</p>
-<p>Our goal now is to interpret these results.</p>
-<p>The following code was used to process the data:</p>
+<section id="seekdeep-and-macse-outputs" class="level2">
+<h2 class="anchored" data-anchor-id="seekdeep-and-macse-outputs">SeekDeep and MACSE Outputs:</h2>
+<p>The final outputs from MASCE (“_NT.fasta” or “_AA.fasta”) and SeekDeep (“selectedClustersInfo.tab.txt”) are as follows:</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">MACSE</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">SeekDeep</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>Here you have the sample name (seq_name) and the sequence (sequence).</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-condensed caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<caption>Table 13. Example of MACSE output</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">seq_name</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">sequence</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">PF3D7_0709000</td>
+<td style="text-align: left;">MKFASKKNNQKNSSKNDERYRELDNLVQEGNGSRLGGGSCLGKCAHVFKLIFKEIKDNIFIYILSIIYLSVCVMNKIFAKRTLNKIGNYSFVTSETHNFICMIMFFIVYSLFGNKKGNSKERHRSFNLQFFAISMLDACSVILAFIGLTRTTGNIQSFVLQLSIPINMFFCFLILRYRYHLYNYLGAVIIVVTIALVEMKLSFETQEENSIIFNLVLISALIPVCFSNMTREIVFKKYKIDILRLNAMVSFFQLFTSCLILPVYTLPFLKQLHLPYNEIWTNIKNGFACLFLGRNTVVENCGLGMAKLCDDCDGAWKTFALFSFFNICDNLITSYIIDKFSTMTYTIVSCIQGPAIAIAYYFKFLAGDVVREPRLLDFVTLFGYLFGSIIYRVGNIILERKKMRNEENEDSEGELTNVDSIITQ*</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3D7.MID108.Pool1.0_f1</td>
+<td style="text-align: left;">---------------------------------------!LGKCAHVFKLIFKEIKDNIFIYILSIIYLSVCVMNKIFAKRTLNKIGNYSF----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SAMPLE1.MID1.Pool1.0_f1</td>
+<td style="text-align: left;">---------------------------------------!LGKCAHVFKLIFKEIKDNIFIYILSIIYLSVCVMNKIFAKRTLNKIGNYSF----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SAMPLE2.MID2.Pool1.0_f1</td>
+<td style="text-align: left;">---------------------------------------!LGKCAHVFKLIFKEIKDNIFIYILSIIYLSVCVMNKIFAKRTLNKIGNYSF----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SAMPLE3.MID3.Pool1.0_f0.7328</td>
+<td style="text-align: left;">---------------------------------------!LGKCAHVFKLIFKEIKDNIFIYILSIIYLSVCVMNKIFAKRTLNKIGNYSF----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SAMPLE3.MID3.Pool1.1_f0.2672</td>
+<td style="text-align: left;">---------------------------------------!LGKCAHVFKLIFKEIKDNIFIYILSIIYLSVCVIETIFAKRTLNKIGNYSF----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</td>
+</tr>
+</tbody>
+</table>
+</div>
 
 
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>The key variables of interest from the SeekDeep outputs include:</p>
+<ul>
+<li>The suffix in the s_SampleID column:
+<ul>
+<li><code>.0_f1</code>: 0 = Major Haplotype, f1 = 100% of the isolate</li>
+<li><code>.0_f0.7328</code> 0 = Major Haplotype, f0.7328 = 73.28% of the isolate</li>
+<li><code>.1_f0.2672</code> 1 = Minor Haplotype, f0.2672 = 26.72% of the isolate</li>
+</ul></li>
+<li>h_popUID: Same numbers as the major and minor haplotypes denoted in that suffix</li>
+<li>c_ReadCnt: Read Count per amplicon/haplotype</li>
+</ul>
+<p>Note, “Marker” was a user-generated column to denote which marker these data are attributed to e.g., crt.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-condensed caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<caption>Table 14. Example of SeekDeep output</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Marker</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">s_Sample</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">h_popUID</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">c_ReadCnt</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">crt</td>
+<td style="text-align: left;">3D7.MID108.Pool1.0_f1</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">2205</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">crt</td>
+<td style="text-align: left;">SAMPLE1.MID1.Pool1.0_f1</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">1772</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">crt</td>
+<td style="text-align: left;">SAMPLE2.MID2.Pool1.0_f1</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">4368</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">crt</td>
+<td style="text-align: left;">SAMPLE3.MID3.Pool1.0_f0.7328</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">3789</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">crt</td>
+<td style="text-align: left;">SAMPLE3.MID3.Pool1.1_f0.2672</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">2682</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="r-processing-guide" class="level2">
+<h2 class="anchored" data-anchor-id="r-processing-guide">R Processing Guide</h2>
+<p>Our goal now is to interpret these results. The following code was used to process the data.</p>
+<p>Create the following folders in a repository:</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">%%{init: { 'logLevel': 'debug', 'theme': 'base' } }%%
+gitGraph
+  commit id: "01_SeekDeep_Output"
+  commit id: "02_MACSE_Output_AA"
+  commit id: "02_MACSE_Output_NT"
+  commit id: "03_DrugR_AA_Sequences"
+  commit id: "03_DrugR_NT_Sequences"
+  commit id: "03_DrugR_AA_Changes"
+  commit id: "03_DrugR_NT_Changes"
+  commit id: "04_Compiled_AA_Sequences"
+  commit id: "04_Compiled_NT_Sequences"
+  commit id: "05_All_DrugR_AA_Sequences"
+  commit id: "05_All_DrugR_NT_Sequences"
+  commit id: "05_All_DrugR_Haplotypes"
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<ul>
+<li><strong>01_SeekDeep_Output</strong>: Contains <code>extractionStats.tab.txt</code>, <code>selectedClustersInfo.tab.txt</code>, <code>extractionProfile.tab.txt</code> files for each pool and marker output from SeekDeep. This can be used at your own discretion to match processed sequences with read count data etc.</li>
+<li><strong>02_MACSE_Output_AA</strong>: Contains all <code>_AA.fasta</code> files output from MACSE.</li>
+<li><strong>02_MACSE_Output_NT</strong>: Contains all <code>_NT.fasta</code> files output from MACSE.</li>
+<li><strong>03_DrugR_AA_Sequences</strong>: Output of processed amino acid files created from <code>Step_01_MACSE_to_R.qmd</code>.</li>
+<li><strong>03_DrugR_NT_Sequences</strong>: Output of processed nucleotide files created from <code>Step_01_MACSE_to_R.qmd</code>.</li>
+<li><strong>03_DrugR_AA_Changes</strong>: Output of processed non-synonymous changes files created from <code>Step_01_MACSE_to_R.qmd</code>.</li>
+<li><strong>03_DrugR_NT_Changes</strong>: Output of processed synonymous and non-synonymous changes files created from <code>Step_01_MACSE_to_R.qmd</code>.</li>
+<li><strong>04_Compiled_AA_Sequences</strong>: Output of compiling all amino acid files together created from <code>Step_01_MACSE_to_R.qmd</code>.</li>
+<li><strong>04_Compiled_NT_Sequences</strong>: Output of compiling all nucleotide files together created from <code>Step_01_MACSE_to_R.qmd</code>.</li>
+<li><strong>05_All_DrugR_AA_Sequences</strong>: Output of cleaned amino acid files created from <code>Step_02_R_Cleaning.qmd</code>.</li>
+<li><strong>05_All_DrugR_NT_Sequences</strong>: Output of cleaned nucleotide files created from <code>Step_02_R_Cleaning.qmd</code>.</li>
+<li><strong>05_All_DrugR_Haplotypes</strong>: Output of cleaned condensed haplotype files created from <code>Step_02_R_Cleaning.qmd</code>.</li>
+</ul>
+</section>
+<section id="step-01-macse-to-r" class="level2">
+<h2 class="anchored" data-anchor-id="step-01-macse-to-r">Step 01 : MACSE to R</h2>
+<p>First we wish to process the MACSE output data with the suffix “_NT.fasta” and “_AA.fasta”. This involves:</p>
+<ol type="1">
+<li>Aligning to the reference genome e.g., 3D7, Dd2 and HB3 to gain the <strong>position</strong> of each codon.</li>
+<li>For <strong>nucleotide</strong> processing: Ensure columns are created for each codon: each 3 characters, i.e., nucleotides.</li>
+<li>For <strong>amino acid</strong> processing: Ensure columns are created for each codon: each 1 character, i.e., amino acid.</li>
+</ol>
+<p>INPUTS:</p>
+<ul>
+<li>“_NT.fasta” files: MACSE output</li>
+<li>“_AA.fasta” files: MACSE output</li>
+</ul>
+<p>OUTPUTS:</p>
+<ul>
+<li><p>“_NT_Aligned.csv”: Data frame of aligned sequences to the 3D7 reference genome where each codon represented by a unique column.</p></li>
+<li><p>“_NT_Aligned_YorN.csv”: Data frame of whether the codon MATCHES YES (Y) or NO (N) the 3D7 reference.</p></li>
+<li><p>“_NT_Aligned_NTchange.csv”: Data frame of when codons DID NOT MATCH 3D7 reference and what the nature of the change is.</p></li>
+<li><p>“_AA_Aligned.csv”: Data frame of aligned sequences to the 3D7 reference genome where each codon represented by a unique column.</p></li>
+<li><p>“_AA_Aligned_YorN.csv”: Data frame of whether the codon MATCHES YES (Y) or NO (N) the 3D7 reference.</p></li>
+<li><p>“_AA_Aligned_NTchange.csv”: Data frame of when codons DID NOT MATCH 3D7 reference and what the nature of the change is.</p></li>
+</ul>
+<p>After we have processed each .fasta file to a .csv file, we can (1, 2) merge all .csv files per marker for NT (nucleotide) sequences and AA (amino acid) sequences and (3) write the .csv file for these merged files.</p>
+</section>
+<section id="step-02-r-cleaning" class="level2">
+<h2 class="anchored" data-anchor-id="step-02-r-cleaning">Step 02: R Cleaning</h2>
+<p>The aim of this <code>.qmd</code> is to manipulate the <strong>processed</strong> MACSE files into files that contain variables of interest (e.g., <strong>Survey</strong>, <strong>Marker</strong>) and separate files for <strong>Controls</strong>, <strong>Repeats</strong> and <strong>Isolates</strong>. Further, this notebook will calculate the number of <strong>synonymous</strong> and <strong>non-synonymous</strong> mutations per isolate/sample and contain a column with all of the non-synonymous changes (from 3D7 reference).</p>
+<section id="process-sequence-data" class="level3">
+<h3 class="anchored" data-anchor-id="process-sequence-data">Process Sequence Data</h3>
+<p>AIMS: - Remove symbols: <code>*!-</code> - Separate SeqID code into “Isolate”, “MID”, “MID_N”, “Pool”, “Date”, “Haplotype” - Create haplotype specific to marker</p>
+<p>INPUTS:</p>
+<ul>
+<li>*All_NT_Aligned.csv Use as the sequence file and create haplotypes (e.g., CVMNT)</li>
+</ul>
+<p>OUTPUTS:</p>
+<ul>
+<li>05_All_DrugR_NT_Sequences/Controls/*Controls_Haps.csv</li>
+<li>05_All_DrugR_NT_Sequences/Isolates/*Isolates_Haps.csv</li>
+<li>05_All_DrugR_NT_Sequences/Repeats/*Repeats_Haps.csv</li>
+<li>05_All_DrugR_Haplotypes/temp/*Haps_only.csv</li>
+</ul>
+<p>The <code>Controls_Haps</code>, <code>Isolates_Haps</code> and <code>Repeats_Haps</code> files will contain the haplotype (Haps), the entire sequence separated by codon number and other info (SeqID, Reference and Marker). The <code>Haps_only</code> file will only contain the haplotype information (for the corresponding SeqID, Reference and Marker).</p>
+</section>
+<section id="process-codon-match-data" class="level3">
+<h3 class="anchored" data-anchor-id="process-codon-match-data">Process Codon Match Data</h3>
+<p>INPUTS:</p>
+<ul>
+<li>*All_NT_Aligned_YorN.csv: Use to determine how many NT changes from 3D7 reference (e.g., 1 change)</li>
+<li>*All_AA_Aligned_YorN.csv: Use to determine how many AA changes from 3D7 reference (e.g., 1 change)</li>
+</ul>
+<p>OUTPUTS:</p>
+<ul>
+<li>*All_NT_Aligned_YorN_Count.csv: Collapsed into a column of the total number of NT differences</li>
+<li>*All_AA_Aligned_YorN_Count.csv: Collapsed into a column of the total number of AA differences</li>
+</ul>
+</section>
+<section id="process-codon-differences" class="level3">
+<h3 class="anchored" data-anchor-id="process-codon-differences">Process Codon Differences</h3>
+<p>INPUTS:</p>
+<ul>
+<li>*All_NT_Aligned_NTchange.csv: Use to determine the actual NT change from 3D7 reference (e.g., AAA76ACA)</li>
+<li>*All_AA_Aligned_AAchange.csv: Use to determine the actual AA change from 3D7 reference (e.g., K76T)</li>
+</ul>
+<p>OUTPUTS:</p>
+<ul>
+<li>*All_NT_Aligned_NTchange_Final.csv: Contains a collapsed column with all NT changes</li>
+<li>*All_NT_Aligned_AAchange_Final.csv: Contains a collapsed column with all AA changes</li>
+</ul>
+</section>
+<section id="join-data" class="level3">
+<h3 class="anchored" data-anchor-id="join-data">Join Data</h3>
+<p>INPUTS:</p>
+<p>All/temp/files Includes <code>_Haps.csv</code>, <code>YorN_Counts.csv</code>, <code>change_Final.csv</code> for both NT and AA (separated for each Fraction cut-off to analyse and marker)</p>
+<p>OUTPUTS:</p>
+<ul>
+<li>Isolates_Final_Haps</li>
+<li>Controls_Final_Haps</li>
+<li>Repeats_Final_Haps</li>
+</ul>
+<p>All input files are merged at similar columns “SeqID”, “Marker” and “Reference”</p>
+</section>
+</section>
+<section id="step-03-specific-changes-dhps-2-and-mdr1-2" class="level2">
+<h2 class="anchored" data-anchor-id="step-03-specific-changes-dhps-2-and-mdr1-2">Step 03: Specific Changes: dhps-2 and mdr1-2</h2>
+<p>Both dhps-2 and mdr1-2 contain isolates that appear to have SAME genotype but are said to be in different clusters.</p>
+<p>CHALLENGE: For dhps-2 there is a string of A’s that are variable. PROPOSED SOLUTION: Remove codons 520 and 520.1 (corresponding to nucleotides 50 to 75 in the sequence files). Also NOTE: MID 47 (TGTGAGTAGT, <a href="https://www.yumpu.com/en/document/read/24794008/roche-mid-adapters">Roche</a>) exists within the dhps-2 amplicon sequence. Our current SeekDeep parameters account for this by only searching for the MID in the first 8 nucleotides of the amplicon.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Nucleotides 50 to 75</th>
+<th>n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>TTAAAAAAAAAAAAAAACAAATTCT</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>TTAAAAAAAAAAAAAACAAATTCTA</td>
+<td>204</td>
+</tr>
+<tr class="odd">
+<td>TTAAAAAAAAAAAAACAAATTCTAT</td>
+<td>18</td>
+</tr>
+<tr class="even">
+<td>TTAAAAAAAAAAAACAAATTCTATA</td>
+<td>1790</td>
+</tr>
+<tr class="odd">
+<td>TTAAAAAAAAAACAAATTCTATAGT</td>
+<td>964</td>
+</tr>
+<tr class="even">
+<td>TTAAAAAAAAAAACAAATTCTATAG</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>CHALLENGE: I found that this is because for mdr1-2, either the last one or last six nucleotide differ. PROPOSED SOLUTION: Remove codons 1077, 1078, 1079.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Last 6 nucleotides</th>
+<th>n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>AAAATG</td>
+<td>1088</td>
+</tr>
+<tr class="even">
+<td>AAAATT</td>
+<td>981</td>
+</tr>
+<tr class="odd">
+<td>TTTCTG</td>
+<td>550</td>
+</tr>
+</tbody>
+</table>
+
+
+</section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

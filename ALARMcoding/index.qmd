@@ -1,5 +1,20 @@
 ---
 title: "Welcome"
 ---
+This is a step-by-step tutorial on **what** the *ALARM*coding panel is and **how** to perform the PCRs and bioinformatic processing. 
 
-This is a step-by-step tutorial on **WHAT** the *ALARM*coding panel is and **HOW** to perform the PCRs and bioinformatic processing. 
+## Why *ALARM*coding? 
+
+This is a **nested** PCR and **amplicon** sequencing strategy developed for **low-density** *Plasmodium falciparum* infections. This strategy address and/or overcomes the three key challenges that need to be addressed or overcome in high-transmission settings: 
+
+1. **Low-density asymptomatic infections**: Nested meaning that there are two rounds of PCR the first is a multiplex reaction that acts to amplify a larger fragment and the second round is simplex amplifying a smaller region of interest, allowing us to amplify as much DNA as possible
+2. **Multiclonality**: Amplicon sequencing allows us to sequence multiple haplotypes within infected isolates 
+3. **Phasing**: Not necessary to phase in order to answer broader questions of drug resistance prevalence
+
+This sequencing protocol, named the adaptive loci of antimalarial resistance markers or ALARMcoding targets six markers involved in monitoring drug resistance and one marker involved in vector competence. The bioinformatic pipeline leverages [SeekDeep](https://seekdeep.brown.edu/), [MACSE](https://www.agap-ge2pop.org/macse/) and a [custom R pipeline](https://github.com/dionnecargy/alarmcoding-drugr) to demultiplex, cluster, align and process the data. 
+
+## Credits
+
+This protocol was devised by and involved collaborated with Dr. Kathryn Tiedje, Dr. Mun Hua Tan and Ms. Dionne Argyropoulos in Prof. Karen Day's Lab at the Bio21 Institue and Peter Doherty Institute, University of Melbourne, AU. 
+
+⚠️ Disclaimer: This protocol is in preparation to be published in a manuscript for peer-review.

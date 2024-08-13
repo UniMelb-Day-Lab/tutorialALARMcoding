@@ -6,7 +6,7 @@ website:
   favicon: "Images/ALARMcoding_Icon.png"
   navbar:
     left:
-      - href: Index.qmd
+      - href: index.qmd
         text: Home
       - About.qmd
     tools:
@@ -15,15 +15,15 @@ website:
       - icon: github
         menu:
           - text: Source Code
-            url:  https://github.com/dionnecargy
+            url:  https://github.com/UniMelb-Day-Lab
           - text: Report a Bug
-            url:  https://github.com/dionnecargy
+            url:  https://github.com/UniMelb-Day-Lab
     search: false
   page-footer: 
     left: "Copyright 2024, Dionne C. Argyropoulos"
     right: 
       - icon: github
-        href: https://github.com/dionnecargy
+        href: https://github.com/UniMelb-Day-Lab
       - icon: twitter
         href: https://twitter.com/DionneArgy
   page-navigation: true
