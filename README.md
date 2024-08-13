@@ -1,9 +1,20 @@
-# ALARM coding 
+# ALARMcoding 
+
+Step-by-step process of the *ALARM*coding multiplex nested PCR protocol and bioinformatic processing. This workflow has been used in unpublished data and contributes to the thesis of D.C. Argyropoulos in the Day Lab, University of Melbourne.
+
+Please see the [this link]() to learn more about the *ALARM*coding marker choice, PCR genotyping strategy and bioinformatic steps. The custom qmd Notebooks notebooks created as part of this work are included in this repository: 
+
+- Step_01_MACSE_to_R.qmd
+- Step_02_R_Cleaning.qmd
+- Step_03_Specific_mdr12_dhps2_Cleaning.qmd 
 
 ![](ALARMcoding/Images/ALARMcoding_Process.png)
 
+Below is a **brief** overview of how to perform the bioinformatic post-PCR processing steps. 
 
-## 1. SeekDeep Code: 
+## Post-PCR Processing: 
+
+### 1. SeekDeep Code: 
 
 To Run SeekDeep in **Terminal**, load:
 
@@ -13,9 +24,9 @@ Run SeekDeep:
 
 `SeekDeep setupTarAmpAnalysis --samples sampleNamesPool1.tab.txt --outDir SeekDeep_Run --inputDir . --idFile multipleGenePairs.id.txt --overlapStatusFnp overlapStatuses.txt --refSeqsDir markerRefSeqs/forSeekDeep/refSeqs/ --extraExtractorCmds="--barcodeErrors 0 --midWithinStart 8 --primerWithinStart 8 --checkRevComplementForMids true --checkRevComplementForPrimers true" --extraProcessClusterCmds="--fracCutOff 0.035 --sampleMinTotalReadCutOff 100"`
 
-## 2. MACSE Code: 
+### 2. MACSE Code: 
 
-### Workflow to process sequences post-SeekDeep
+#### Workflow to process sequences post-SeekDeep
 
 1.  Unzip .gz files in `~/SeekDeep/Pool_X/Run_X/popClustering/marker/analysis/final/.` using this command:
 
@@ -37,7 +48,7 @@ To add a space between the first file and the second use this:
 
 `printf "\n" | cat ~/SeekDeep/MACSE/Marker_3D7_PlasmoDB.fasta - Pool_X_Marker.fasta > Pool_X_Marker_All.fasta`
 
-### Running MACSE
+#### Running MACSE
 
 To Run MACSE in **Terminal**, load:
 
@@ -48,7 +59,7 @@ Run MACSE: `java -jar macse_v2.06.jar -prog alignSequences -seq test.fasta`
 
 Then copy across the files to the computer local drive for input into R. 
 
-## 3. Set of R Notebooks: 
+### 3. Set of R Notebooks: 
 
 Create the following folders: 
 
@@ -65,7 +76,7 @@ Create the following folders:
 - **05_All_DrugR_NT_Sequences**: Output of cleaned nucleotide files created from `Step_02_R_Cleaning.qmd`.
 - **05_All_DrugR_Haplotypes**: Output of cleaned condensed haplotype files created from `Step_02_R_Cleaning.qmd`.
 
-## 4. Specific changes 
+### 4. Specific changes 
 
 Both mdr1-2 and dhps-2 contain isolates that appear to have SAME genotype but are said to be in different clusters. I found that this is because for mdr1-2, either the last one or last six nucleotide differ. For dhps-2 there is a string of A's that are variable. 
 
