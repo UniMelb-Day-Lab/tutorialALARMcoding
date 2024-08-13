@@ -1,5 +1,8 @@
 # ALARM coding 
 
+![](ALARMcoding/Images/ALARMcoding_Process.png)
+
+
 ## 1. SeekDeep Code: 
 
 To Run SeekDeep in **Terminal**, load:
