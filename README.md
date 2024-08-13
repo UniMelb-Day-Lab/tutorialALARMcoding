@@ -78,17 +78,9 @@ Create the following folders:
 
 ### 4. Specific changes 
 
-Both mdr1-2 and dhps-2 contain isolates that appear to have SAME genotype but are said to be in different clusters. I found that this is because for mdr1-2, either the last one or last six nucleotide differ. For dhps-2 there is a string of A's that are variable. 
+Both mdr1-2 and dhps-2 contain isolates that appear to have SAME genotype but are said to be in different clusters. 
 
-- mdr1-2: Remove codons 1077, 1078, 1079
-
-| Last 6 nucleotides      | n |
-| ----------- | ----------- |
-| AAAATG      | 1088       |
-| AAAATT   | 981        |
-| TTTCTG   | 550        |
-
-- dhps-2: Remove codons 520 and 520.1
+For dhps-2 there is a string of A's that are variable: Codons 520 and 520.1
 
 | Nucleotides 50 to 75      | n |
 | ----------- | ----------- |
@@ -99,4 +91,12 @@ Both mdr1-2 and dhps-2 contain isolates that appear to have SAME genotype but ar
 | TTAAAAAAAAAACAAATTCTATAGT   | 964        |
 | TTAAAAAAAAAAACAAATTCTATAG   | 1        |
 
-- NOTE: MID 47 (TGTGAGTAGT, [Roche](https://www.yumpu.com/en/document/read/24794008/roche-mid-adapters)) exists within the dhps-2 amplicon sequence. Our current SeekDeep parameters account for this by only searching for the MID in the first 8 nucleotides of the amplicon.  
+Also NOTE: MID 47 (TGTGAGTAGT, [Roche](https://www.yumpu.com/en/document/read/24794008/roche-mid-adapters)) exists within the dhps-2 amplicon sequence. Our current SeekDeep parameters account for this by only searching for the MID in the first 8 nucleotides of the amplicon.  
+
+I found that this is because for mdr1-2, either the last one or last six nucleotide differ: Codons 1077, 1078, 1079
+
+| Last 6 nucleotides      | n |
+| ----------- | ----------- |
+| AAAATG      | 1088       |
+| AAAATT   | 981        |
+| TTTCTG   | 550        |
