@@ -1,167 +1,5 @@
 [
   {
-    "objectID": "1_SeekDeep.html",
-    "href": "1_SeekDeep.html",
-    "title": "Step 1: SeekDeep",
-    "section": "",
-    "text": "Data processing of data using this SeekDeep made by Nick Nathaway. Here is a link to a step-by-step guide for installation.\nWe used Illumina sequencing data and would like to run all of the three pipelines. We therefore use the global function setupTarAmpAnalysis. The data files were made in accordance to the Initial Set-Up Guidelines for Paired End Reads with MIDs.\nSTEP 1: Must run this before SeekDeep can work:\nexport PATH=/home/software/SeekDeep-3.0.1/bin/:$PATH\nSTEP 2: Run the SeekDeep command\nSeekDeep setupTarAmpAnalysis –samples sampleNamesP1.tab.txt –outDir output –inputDir . –idFile multipleGenePairs.id.txt –overlapStatusFnp overlapStatuses.txt –refSeqsDir markerRefSeqs/forSeekDeep/refSeqs/ –extraExtractorCmds=“–barcodeErrors 0 –midWithinStart 8 –primerWithinStart 8 –checkRevComplementForMids true –checkRevComplementForPrimers true” –extraProcessClusterCmds=“–fracCutOff 0.078 –sampleMinTotalReadCutOff 100”\nThis command was developed after testing for a wide number of parameters outlined here SeekDeep (Hathaway et al. 2017). We used the controls in our pools to parameterise.",
-    "crumbs": [
-      "Home",
-      "Drug Resistance Pipeline",
-      "Step 1: SeekDeep"
-    ]
-  },
-  {
-    "objectID": "1_SeekDeep.html#setuptarampanalysis",
-    "href": "1_SeekDeep.html#setuptarampanalysis",
-    "title": "Step 1: SeekDeep",
-    "section": "setupTarAmpAnalysis",
-    "text": "setupTarAmpAnalysis\nSequencing Files: --inputDir Input Directory of raw data files; required. These files include:\n\n--fastq1 Input sequence filename, only need 1, fastq first mate text file; required\n--fastq1gz Input sequence filename, only need 1, fastq first mate gzipped file; required\n--fastq2 Input sequence filename, only needed with –fastq1, fastq second mate text file; required\n--fastq2gz Input sequence filename, only needed with –fastq1gz, fastq second mate gzipped file; required\n\nID Files:\n\n--idFile = ID file containing primer and possible additional MIDs; required.\n--samples = A file containing the samples names, columns should go target, sample, pcr1, pcr2 (optional) etc; required.\n\nIllumina Stitching: --overlapStatusFnp A file with two columns, target,status; status column should contain 1 of 3 values (capitalization doesn’t matter): r1BegOverR2End,r1EndOverR2Beg,NoOverlap.\n\nr1BegOverR2End = target size &lt; read length (causes read through),\nr1EndOverR2Beg = target size &gt; read length less than 2 x read length,\nNoOverlap = target size &gt; 2 x read length; required.\n\nOutput: --outDir Directory to setup for analysis; required.",
-    "crumbs": [
-      "Home",
-      "Drug Resistance Pipeline",
-      "Step 1: SeekDeep"
-    ]
-  },
-  {
-    "objectID": "1_SeekDeep.html#extractor-commands",
-    "href": "1_SeekDeep.html#extractor-commands",
-    "title": "Step 1: SeekDeep",
-    "section": "extractor Commands",
-    "text": "extractor Commands\nAll of these commands and their uses are discussed in the SeekDeep extractor Tutorial. The aim of this pipeline is to extract sequences from various sequences input types (fastq,fasta,sff,etc.) with primers and barcodes plus some filtering.\n\nRequiredOptionalOutput Files\n\n\nID File: --id The name of the ID file; required; default=;\nPost Processing: --overlapStatusFnp A file with two columns, target,status; status column should contain 1 of 3 values (capitalization doesn’t matter):r1BegOverR2End,r1EndOverR2Beg,NoOverlap.\n\nr1BegOverR2End=target size &lt; read length (causes read through),\nr1EndOverR2Beg= target size &gt; read length less than 2 x read length,\nNoOverlap=target size &gt; 2 x read length; required; default=;\n\nReading Sequence Input:\n\n--fastq1 Input sequence filename, only need 1, fastq first mate text file; required; default=;\n--fastq1gz Input sequence filename, only need 1, fastq first mate gzipped file; required; default=;\n--fastq2 Input sequence filename, only needed with –fastq1, fastq second mate text file; required; default=;\n--fastq2gz Input sequence filename, only needed with –fastq1gz, fastq second mate gzipped file; required; default=;\n\n\n\nBarcodes:\n\n--barcodeErrors Errors Allowed in Barcode; default=1;\n--midSearchStart By default the primer or barcodes are searched at the very beginning of seq, use this flag to start searching for MID barcode after this many bases, can be used if random bases precede barcodes; default=0;\n--midWithinStart By default the primer or barcodes are searched at the very beginning of seq, use this flag to extended the search, should be kept low to cut down on false positives; default=0;\n\nComplement:\n\n--checkRevComplementForMids Check the Reverse Complement of the Seqs As Well For MIDs; default=false;\n\n--checkRevComplementForPrimers Check the Reverse Complement of the Seqs As Well For Primers; default=false;\n\nPrimers: --primerWithinStart By default the primer or barcodes are searched at the very beginning of seq, use this flag to extended the search, should be kept low to cut down on false positives; default=0;\n\n\n\nextractionProfile.tab.txt: This breaks down the filtering per final extraction sequence file\nextractionStats.tab.txt: This has info how the whole extraction went",
-    "crumbs": [
-      "Home",
-      "Drug Resistance Pipeline",
-      "Step 1: SeekDeep"
-    ]
-  },
-  {
-    "objectID": "1_SeekDeep.html#qluster-commands",
-    "href": "1_SeekDeep.html#qluster-commands",
-    "title": "Step 1: SeekDeep",
-    "section": "qluster Commands",
-    "text": "qluster Commands\nThese commands and uses are discussed in the SeekDeep qluster Tutorial. The qluster pipeline aims to cluster input sequences by collapsing on set differences between the sequences. We did not modify anything from the default parameters.",
-    "crumbs": [
-      "Home",
-      "Drug Resistance Pipeline",
-      "Step 1: SeekDeep"
-    ]
-  },
-  {
-    "objectID": "1_SeekDeep.html#processcluster-commands",
-    "href": "1_SeekDeep.html#processcluster-commands",
-    "title": "Step 1: SeekDeep",
-    "section": "processCluster Commands",
-    "text": "processCluster Commands\nThe SeekDeep processClusters Tutorial provides help for these commands and their uses.\n\nRequiredOptionalOutput Files\n\n\nClustering: --par ParametersFileName; required; default=;\nReading Sequence Input:\n\n--fasta Input sequence filename, only need 1, fasta text file; required; default=;\n--fastagz Input sequence filename, only need 1, fasta gzipped file; required; default=;\n--fastq Input sequence filename, only need 1, fastq text file; required; default=;\n--fastqgz Input sequence filename, only need 1, fastq gzipped file; required; default=;\n\n\n\nFiltering:\n\n--fracCutOff Final cluster Fraction Cut off; default=0.005; \n\n--sampleMinTotalReadCutOffSample Minimum Total Read Cut Off, if the total read count for the sample is below this it will be thrown out; default=250;\n\n\n\n\nselectedClustersInfo.tab.txt:\n\nThis contains the final haplotype information and replicate comparison results\nIt is a very large table\nConsult the SeekDeep (http://njh2.umassmed.edu/~hathawan/SeekDeep.html) website for details on what each column means\n\nallClustersInfo.tab.txt\ndotFiles\nfinal\npopulation/populationCluster.tab.txt.gz\npopulation/PopUID.fastq",
-    "crumbs": [
-      "Home",
-      "Drug Resistance Pipeline",
-      "Step 1: SeekDeep"
-    ]
-  },
-  {
-    "objectID": "1_SeekDeep.html#final-output-interpretation",
-    "href": "1_SeekDeep.html#final-output-interpretation",
-    "title": "Step 1: SeekDeep",
-    "section": "Final Output Interpretation",
-    "text": "Final Output Interpretation\nAll the data from the analysis done by processClusters is located in the file: selectedClustersInfo.tab.txt.\nOur main variables of interest are:\n\ns_Sample * The name of the sample the haplotype appears in\nh_popUID * The population id given to haplotype. These are named with PopUID.XX where XX is the population rank number and this number is determined by the number of samples the haplotype appears in\nc_clusterID * The id given to the cluster in the sample, the lower the number the higher the relative abundance in the sample\nc_ReadCnt * The total number of reads associated with this cluster summed over all replicates\nc_Consensus * The consensus sequence for this cluster\nc_bestExpected * A string with the name of the closest reference sequence see below to see how to compare against expected references",
-    "crumbs": [
-      "Home",
-      "Drug Resistance Pipeline",
-      "Step 1: SeekDeep"
-    ]
-  },
-  {
-    "objectID": "1_SeekDeep.html#sec-parameters",
-    "href": "1_SeekDeep.html#sec-parameters",
-    "title": "Step 1: SeekDeep",
-    "section": "Parameterisation",
-    "text": "Parameterisation\n\n1. Add reference genome\n1. Need to set up the reference genomes:\nexport PATH=/home/software/samtools-1.15.1/bin:$PATH export PATH=/home/software/bowtie2-2.4.5-linux-x86_64:$PATH\nSeekDeep genTargetInfoFromGenomes –gffDir pfgenomes/gff/ –genomeDir pfgenomes/genomes/ –primers GeneID.tab.txt –pairedEndLength 250 –dout markerRefSeqs –numThreads 19 –overWriteDir true –verbose\n2. Run the command\nSeekDeep setupTarAmpAnalysis –samples sampleNamesP8.tab.txt –outDir Run-Pool-8-WRefs –inputDir . –idFile multipleGenePairs.id.txt –overlapStatusFnp overlapStatuses.txt –refSeqsDir markerRefSeqs/markerFasta/ –extraExtractorCmds=“–midWithinStart 100 –primerWithinStart 100 –qualCheckCutOff .75 –qualCheckLevel 30 –checkRevComplementForMids true –checkRevComplementForPrimers true”\n\n\n2. Test Cluster Cut-off\n\n--clusterCutOff changes the input Cluster Size Cut Off (default=1) in the processClusters pipeline.\n--singletCutOff Raises what is defined as a singlet (default=1) in the qluster pipeline.\n\nSwapping --singletCutOff to --clusterCutOff, changes the total haplotypes. This parameter does influence the number of haplotypes but still shows many replicates of 3D7s, which can be filtered further. Increasing the --clusterCutOff to 5 reduces the haplotypes t. This parameter provides enough read count/fraction for the controls present in the data e.g., 3D7 MID 108, Dd2 MID 109 and HB3 MID 110 are found once for dhfr. However, we must ensure this isn’t reducing too much of the data.\nInstead of specifying a hard read count cut-off (default=0.005 or 0.5%), I opted to try and remove haplotypes that were represented at X% frequency in the sample using the function —-fracCutOff.Can try playing with this cut-off to e.g., 5% (Boyce et al. 2019; Wamae, Ndwiga, et al. 2022; Wamae, Kimenyi, et al. 2022), 3.5% (Hemming-Schroeder et al. 2020), 1% (Brazeau et al. 2019; Pringle et al. 2019; Osoti et al. 2022), or 0.5% (Aydemir et al. 2018; Balasubramanian et al. 2022; Topazian et al. 2022). This parameter did not alter the number of haplotypes as anticipated.\n\n\n3. Test midWithinStart and primerWithinStart\nMID 47, TGTGAGTAGT, is within dhps-1 amplicon and was therefore being preferentially labelled as “MID47”. Because of this, DA and MHT went back to the drawing board and discovered that our midWithinStart and primerWithinStart commands were way too relaxed.\nSeekDeep setupTarAmpAnalysis –samples sampleNamesP1.tab.txt –outDir Run-Pool-1-mdr12-Frac3.5-1 –inputDir . –idFile multipleGenePairs.id.txt –overlapStatusFnp overlapStatuses.txt –refSeqsDir markerRefSeqs/markerFasta/ –extraExtractorCmds=“–midWithinStart 10 –primerWithinStart 10 –qualCheckCutOff .75 –qualCheckLevel 30 –checkRevComplementForMids true –checkRevComplementForPrimers true” –extraProcessClusterCmds=“–fracCutOff 0.035”\nAsterixed are parameter values that we have tested:\n\nmidWithinStart 0, 5, 6, 7, 8, 9, 10\nprimerWithinStart 0, 1, 5, 8, 10, 15, 20, 50\n\nReducing the parameter to 0 produced no data. This is because there are 7bp at the start of each sequence preceding the MID. By changing the midWithinStart and primerWithinStart parameters to a smaller value, we can use MID 47 for dhps-2.\nOur optimal golidlocks value was –midWithinStart 8 –primerWithinStart 8.\n\n\n4. Test Barcode Errors\nNext, DA and MHT looked at the –barcodeErrors parameter to further reduce any ambiguity and specifically select for NO errors. The default = 1.\n\n\n5. Test minimum total read cut-off\nThis new parameter was added in the SeekDeep v. 3.0.1 that was used for the final analysis of the drug resistance dataset in 2023/2024. We realised that there was a new default parameter that removed isolates that had less than 250 total reads (i.e., 250X coverage) in the selected clusters output file. We then amended this, based on a visualisation of the total read density per marker - this showed that for some markers like dhps-1/2, dhfr and mdr1-2 there were more isolates that had ~100X-250X coverage. We therefore created a threshold of 100X coverage.",
-    "crumbs": [
-      "Home",
-      "Drug Resistance Pipeline",
-      "Step 1: SeekDeep"
-    ]
-  },
-  {
-    "objectID": "1_SeekDeep.html#references",
-    "href": "1_SeekDeep.html#references",
-    "title": "Step 1: SeekDeep",
-    "section": "References",
-    "text": "References\n\n\nAydemir, Ozkan, Mark Janko, Nick J Hathaway, Robert Verity, Melchior Kashamuka Mwandagalirwa, Antoinette K Tshefu, Sofonias K Tessema, et al. 2018. “Drug-Resistance and Population Structure of Plasmodium falciparum Across the Democratic Republic of Congo Using High-Throughput Molecular Inversion Probes.” The Journal of Infectious Diseases 218 (6): 946–55. https://doi.org/10.1093/infdis/jiy223.\n\n\nBalasubramanian, Sujata, Rachel Curtis-Robles, Bhagath Chirra, Lisa D. Auckland, Alan Mai, Virgilio Bocanegra-Garcia, Patti Clark, et al. 2022. “Characterization of triatomine bloodmeal sources using direct Sanger sequencing and amplicon deep sequencing methods.” Scientific Reports 12 (1): 10234. https://doi.org/10.1038/s41598-022-14208-8.\n\n\nBoyce, Ross M, Nicholas Brazeau, Travis Fulton, Nick Hathaway, Michael Matte, Moses Ntaro, Edgar Mulogo, and Jonathan J Juliano. 2019. “Prevalence of Molecular Markers of Antimalarial Drug Resistance across Altitudinal Transmission Zones in Highland Western Uganda.” The American Journal of Tropical Medicine and Hygiene 101 (4): 799–802. https://doi.org/10.4269/ajtmh.19-0081.\n\n\nBrazeau, Nicholas F, Ashenafi Assefa, Hussein Mohammed, Heven Seme, Abeba G Tsadik, Jonathan B Parr, Corinna Keeler, et al. 2019. “Pooled Deep Sequencing of Drug Resistance Loci from Plasmodium falciparum Parasites across Ethiopia.” The American Journal of Tropical Medicine and Hygiene 101 (5): 1139–43. https://doi.org/10.4269/ajtmh.19-0142.\n\n\nHathaway, Nicholas J., Christian M. Parobek, Jonathan J. Juliano, and Jeffrey A. Bailey. 2017. “SeekDeep: single-base resolution de novo clustering for amplicon deep sequencing.” Nucleic Acids Research 46 (4): gkx1201–. https://doi.org/10.1093/nar/gkx1201.\n\n\nHemming-Schroeder, Elizabeth, Daibin Zhong, Solomon Kibret, Amanda Chie, Ming-Chieh Lee, Guofa Zhou, Harrysone Atieli, Andrew Githeko, James W Kazura, and Guiyun Yan. 2020. “Microgeographic Epidemiology of Malaria Parasites in an Irrigated Area of Western Kenya by Deep Amplicon Sequencing.” The Journal of Infectious Diseases 223 (8): 1456–65. https://doi.org/10.1093/infdis/jiaa520.\n\n\nOsoti, Victor, Mercy Akinyi, Kevin Wamae, Kelvin M. Kimenyi, Zaydah de Laurent, Leonard Ndwiga, Paul Gichuki, et al. 2022. “Targeted Amplicon Deep Sequencing for Monitoring Antimalarial Resistance Markers in Western Kenya.” Antimicrobial Agents and Chemotherapy 66 (4): e01945–21. https://doi.org/10.1128/aac.01945-21.\n\n\nPringle, Julia C., Amy Wesolowski, Sophie Berube, Tamaki Kobayashi, Mary E. Gebhardt, Modest Mulenga, Mike Chaponda, et al. 2019. “High Plasmodium falciparum genetic diversity and temporal stability despite control efforts in high transmission settings along the international border between Zambia and the Democratic Republic of the Congo.” Malaria Journal 18 (1): 400. https://doi.org/10.1186/s12936-019-3023-4.\n\n\nTopazian, Hillary M., Kara A. Moser, Billy Ngasala, Peter O. Oluoch, Catherine S. Forconi, Lwidiko E. Mhamilawa, Ozkan Aydemir, et al. 2022. “Low Complexity of Infection Is Associated With Molecular Persistence of Plasmodium falciparum in Kenya and Tanzania.” Frontiers in Epidemiology 2: 852237. https://doi.org/10.3389/fepid.2022.852237.\n\n\nWamae, Kevin, Kelvin M. Kimenyi, Victor Osoti, Zaydah R. de Laurent, Leonard Ndwiga, Oksana Kharabora, Nicholas J. Hathaway, et al. 2022. “Amplicon sequencing as a potential surveillance tool for complexity of infection and drug resistance markers in Plasmodium falciparum asymptomatic infections.” Journal of Infectious Diseases. https://doi.org/doi.org/10.1093/infdis/jiac144.\n\n\nWamae, Kevin, Leonard Ndwiga, Oksana Kharabora, Kelvin Kimenyi, Victor Osoti, Zaydah de Laurent, Juliana Wambua, et al. 2022. “Targeted Amplicon deep sequencing of ama1 and mdr1 to track within-host P. falciparum diversity throughout treatment in a clinical drug trial.” Wellcome Open Research 7: 95. https://doi.org/10.12688/wellcomeopenres.17736.1.",
-    "crumbs": [
-      "Home",
-      "Drug Resistance Pipeline",
-      "Step 1: SeekDeep"
-    ]
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About the Author",
-    "section": "",
-    "text": "Back to top"
-  },
-  {
-    "objectID": "about.html#what-is-alarmcoding",
-    "href": "about.html#what-is-alarmcoding",
-    "title": "About",
-    "section": "",
-    "text": "ALARMcoding, or Adaptive Loci of Antimalarial Resistance Markers coding, is a multiplex and nested PCR methodology to amplify 6 markers of drug resistance and one marker of vector competence. This panel has been optimised for asymptomatic data but can be used across a range of parasite densities, including clinical infections, and uses Amplicon Sequencing technology to also identify codons of interest in both single- and multiple-clone infections, where the latter are common in highly endemic countries.\n\n\npfcrt, dhfr, dhps, K13, mdr1 and aat1 are molecular markers of drug resistance in Plasmodium falciparum. CQR is caused by common mutants in genes that encode P. falciparum transmembrane proteins chloroquine resistance transporter (PfCRT, codons 72-76), an ATP-binding cassette transporter and homologue of multidrug-resistance P-glycoprotein (PfMDR1 or Pgh1, codons 86, 184, 1034, 1042, 1246) and a putative amino acid transporter (PfAat1, codons 258, 313)\n\n\n\npfs47 is the",
-    "crumbs": [
-      "Home",
-      "About ALARMcoding",
-      "About"
-    ]
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Welcome",
-    "section": "",
-    "text": "This is a step-by-step tutorial on what the ALARMcoding panel is and how to perform the PCRs and bioinformatic processing.",
-    "crumbs": [
-      "Home",
-      "Welcome"
-    ]
-  },
-  {
-    "objectID": "About_Resistance.html",
-    "href": "About_Resistance.html",
-    "title": "Antimalarial Drug Resistance",
-    "section": "",
-    "text": "Treatment failure of antifolate drugs such as sulfadoxine and pyrimethamine (collectively referred to as SP) have been associated with point mutations in P. falciparum dihydrofolate reductase (pfdhfr) and P. falciparum dihydropteroate synthase (pfdhps) genes on chromosome 4 and 8 respectively. These genes encode for enzymes in the folate biosynthesis pathway; pfdhfr reduces 7,8-dihydrofolate into 5,6,7,8-tetrahydrofolate and pfdhps aids in the synthesis of folate from GTPC. These enzymes are targeted by pyrimethamine and sulfadoxine respectively.\nThe pfdhfr S108N substitution is critical for pyrimethamine resistance, with N51I and C59R modulating the strength of resistance conferring sub-optimal activity and reduced binding affinity to the drug (reviewed in Naidoo and Roper (2013)). Additional mutations at A16V and C50A have been shown to confer resistance to cycloguanil and enhance pyrimethamine in Bolivia (Foote, Galatis, and Cowman 1990; Plowe et al. 1997). The I164L substitution has been found alone or in combination with the triple pfdhfr mutant haplotype as an important resistance-conferring mutation. Haplotypes are biologically meaningful, since they determine the resistance properties of parasites that are exposed to drugs at the time of treatment. A triple mutant pfdhfr haplotype with 51I-59R-108N has a 1.5- to 3-fold higher pyrimethamine resistance in vitro than either 51I-108N or 59-108N double mutant haplotypes (Sirawaraporn et al. 1997).\nSulfadoxine resistance first arises from the A437G substitution with compensatory mutations at I431V, S436A/F, K540E, A581G, A613S further increasing resistance. There are location-specific differences in pfdhps haplotypes in Africa, with East & Southern African isolates containing both 437G and 540E, while only 437G is predominantly observed West and Central Africa (Naidoo and Roper 2013). The 540E allele has been found to work together with 437G to raise the sulfadoxine tolerance of sensitive pfdhps by 200-fold compared to just 10-fold with only 437G substitution (Triglia et al. 1997). The A581G substitution was found in northern Tanzania (Gesase et al. 2009) to reduce the efficacy of IPTp-SP (Minja et al. 2013), and is also rare in West and Central Africa. I431V was identified from UK imported malaria infections originating Nigeria (Sutherland et al. 2009) and pregnant women in Cameroon (Chauvin et al. (2015)).\nNaidoo and Roper Naidoo and Roper (2013) have classified pfdhfr and pfdhps mediated resistance into three categories:\n\n“partial resistant” haplotypes (pfdhfr 51I, 59R, 108N; pfdhps 473G),\n“full resistant” haplotypes also containing pfdhps 540E, associated with clinical failure of SP treatment, and\n“super-resistant” haplotypes additionally harbouring 581G. More recently, the local emergence and clonal expansion of a VAGKGS mutant\n\nhaplotype was observed in north-western Central Africa (Cameroon and Nigeria) and there was a mutually exclusive relationship with the presence of the 431V mutation and the 540E mutation in countries further south in Central Africa (Republic of Congo, Democratic Republic of Congo, Gabon, Central African Republic and Angola) (Guémas et al. 2023). The study also found the 431V mutant found in 15 countries in Central and West Africa, with the majority also having the VAGKGS haplotype. Given the additive nature of pfdhps mutations leading to increased resistance, this haplotype would confer an increased level of resistance to SP. It was therefore theorised that this haplotype is the Central and West African equivalent of a “super-resistant” mutant (Guémas et al. 2023).",
-    "crumbs": [
-      "Home",
-      "About ALARMcoding",
-      "Antimalarial Drug Resistance"
-    ]
-  },
-  {
-    "objectID": "About_Resistance.html#genetic-resistance-to-antimalarial-drugs",
-    "href": "About_Resistance.html#genetic-resistance-to-antimalarial-drugs",
-    "title": "Antimalarial Drug Resistance",
-    "section": "",
-    "text": "Treatment failure of antifolate drugs such as sulfadoxine and pyrimethamine (collectively referred to as SP) have been associated with point mutations in P. falciparum dihydrofolate reductase (pfdhfr) and P. falciparum dihydropteroate synthase (pfdhps) genes on chromosome 4 and 8 respectively. These genes encode for enzymes in the folate biosynthesis pathway; pfdhfr reduces 7,8-dihydrofolate into 5,6,7,8-tetrahydrofolate and pfdhps aids in the synthesis of folate from GTPC. These enzymes are targeted by pyrimethamine and sulfadoxine respectively.\nThe pfdhfr S108N substitution is critical for pyrimethamine resistance, with N51I and C59R modulating the strength of resistance conferring sub-optimal activity and reduced binding affinity to the drug (reviewed in (Naidoo and Roper, 2013)). Additional mutations at A16V and C50A have been shown to confer resistance to cycloguanil and enhance pyrimethamine in Bolivia (Foote et al., 1990; Plowe et al., 1997). The I164L substitution has been found alone or in combination with the triple pfdhfr mutant haplotype as an important resistance-conferring mutation. Haplotypes are biologically meaningful, since they determine the resistance properties of parasites that are exposed to drugs at the time of treatment. A triple mutant pfdhfr haplotype with 51I-59R-108N has a 1.5- to 3-fold higher pyrimethamine resistance in vitro than either 51I-108N or 59-108N double mutant haplotypes (Sirawaraporn et al., 1997).\nSulfadoxine resistance first arises from the A437G substitution with compensatory mutations at I431V, S436A/F, K540E, A581G, A613S further increasing resistance. There are location-specific differences in pfdhps haplotypes in Africa, with East & Southern African isolates containing both 437G and 540E, while only 437G is predominantly observed West and Central Africa (Naidoo and Roper, 2013). The 540E allele has been found to work together with 437G to raise the sulfadoxine tolerance of sensitive pfdhps by 200-fold compared to just 10-fold with only 437G substitution (Triglia et al., 1997). The A581G substitution was found in northern Tanzania (Gesase et al., 2009) to reduce the efficacy of IPTp-SP (Minja et al., 2013), and is also rare in West and Central Africa. I431V was identified from UK imported malaria infections originating Nigeria (Sutherland et al., 2009) and pregnant women in Cameroon (Chauvin et al., 2015).\nNaidoo and Roper (Naidoo and Roper, 2013) have classified pfdhfr and pfdhps mediated resistance into three categories: (i) “partial resistant” haplotypes (pfdhfr 51I, 59R, 108N; pfdhps 473G), (ii) “full resistant” haplotypes also containing pfdhps 540E, associated with clinical failure of SP treatment, and (iii) “super-resistant” haplotypes additionally harbouring 581G. More recently, the local emergence and clonal expansion of a VAGKGS mutant haplotype was observed in north-western Central Africa (Cameroon and Nigeria) and there was a mutually exclusive relationship with the presence of the 431V mutation and the 540E mutation in countries further south in Central Africa (Republic of Congo, Democratic Republic of Congo, Gabon, Central African Republic and Angola) (Guémas et al., 2023). The study also found the 431V mutant found in 15 countries in Central and West Africa, with the majority also having the VAGKGS haplotype. Given the additive nature of pfdhps mutations leading to increased resistance, this haplotype would confer an increased level of resistance to SP. It was therefore theorised that this haplotype is the Central and West African equivalent of a “super-resistant” mutant (Guémas et al., 2023).\n\n\n\n4-aminoquinoline and arylaminoalcohol antimalarial drugs such as chloroquine, amodiaquine and lumefantrine accumulate in the digestive vacuole and reduce haemoglobin degradation, resulting in parasite death (reviewed in (Wicht, Mok and Fidock, 2020)). Non-synonymous point mutations in P. falciparum chloroquine resistance transporter (pfcrt) on chromosome 7 mediate drug resistance by preventing drug accumulation in the digestive vacuole. The K76T substitution in pfcrt results in the export of drugs from the digestive vacuole and additional region-specific mutations exist at codon positions 72-75 line the central drug binding cavity of pfcrt (reviewed in (Wicht, Mok and Fidock, 2020)). For example, the SVMNT haplotype is predominantly observed in South American isolates as opposed to the CVIET haplotypes found in Africa and Asian isolates (Veiga et al., 2016). Both haplotypes have been demonstrated to be equally associated with AQR (Wicht, Mok and Fidock, 2020).\nMutations in pfcrt alone cannot halt drug accumulation in the digestive vacuole via passive diffusion. This is supplemented by mutations in P. falciparum multidrug resistance protein 1 (pfmdr1) on chromosome 5 and P. falciparum putative amino acid transporter 1 (pfaat1) on chromosome 6. Substitutions at pfmdr1 codons 86, 184, 1034, 1042 and 1246 result in a strong epistatic interaction with pfcrt 76T and act to augment drug resistance. Amino-terminal substitutions (N86Y and Y184F) are common in Asian and African parasites, while carboxy-terminal mutations (S1034C, N1042D and D1246Y) are found at a higher frequency in South American isolates (Veiga et al., 2016; Wicht, Mok and Fidock, 2020). Mutations at 1034C and 1042D have been shown to be involved in the binding pocket of 4-aminoquinolines (Sidhu, Valderramos and Fidock, 2005). ASAQ and AL are the most commonly used ACTs in Africa (World Health Organisation, 2020) and exert opposing selection pressures on pfcrt and pfmdr1. ASAQ selects for the pfmdr1 86Y, Y184 and 1246Y alleles (or the pfmdr1 YYY haplotype) while the absence of aminoquinoline resistance mutations is preferentially selected for by AL (i.e., N86, 184F and D1246 alleles; or the pfmdr1 NFD haplotype) (Ochong et al., 2003; Dokomajilar et al., 2006; Happi et al., 2006; Holmgren et al., 2007; Humphreys et al., 2007; Tinto et al., 2008; Fröberg et al., 2012; Baraka et al., 2014; Venkatesan et al., 2014; Otienoburu et al., 2016; Sondo et al., 2016; Okell et al., 2018). ASAQ also preferentially selects for pfcrt 76T allele, while AL has been associated with increased prevalence of the pfcrt K76 allele (Echeverry et al., 2007; Folarin et al., 2011; Venkatesan et al., 2014).Therefore it has been proposed that either rotating or deploying b ASAQ and AL simultaneously may reduce the spread of mutations that confer resistance the ACT and/or ACT partner drugs in the population (Valderramos et al., 2010; Nguyen et al., 2015; Yeka et al., 2015).\nRecently, pfaat1 was found to have an epistatic interaction with 76T and parasite fitness (Amambua-Ngwa et al., 2023). The combined pfaat1 single mutant 258L and pfcrt 76T types result in high chloroquine resistance but at a very high fitness cost and was found in African isolates, while the pfaat1 double mutant (258L and 313S) and pfcrt 76T causes chloroquine resistance and an increase in fitness (to almost wild-type levels) and is found in southeast Asian isolates. The S258L and F313S.\n\n\n\nArtemisinin resistance is defined as delayed parasite clearance following treatment with an artemisinin derivative drug (reviewed in (Pandit et al., 2023)). This is a form of ‘partial resistance’ where the phenotype manifests as reduced drug susceptibility in ring-stage parasites. Single point mutations in the Broad-Complex, Tramtrack and Bric-à-bac/Pox virus and Zinc Finger domain (BTB/POZ; codons 350-437) and the propeller domain (codons 350-726) of pfk13 (encoded by pfk13 on chromosome 13) have been found to confer this phenotype. There are currently 13 validated pfk13 markers and nine that are candidate/associated with artemisinin resistance. The pfk13 mutations that have originated in southeast Asia (C580Y, R539T, Y493H, I543T) confer the slow-clearance phenotype in vitro following exposure to artemisinin (Ariey et al., 2014; Conrad et al., 2014; Zhu, Almagro-Garcia and McVean, 2018; Moser et al., 2020; Uwimana et al., 2020; Kirby et al., 2022; Fola et al., 2023; Juliano et al., 2023) (see Supplementary Table 6). Validated pfk13 mutations have been identified in Africa at very low frequencies (&lt;1%) (Owoloye et al., 2021). De novo non-synonymous mutations with local flanking haplotypes (SNPs or microsatellites) have arisen at low frequency such as R561H (Rwanda, Tanzania), R622I (Ethiopia), and A675V (Uganda) in East Africa. However, 622I has not yet been validated to cause artemisinin resistance in vitro nor in vivo (Fola et al., 2023). The introduction and spread of ART resistant strains in Tanzania (Juliano et al., 2023), Uganda (Conrad et al., 2023), Rwanda (Uwimana et al., 2020) and Ethiopia (Fola et al., 2023) raise concerns for the rest of Africa and its first-line therapeutic. Other markers in different genes have been observed to act as background and secondary determinants of resistance such as PfCoronin, PfUbp1, PfAP2μ, pfmdr1 copy number, PfTrx1 and PfSpp (Pandit et al., 2023).",
-    "crumbs": [
-      "Home",
-      "About ALARMcoding",
-      "Antimalarial Drug Resistance"
-    ]
-  },
-  {
-    "objectID": "About_Resistance.html#vector-competence-a-new-strategy",
-    "href": "About_Resistance.html#vector-competence-a-new-strategy",
-    "title": "Antimalarial Drug Resistance",
-    "section": "Vector Competence: A New Strategy",
-    "text": "Vector Competence: A New Strategy\nTo address the recent invasion of An. stephensi in Africa, a marker of vector competence was included in the ALARMcoding panel. P. falciparum surface protein 47 (pfs47) encodes for the 6-cysteine protein pfs47 (also known as P47 or TEP1) that is expressed on the gametocyte surface and allows region-specific P. falciparum to evade the local vector immune response in the ookinete stage and persist to later developmental stages. This mediates the extent to which P. falciparum survives. pfs47-mediated immune evasion in the Anopheles spp. vector is required for parasites to persist in an endemic area (Molina-Cruz et al., 2013). There is strong geographic structure of pfs47 with lower haplotype diversity out of Africa (Anthony et al., 2007; Molina-Cruz et al., 2015a, 2015b), supporting observations that (i) P. falciparum isolates from Africa could infect both An. gambiae (African vector) and An. stephensi (South/Southeast Asian vector), while P. falciparum isolates from southeast Asia had a lower success at infecting An. gambiae (Hume, Lyons and Day, 2003), and (ii) African strains (GB4 and NF54) were able to survive in An. gambiae but 7G8 (New World strain) cannot (Canepa, Molina-Cruz and Barillas-Mury, 2016). In the context of malaria genomic surveillance of drug resistance, pfs47 (chromosome 13) can be monitored to inform whether parasites have migrated/invaded from another region. It can therefore also be used as a positive control to confirm the vector-parasite relationship in the region of interest. Non-synonymous mutations in T236I, V247A, S242L and I248L resulted in the mosquito immune system clearing the parasite (Canepa, Molina-Cruz and Barillas-Mury, 2016). Polymorphisms at codons 236 and 242 were found to be strongly related with geographic variation in the pfs47 gene across South America, Africa, Asia, and the Pacific (Molina-Cruz et al., 2021). A recent study characterised polymorphisms of entire pfs47 gene in Western Kenya and found low and non-significant FST, with 8 loci that segregated in the population: E27D, E188D, P194H, L240I, I249L, N272I/Y, I304L. Only P194H and N272I were identified as SNPs while the other loci were parsimony informative (Onyango et al., 2021).",
-    "crumbs": [
-      "Home",
-      "About ALARMcoding",
-      "Antimalarial Drug Resistance"
-    ]
-  },
-  {
     "objectID": "About_Markers.html",
     "href": "About_Markers.html",
     "title": "Marker Choice",
@@ -186,135 +24,27 @@
     ]
   },
   {
-    "objectID": "2_MACSE.html",
-    "href": "2_MACSE.html",
-    "title": "Step 2: MACSE",
+    "objectID": "1_SeekDeep.html",
+    "href": "1_SeekDeep.html",
+    "title": "Step 1: SeekDeep",
     "section": "",
-    "text": "This page contains the post-processing of MACSE data (.fasta) into a data frame (.csv) for manipulation in R. All MACSE runs were by pool by marker for each Fraction Cut-Off with respect to their SeekDeep runs. This means that the files will be input to the below code individually.",
+    "text": "Data processing of data using this SeekDeep made by Nick Nathaway. Here is a link to a step-by-step guide for installation.\nWe used Illumina sequencing data and would like to run all of the three pipelines. We therefore use the global function setupTarAmpAnalysis. The data files were made in accordance to the Initial Set-Up Guidelines for Paired End Reads with MIDs.\nSTEP 1: Must run this before SeekDeep can work:\nexport PATH=/home/software/SeekDeep-3.0.1/bin/:$PATH\nSTEP 2: Run the SeekDeep command\nSeekDeep setupTarAmpAnalysis –samples sampleNamesP1.tab.txt –outDir output –inputDir . –idFile multipleGenePairs.id.txt –overlapStatusFnp overlapStatuses.txt –refSeqsDir markerRefSeqs/forSeekDeep/refSeqs/ –extraExtractorCmds=“–barcodeErrors 0 –midWithinStart 8 –primerWithinStart 8 –checkRevComplementForMids true –checkRevComplementForPrimers true” –extraProcessClusterCmds=“–fracCutOff 0.078 –sampleMinTotalReadCutOff 100”\nThis command was developed after testing for a wide number of parameters outlined here SeekDeep (Hathaway et al. 2017). We used the controls in our pools to parameterise.",
     "crumbs": [
       "Home",
       "Drug Resistance Pipeline",
-      "Step 2: MACSE"
+      "Step 1: SeekDeep"
     ]
   },
   {
-    "objectID": "2_MACSE.html#workflow-to-process-sequences-post-seekdeep",
-    "href": "2_MACSE.html#workflow-to-process-sequences-post-seekdeep",
-    "title": "Step 2: MACSE",
-    "section": "Workflow to process sequences post-SeekDeep",
-    "text": "Workflow to process sequences post-SeekDeep\n\nUnzip .gz files in ~/SeekDeep/Pool_X/Run_X/popClustering/marker/analysis/final/. using this command:\n\nfor file in *.fastq.gz; do newfile=`echo \"$file\" | sed 's/.fastq.gz/.fastq/g'`; gunzip -c $file &gt; $newfile; done\n\nMake file containing all fastq files:\n\ncat /your/path/to/folder/*.fastq &gt; Pool_X_Marker.fastq\n\nConvert fastq to fasta:\n\npaste - - - - &lt; Pool_X_Marker.fastq | cut -f 1,2 | sed 's/^@/&gt;/' | tr \"\\t\" \"\\n\" &gt; Pool_X_Marker.fasta\n\nAdd Ref seq:\n\ncat ~/SeekDeep/MACSE/Marker_3D7_PlasmoDB.fasta Pool_X_Marker.fasta &gt; Pool_X_Marker_All.fasta\nTo add a space between the first file and the second use this:\nprintf \"\\n\" | cat ~/SeekDeep/MACSE/Marker_3D7_PlasmoDB.fasta - Pool_X_Marker.fasta &gt; Pool_X_Marker_All.fasta",
+    "objectID": "1_SeekDeep.html#setuptarampanalysis",
+    "href": "1_SeekDeep.html#setuptarampanalysis",
+    "title": "Step 1: SeekDeep",
+    "section": "setupTarAmpAnalysis",
+    "text": "setupTarAmpAnalysis\nSequencing Files: --inputDir Input Directory of raw data files; required. These files include:\n\n--fastq1 Input sequence filename, only need 1, fastq first mate text file; required\n--fastq1gz Input sequence filename, only need 1, fastq first mate gzipped file; required\n--fastq2 Input sequence filename, only needed with –fastq1, fastq second mate text file; required\n--fastq2gz Input sequence filename, only needed with –fastq1gz, fastq second mate gzipped file; required\n\nID Files:\n\n--idFile = ID file containing primer and possible additional MIDs; required.\n--samples = A file containing the samples names, columns should go target, sample, pcr1, pcr2 (optional) etc; required.\n\nIllumina Stitching: --overlapStatusFnp A file with two columns, target,status; status column should contain 1 of 3 values (capitalization doesn’t matter): r1BegOverR2End,r1EndOverR2Beg,NoOverlap.\n\nr1BegOverR2End = target size &lt; read length (causes read through),\nr1EndOverR2Beg = target size &gt; read length less than 2 x read length,\nNoOverlap = target size &gt; 2 x read length; required.\n\nOutput: --outDir Directory to setup for analysis; required.",
     "crumbs": [
       "Home",
       "Drug Resistance Pipeline",
-      "Step 2: MACSE"
-    ]
-  },
-  {
-    "objectID": "2_MACSE.html#running-macse",
-    "href": "2_MACSE.html#running-macse",
-    "title": "Step 2: MACSE",
-    "section": "Running MACSE",
-    "text": "Running MACSE\nTo Run MACSE in Terminal, load:\n\nexport PATH=/home/software/jre1.8.0_341/bin:$PATH\nexport PATH=/home/software/macse_v2.06.jar/bin:$PATH\n\nRun MACSE: java -jar macse_v2.06.jar -prog alignSequences -seq test.fasta\nThen copy across the files to the computer local drive for input into R, e.g.,:\nscp -r YOUR_USERNAME@YOUR_LOCAL_DRIVE:~/SeekDeep/MACSE/FOLDER .",
-    "crumbs": [
-      "Home",
-      "Drug Resistance Pipeline",
-      "Step 2: MACSE"
-    ]
-  },
-  {
-    "objectID": "About_Resistance.html#antifolates-pfdhfr-pfdhps",
-    "href": "About_Resistance.html#antifolates-pfdhfr-pfdhps",
-    "title": "Antimalarial Drug Resistance",
-    "section": "",
-    "text": "Treatment failure of antifolate drugs such as sulfadoxine and pyrimethamine (collectively referred to as SP) have been associated with point mutations in P. falciparum dihydrofolate reductase (pfdhfr) and P. falciparum dihydropteroate synthase (pfdhps) genes on chromosome 4 and 8 respectively. These genes encode for enzymes in the folate biosynthesis pathway; pfdhfr reduces 7,8-dihydrofolate into 5,6,7,8-tetrahydrofolate and pfdhps aids in the synthesis of folate from GTPC. These enzymes are targeted by pyrimethamine and sulfadoxine respectively.\nThe pfdhfr S108N substitution is critical for pyrimethamine resistance, with N51I and C59R modulating the strength of resistance conferring sub-optimal activity and reduced binding affinity to the drug (reviewed in Naidoo and Roper (2013)). Additional mutations at A16V and C50A have been shown to confer resistance to cycloguanil and enhance pyrimethamine in Bolivia (Foote, Galatis, and Cowman 1990; Plowe et al. 1997). The I164L substitution has been found alone or in combination with the triple pfdhfr mutant haplotype as an important resistance-conferring mutation. Haplotypes are biologically meaningful, since they determine the resistance properties of parasites that are exposed to drugs at the time of treatment. A triple mutant pfdhfr haplotype with 51I-59R-108N has a 1.5- to 3-fold higher pyrimethamine resistance in vitro than either 51I-108N or 59-108N double mutant haplotypes (Sirawaraporn et al. 1997).\nSulfadoxine resistance first arises from the A437G substitution with compensatory mutations at I431V, S436A/F, K540E, A581G, A613S further increasing resistance. There are location-specific differences in pfdhps haplotypes in Africa, with East & Southern African isolates containing both 437G and 540E, while only 437G is predominantly observed West and Central Africa (Naidoo and Roper 2013). The 540E allele has been found to work together with 437G to raise the sulfadoxine tolerance of sensitive pfdhps by 200-fold compared to just 10-fold with only 437G substitution (Triglia et al. 1997). The A581G substitution was found in northern Tanzania (Gesase et al. 2009) to reduce the efficacy of IPTp-SP (Minja et al. 2013), and is also rare in West and Central Africa. I431V was identified from UK imported malaria infections originating Nigeria (Sutherland et al. 2009) and pregnant women in Cameroon (Chauvin et al. (2015)).\nNaidoo and Roper Naidoo and Roper (2013) have classified pfdhfr and pfdhps mediated resistance into three categories:\n\n“partial resistant” haplotypes (pfdhfr 51I, 59R, 108N; pfdhps 473G),\n“full resistant” haplotypes also containing pfdhps 540E, associated with clinical failure of SP treatment, and\n“super-resistant” haplotypes additionally harbouring 581G. More recently, the local emergence and clonal expansion of a VAGKGS mutant\n\nhaplotype was observed in north-western Central Africa (Cameroon and Nigeria) and there was a mutually exclusive relationship with the presence of the 431V mutation and the 540E mutation in countries further south in Central Africa (Republic of Congo, Democratic Republic of Congo, Gabon, Central African Republic and Angola) (Guémas et al. 2023). The study also found the 431V mutant found in 15 countries in Central and West Africa, with the majority also having the VAGKGS haplotype. Given the additive nature of pfdhps mutations leading to increased resistance, this haplotype would confer an increased level of resistance to SP. It was therefore theorised that this haplotype is the Central and West African equivalent of a “super-resistant” mutant (Guémas et al. 2023).",
-    "crumbs": [
-      "Home",
-      "About ALARMcoding",
-      "Antimalarial Drug Resistance"
-    ]
-  },
-  {
-    "objectID": "About_Resistance.html#aminoquinolines-and-arylaminoalcohols-pfcrt-pfmdr1-pfaat1",
-    "href": "About_Resistance.html#aminoquinolines-and-arylaminoalcohols-pfcrt-pfmdr1-pfaat1",
-    "title": "Antimalarial Drug Resistance",
-    "section": "Aminoquinolines and Arylaminoalcohols (pfcrt, pfmdr1, pfaat1)",
-    "text": "Aminoquinolines and Arylaminoalcohols (pfcrt, pfmdr1, pfaat1)\n4-aminoquinoline and arylaminoalcohol antimalarial drugs such as chloroquine, amodiaquine and lumefantrine accumulate in the digestive vacuole and reduce haemoglobin degradation, resulting in parasite death (reviewed in Wicht, Mok, and Fidock (2020)).\nNon-synonymous point mutations in P. falciparum chloroquine resistance transporter (pfcrt) on chromosome 7 mediate drug resistance by preventing drug accumulation in the digestive vacuole. The K76T substitution in pfcrt results in the export of drugs from the digestive vacuole and additional region-specific mutations exist at codon positions 72-75 line the central drug binding cavity of pfcrt (reviewed in Wicht, Mok, and Fidock (2020)). For example, the SVMNT haplotype is predominantly observed in South American isolates as opposed to the CVIET haplotypes found in Africa and Asian isolates Veiga et al. (2016). Both haplotypes have been demonstrated to be equally associated with AQR (Wicht, Mok, and Fidock 2020).\nMutations in pfcrt alone cannot halt drug accumulation in the digestive vacuole via passive diffusion. This is supplemented by mutations in P. falciparum multidrug resistance protein 1 (pfmdr1) on chromosome 5 and P. falciparum putative amino acid transporter 1 (pfaat1) on chromosome 6. Substitutions at pfmdr1 codons 86, 184, 1034, 1042 and 1246 result in a strong epistatic interaction with pfcrt 76T and act to augment drug resistance. Amino-terminal substitutions (N86Y and Y184F) are common in Asian and African parasites, while carboxy-terminal mutations (S1034C, N1042D and D1246Y) are found at a higher frequency in South American isolates (Veiga et al. 2016; Wicht, Mok, and Fidock 2020). Mutations at 1034C and 1042D have been shown to be involved in the binding pocket of 4-aminoquinolines (Sidhu, Valderramos, and Fidock 2005). ASAQ and AL are the most commonly used ACTs in Africa (World Health Organisation 2020) and exert opposing selection pressures on pfcrt and pfmdr1. ASAQ selects for the pfmdr1 86Y, Y184 and 1246Y alleles (or the pfmdr1 YYY haplotype) while the absence of aminoquinoline resistance mutations is preferentially selected for by AL (i.e., N86, 184F and D1246 alleles; or the pfmdr1 NFD haplotype) (Ochong et al. 2003; Dokomajilar et al. 2006; Happi et al. 2006; Holmgren et al. 2007; Humphreys et al. 2007; Tinto et al. 2008; Fröberg et al. 2012; Baraka et al. 2014; Venkatesan et al. 2014; Otienoburu et al. 2016; Sondo et al. 2016; Okell et al. 2018). ASAQ also preferentially selects for pfcrt 76T allele, while AL has been associated with increased prevalence of the pfcrt K76 allele (Echeverry et al. 2007; Folarin et al. 2011; Venkatesan et al. 2014). Therefore it has been proposed that either rotating or deploying b ASAQ and AL simultaneously may reduce the spread of mutations that confer resistance the ACT and/or ACT partner drugs in the population (Valderramos et al. 2010; Nguyen et al. 2015; Yeka et al. 2015).\nRecently, pfaat1 was found to have an epistatic interaction with 76T and parasite fitness (Amambua-Ngwa et al. 2023). The combined pfaat1 single mutant 258L and pfcrt 76T types result in high chloroquine resistance but at a very high fitness cost and was found in African isolates, while the pfaat1 double mutant (258L and 313S) and pfcrt 76T causes chloroquine resistance and an increase in fitness (to almost wild-type levels) and is found in southeast Asian isolates.",
-    "crumbs": [
-      "Home",
-      "About ALARMcoding",
-      "Antimalarial Drug Resistance"
-    ]
-  },
-  {
-    "objectID": "About_Resistance.html#artemisinins-pfk13",
-    "href": "About_Resistance.html#artemisinins-pfk13",
-    "title": "Antimalarial Drug Resistance",
-    "section": "Artemisinins (pfk13)",
-    "text": "Artemisinins (pfk13)\nArtemisinin resistance is defined as delayed parasite clearance following treatment with an artemisinin derivative drug (reviewed in Pandit et al. (2023)). This is a form of ‘partial resistance’ where the phenotype manifests as reduced drug susceptibility in ring-stage parasites. Single point mutations in the Broad-Complex, Tramtrack and Bric-à-bac/Pox virus and Zinc Finger domain (BTB/POZ; codons 350-437) and the propeller domain (codons 350-726) of pfk13 (encoded by pfk13 on chromosome 13) have been found to confer this phenotype. There are currently 13 validated pfk13 markers and nine that are candidate/associated with artemisinin resistance. The pfk13 mutations that have originated in southeast Asia (C580Y, R539T, Y493H, I543T) confer the slow-clearance phenotype in vitro following exposure to artemisinin [Ariey et al. (2014); Conrad et al. (2014); Zhu et al. (2018); Moser et al. (2020); Uwimana et al. (2020); Kirby et al. (2022); Fola et al. (2023); Juliano et al. (2023)).\nValidated pfk13 mutations have been identified in Africa at very low frequencies (&lt;1%) (Owoloye et al. 2021). De novo non-synonymous mutations with local flanking haplotypes (SNPs or microsatellites) have arisen at low frequency such as R561H (Rwanda, Tanzania), R622I (Ethiopia), and A675V (Uganda) in East Africa. However, 622I has not yet been validated to cause artemisinin resistance in vitro nor in vivo (Fola et al. 2023). The introduction and spread of ART resistant strains in Tanzania [Juliano et al. (2023)), Uganda (Conrad et al. 2023), Rwanda (Uwimana et al. 2020) and Ethiopia (Fola et al. 2023) raise concerns for the rest of Africa and its first-line therapeutic. Other markers in different genes have been observed to act as background and secondary determinants of resistance such as PfCoronin, PfUbp1, PfAP2μ, pfmdr1 copy number, PfTrx1 and PfSpp (Pandit2023).",
-    "crumbs": [
-      "Home",
-      "About ALARMcoding",
-      "Antimalarial Drug Resistance"
-    ]
-  },
-  {
-    "objectID": "About_Markers.html#vector-competence-a-new-strategy",
-    "href": "About_Markers.html#vector-competence-a-new-strategy",
-    "title": "Marker Choice",
-    "section": "Vector Competence: A New Strategy",
-    "text": "Vector Competence: A New Strategy\nTo address the recent invasion of An. stephensi in Africa, a marker of vector competence was included in the ALARMcoding panel. P. falciparum surface protein 47 (pfs47) encodes for the 6-cysteine protein pfs47 (also known as P47 or TEP1) that is expressed on the gametocyte surface and allows region-specific P. falciparum to evade the local vector immune response in the ookinete stage and persist to later developmental stages. This mediates the extent to which P. falciparum survives. pfs47-mediated immune evasion in the Anopheles spp. vector is required for parasites to persist in an endemic area (Molina-Cruz et al., 2013). There is strong geographic structure of pfs47 with lower haplotype diversity out of Africa (Anthony et al., 2007; Molina-Cruz et al., 2015a, 2015b), supporting observations that (i) P. falciparum isolates from Africa could infect both An. gambiae (African vector) and An. stephensi (South/Southeast Asian vector), while P. falciparum isolates from southeast Asia had a lower success at infecting An. gambiae (Hume, Lyons and Day, 2003), and (ii) African strains (GB4 and NF54) were able to survive in An. gambiae but 7G8 (New World strain) cannot (Canepa, Molina-Cruz and Barillas-Mury, 2016). In the context of malaria genomic surveillance of drug resistance, pfs47 (chromosome 13) can be monitored to inform whether parasites have migrated/invaded from another region. It can therefore also be used as a positive control to confirm the vector-parasite relationship in the region of interest. Non-synonymous mutations in T236I, V247A, S242L and I248L resulted in the mosquito immune system clearing the parasite (Canepa, Molina-Cruz and Barillas-Mury, 2016). Polymorphisms at codons 236 and 242 were found to be strongly related with geographic variation in the pfs47 gene across South America, Africa, Asia, and the Pacific (Molina-Cruz et al., 2021). A recent study characterised polymorphisms of entire pfs47 gene in Western Kenya and found low and non-significant FST, with 8 loci that segregated in the population: E27D, E188D, P194H, L240I, I249L, N272I/Y, I304L. Only P194H and N272I were identified as SNPs while the other loci were parsimony informative (Onyango et al., 2021).",
-    "crumbs": [
-      "Home",
-      "About ALARMcoding",
-      "Marker Choice"
-    ]
-  },
-  {
-    "objectID": "Multiplex_1.html",
-    "href": "Multiplex_1.html",
-    "title": "Multiplex 1: K13 and mdr1 (86, 184)",
-    "section": "",
-    "text": "The first round for multiplex 1 was modified from (Narh et al. 2020) and amplifies two regions of pfk13 and pfmdr1 fragment 1 (mdr1-1; codons 86, 184). Inner primers for each simplex reaction were used from (Narh et al. 2020).\n\n\n\n\nTable 2. Details about primers used in multiplex 1 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nKelch protein (pfk13: PF3D7_1343700)\n\n\nK13-out-F\n13\nAGTGGAAGACATCATGTAACCAG\n1\n1725857-1725835\n\n\nK13-out-R\n13\nAATTGCCATCTTTTATTAAATGGTTGA\n1\n1725013-1725039\n\n\nK13-in-F1\n13\nAGCCTTGTTGAAAGAAGCAGA\n1\n1725720-1725700\n\n\nK13-in-R1\n13\nTGATCATATGCTTCTACATTCGGT\n1\n1725319-1725342\n\n\nK13-in-F2\n13\nGGGGGATATGATGGCTCTTCT\n1\n1725368-1725348\n\n\nK13-in-R2\n13\nTCAACGGAATCTAATATGTTATGTTCA\n1\n1725046-1725072\n\n\nMultidrug resistance gene 1 (pfmdr1: Pf3D7_0523000)\n\n\nmdr1-out-F1\n5\nACCGTTTAAATGTTTACCTGCACA\n1\n958021-958044\n\n\nmdr1-out-R1\n5\nGCCTCTTCTATAATGGACATGGT\n1\n958599-958577\n\n\nmdr1-in-F1\n5\nGTGCTGTATTATCAGGAGGAACA\n1\n958077-958099\n\n\nmdr1-in-R1\n5\nGCAAGTAATACATAAAGTCAAACGTGC\n1\n958489-958463\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 Narh et al., 2020 2 Nag et al., 2017\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "Multiplex 1: K13 and mdr1 (86, 184)"
-    ]
-  },
-  {
-    "objectID": "Multiplex_2.html",
-    "href": "Multiplex_2.html",
-    "title": "Multiplex 2: crt, mdr1 (1034, 1042, 1246)",
-    "section": "",
-    "text": "Round 1 PCR primers were designed using Geneious Prime R9 to target larger fragments that surrounded the codons of interest per marker. The forward and reverse primers for pfmdr1.1.2 and pfmdr1.1.3 and the forward primer for pfcrt from (Nag et al. 2017) were used as the round 2 PCR primers, and a novel pfcrt reverse primer was developed using Geneious Prime R9.\n\n\n\n\nTable 4. Details about primers used in Multiplex 2 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nMultidrug resistance gene 1 (pfmdr1: Pf3D7_0523000)\n\n\nmdr1-out-F2\n5\nCCCAGGTGTTTTATCTGCACA\nNA\n960544-960564\n\n\nmdr1-out-R2\n5\nAGATGCAATTCTGTGGGCAA\nNA\n962011-961992\n\n\nmdr1-in-F2\n5\nTTTGTCCAATTGTTGCAGCTGTATTAACTTT\n2\n960672-960702\n\n\nmdr1-in-R2\n5\nTGCATTTTCTGAATCTCCTTTTAAGGACATT\n2\n961159-961129\n\n\nmdr1-in-F3\n5\nGGTAAAGTTGATATTAAAGATGTAAATTTCC\n2\n961259-961289\n\n\nmdr1-in-R3\n5\nTGGTCCAACATTTGTATCATATTTATTTGG\n2\n961810-961781\n\n\nChloroquine resistance transporter (pfcrt: PF3D7_070900)\n\n\ncrt-out-F\n7\nCAAGCAAAAATGACGAGCGT\nNA\n403259-403278\n\n\ncrt-out-R\n7\nCCAGTAGTTCTTGTAAGACCTATGA\nNA\n404035-404011\n\n\ncrt-in-F\n7\nTGGCTCACGTTTAGGTGGAGGTTCTTG\n2\n403491-403517\n\n\ncrt-in-R\n7\nCATACAAATAAAGTTGTGAGTTTCGGATGTTAC\nNA\n403704-403672\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 2 Nag et al., 2017\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "Multiplex 2: crt, mdr1 (1034, 1042, 1246)"
-    ]
-  },
-  {
-    "objectID": "Prepare_Sequencing.html",
-    "href": "Prepare_Sequencing.html",
-    "title": "Post-PCR: Prepare for Sequencing",
-    "section": "",
-    "text": "After completing all PCRs, gel electrophoresis and gel densitometry measurements, we can then pool isolates together at equimolar concentrations of 200 ng/μL. Here we wish to combine all isolates with unique MIDs per marker into one pool.\n⚠️ REMEMBER: Ensure that there is only ONE of each MID per pool: this is important when demultiplexing bioinformatically.\nOnce you have collated all of your absolute quantity data, you can then generate a table as below. Note, each pool should have AT LEAST ONE POSITIVE CONTROL, e.g., 3D7. Each isolate genotyped with K13-1 with a unique MID are added to a unique “sub-pool”, in this case labelled “1A”.\n\n\n\n\nTable 10. Example table to organise pooling of isolates per marker in 'sub-pools'\n\n\nSample Name\nMID\nMarker\nPool\nPlate Position\nDNA concentrationa\nVolume (μL) to add to pool\nCumulative volume\n\n\n\n\nIsolate 1\n1\nK13-1\n1A\n2A\n62.65\n3.2\n3.2\n\n\nIsolate 2\n2\nK13-1\n1A\n2B\n65.74\n3.0\n6.2\n\n\nIsolate 3\n3\nK13-1\n1A\n2C\n129.47\n1.5\n7.7\n\n\nIsolate 4\n4\nK13-1\n1A\n2D\n92.17\n2.2\n9.9\n\n\nIsolate 5\n5\nK13-1\n1A\n2E\n144.59\n1.4\n11.3\n\n\n3D7\n108\nK13-1\n1A\n7A\n129.00\n1.6\n12.9\n\n\n\na Agarose gel densitometry data\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNext, you can calculate the total volume (μL) (12.9) and total DNA concentration (ng/μL) (623.62). This information is relevant for the following section.",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "Post-PCR: Prepare for Sequencing"
-    ]
-  },
-  {
-    "objectID": "3_Custom.html",
-    "href": "3_Custom.html",
-    "title": "Step 3: Processing in R",
-    "section": "",
-    "text": "The final outputs from MASCE (“_NT.fasta” or “_AA.fasta”) and SeekDeep (“selectedClustersInfo.tab.txt”) are as follows:\n\nMACSESeekDeep\n\n\nHere you have the sample name (seq_name) and the sequence (sequence).\n\n\n\n\nTable 13. Example of MACSE output\n\n\nseq_name\nsequence\n\n\n\n\nPF3D7_0709000\nMKFASKKNNQKNSSKNDERYRELDNLVQEGNGSRLGGGSCLGKCAHVFKLIFKEIKDNIFIYILSIIYLSVCVMNKIFAKRTLNKIGNYSFVTSETHNFICMIMFFIVYSLFGNKKGNSKERHRSFNLQFFAISMLDACSVILAFIGLTRTTGNIQSFVLQLSIPINMFFCFLILRYRYHLYNYLGAVIIVVTIALVEMKLSFETQEENSIIFNLVLISALIPVCFSNMTREIVFKKYKIDILRLNAMVSFFQLFTSCLILPVYTLPFLKQLHLPYNEIWTNIKNGFACLFLGRNTVVENCGLGMAKLCDDCDGAWKTFALFSFFNICDNLITSYIIDKFSTMTYTIVSCIQGPAIAIAYYFKFLAGDVVREPRLLDFVTLFGYLFGSIIYRVGNIILERKKMRNEENEDSEGELTNVDSIITQ*\n\n\n3D7.MID108.Pool1.0_f1\n---------------------------------------!LGKCAHVFKLIFKEIKDNIFIYILSIIYLSVCVMNKIFAKRTLNKIGNYSF----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n\n\nSAMPLE1.MID1.Pool1.0_f1\n---------------------------------------!LGKCAHVFKLIFKEIKDNIFIYILSIIYLSVCVMNKIFAKRTLNKIGNYSF----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n\n\nSAMPLE2.MID2.Pool1.0_f1\n---------------------------------------!LGKCAHVFKLIFKEIKDNIFIYILSIIYLSVCVMNKIFAKRTLNKIGNYSF----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n\n\nSAMPLE3.MID3.Pool1.0_f0.7328\n---------------------------------------!LGKCAHVFKLIFKEIKDNIFIYILSIIYLSVCVMNKIFAKRTLNKIGNYSF----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n\n\nSAMPLE3.MID3.Pool1.1_f0.2672\n---------------------------------------!LGKCAHVFKLIFKEIKDNIFIYILSIIYLSVCVIETIFAKRTLNKIGNYSF----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n\n\n\n\n\n\n\n\n\n\nThe key variables of interest from the SeekDeep outputs include:\n\nThe suffix in the s_SampleID column:\n\n.0_f1: 0 = Major Haplotype, f1 = 100% of the isolate\n.0_f0.7328 0 = Major Haplotype, f0.7328 = 73.28% of the isolate\n.1_f0.2672 1 = Minor Haplotype, f0.2672 = 26.72% of the isolate\n\nh_popUID: Same numbers as the major and minor haplotypes denoted in that suffix\nc_ReadCnt: Read Count per amplicon/haplotype\n\nNote, “Marker” was a user-generated column to denote which marker these data are attributed to e.g., crt.\n\n\n\n\nTable 14. Example of SeekDeep output\n\n\nMarker\ns_Sample\nh_popUID\nc_ReadCnt\n\n\n\n\ncrt\n3D7.MID108.Pool1.0_f1\n0\n2205\n\n\ncrt\nSAMPLE1.MID1.Pool1.0_f1\n0\n1772\n\n\ncrt\nSAMPLE2.MID2.Pool1.0_f1\n0\n4368\n\n\ncrt\nSAMPLE3.MID3.Pool1.0_f0.7328\n0\n3789\n\n\ncrt\nSAMPLE3.MID3.Pool1.1_f0.2672\n1\n2682",
-    "crumbs": [
-      "Home",
-      "Drug Resistance Pipeline",
-      "Step 3: Processing in R"
+      "Step 1: SeekDeep"
     ]
   },
   {
@@ -342,399 +72,27 @@
     ]
   },
   {
-    "objectID": "Multiplex_4.html",
-    "href": "Multiplex_4.html",
-    "title": "Multiplex 4: aat1, pfs47",
+    "objectID": "1_SeekDeep.html#references",
+    "href": "1_SeekDeep.html#references",
+    "title": "Step 1: SeekDeep",
+    "section": "References",
+    "text": "References\n\n\nAydemir, Ozkan, Mark Janko, Nick J Hathaway, Robert Verity, Melchior Kashamuka Mwandagalirwa, Antoinette K Tshefu, Sofonias K Tessema, et al. 2018. “Drug-Resistance and Population Structure of Plasmodium falciparum Across the Democratic Republic of Congo Using High-Throughput Molecular Inversion Probes.” The Journal of Infectious Diseases 218 (6): 946–55. https://doi.org/10.1093/infdis/jiy223.\n\n\nBalasubramanian, Sujata, Rachel Curtis-Robles, Bhagath Chirra, Lisa D. Auckland, Alan Mai, Virgilio Bocanegra-Garcia, Patti Clark, et al. 2022. “Characterization of triatomine bloodmeal sources using direct Sanger sequencing and amplicon deep sequencing methods.” Scientific Reports 12 (1): 10234. https://doi.org/10.1038/s41598-022-14208-8.\n\n\nBoyce, Ross M, Nicholas Brazeau, Travis Fulton, Nick Hathaway, Michael Matte, Moses Ntaro, Edgar Mulogo, and Jonathan J Juliano. 2019. “Prevalence of Molecular Markers of Antimalarial Drug Resistance across Altitudinal Transmission Zones in Highland Western Uganda.” The American Journal of Tropical Medicine and Hygiene 101 (4): 799–802. https://doi.org/10.4269/ajtmh.19-0081.\n\n\nBrazeau, Nicholas F, Ashenafi Assefa, Hussein Mohammed, Heven Seme, Abeba G Tsadik, Jonathan B Parr, Corinna Keeler, et al. 2019. “Pooled Deep Sequencing of Drug Resistance Loci from Plasmodium falciparum Parasites across Ethiopia.” The American Journal of Tropical Medicine and Hygiene 101 (5): 1139–43. https://doi.org/10.4269/ajtmh.19-0142.\n\n\nHathaway, Nicholas J., Christian M. Parobek, Jonathan J. Juliano, and Jeffrey A. Bailey. 2017. “SeekDeep: single-base resolution de novo clustering for amplicon deep sequencing.” Nucleic Acids Research 46 (4): gkx1201–. https://doi.org/10.1093/nar/gkx1201.\n\n\nHemming-Schroeder, Elizabeth, Daibin Zhong, Solomon Kibret, Amanda Chie, Ming-Chieh Lee, Guofa Zhou, Harrysone Atieli, Andrew Githeko, James W Kazura, and Guiyun Yan. 2020. “Microgeographic Epidemiology of Malaria Parasites in an Irrigated Area of Western Kenya by Deep Amplicon Sequencing.” The Journal of Infectious Diseases 223 (8): 1456–65. https://doi.org/10.1093/infdis/jiaa520.\n\n\nOsoti, Victor, Mercy Akinyi, Kevin Wamae, Kelvin M. Kimenyi, Zaydah de Laurent, Leonard Ndwiga, Paul Gichuki, et al. 2022. “Targeted Amplicon Deep Sequencing for Monitoring Antimalarial Resistance Markers in Western Kenya.” Antimicrobial Agents and Chemotherapy 66 (4): e01945–21. https://doi.org/10.1128/aac.01945-21.\n\n\nPringle, Julia C., Amy Wesolowski, Sophie Berube, Tamaki Kobayashi, Mary E. Gebhardt, Modest Mulenga, Mike Chaponda, et al. 2019. “High Plasmodium falciparum genetic diversity and temporal stability despite control efforts in high transmission settings along the international border between Zambia and the Democratic Republic of the Congo.” Malaria Journal 18 (1): 400. https://doi.org/10.1186/s12936-019-3023-4.\n\n\nTopazian, Hillary M., Kara A. Moser, Billy Ngasala, Peter O. Oluoch, Catherine S. Forconi, Lwidiko E. Mhamilawa, Ozkan Aydemir, et al. 2022. “Low Complexity of Infection Is Associated With Molecular Persistence of Plasmodium falciparum in Kenya and Tanzania.” Frontiers in Epidemiology 2: 852237. https://doi.org/10.3389/fepid.2022.852237.\n\n\nWamae, Kevin, Kelvin M. Kimenyi, Victor Osoti, Zaydah R. de Laurent, Leonard Ndwiga, Oksana Kharabora, Nicholas J. Hathaway, et al. 2022. “Amplicon sequencing as a potential surveillance tool for complexity of infection and drug resistance markers in Plasmodium falciparum asymptomatic infections.” Journal of Infectious Diseases. https://doi.org/doi.org/10.1093/infdis/jiac144.\n\n\nWamae, Kevin, Leonard Ndwiga, Oksana Kharabora, Kelvin Kimenyi, Victor Osoti, Zaydah de Laurent, Juliana Wambua, et al. 2022. “Targeted Amplicon deep sequencing of ama1 and mdr1 to track within-host P. falciparum diversity throughout treatment in a clinical drug trial.” Wellcome Open Research 7: 95. https://doi.org/10.12688/wellcomeopenres.17736.1.",
+    "crumbs": [
+      "Home",
+      "Drug Resistance Pipeline",
+      "Step 1: SeekDeep"
+    ]
+  },
+  {
+    "objectID": "3_Custom.html",
+    "href": "3_Custom.html",
+    "title": "Step 3: Processing in R",
     "section": "",
-    "text": "Round 1 PCR primers were obtained from (Onyango et al. 2021) and round 2 PCR primers were designed using Geneious Prime R9 to target smaller fragments. Novel pfaat1 primers were designed using Geneious Prime R9 for both round 1 and round 2 PCR primers surrounding the codons of interest.\n\n\n\n\nTable 8. Details about primers used in Multiplex 4 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nPutative amino acid transporter (pfaat1r: PF3D7_0629500)\n\n\naat1-out-F\n6\nGTAGAACATTTAGTCGATTTACACC\nNA\n1215527-1215503\n\n\naat1-out-R\n6\nTGGCTGAATATCCAGTTCTT\nNA\n1214559-1214578\n\n\naat1-in-F\n6\nTGTACCTCGTCATTAGAACA\nNA\n1215345-1215326\n\n\naat1-in-R\n6\nCATTTGGTTGTTGAGAGAAGG\nNA\n1214898-1214918\n\n\n6-cysteine protein (pfs47r: PF3D7_1346800)\n\n\npfs47-out-F\n13\nATGTGTATGGGAAGAATGATCA\n3\n1880194-1880173\n\n\npfs47-out-R\n13\nACAAGTTCATTCATATGCTAACATA\n3\n1878865-1878889\n\n\npfs47-in-F1\n13\nSame as pfs47-out-F\n3\n1880194-1880173\n\n\npfs47-in-R1\n13\nATCACTGAACGATGAATTTATTGCA\nNA\n1879805-1879829\n\n\npfs47-in-F2\n13\nGGATTAGTAAAAATAATTTTAAGAAACC\nNA\n1879678-1879651\n\n\npfs47-in-R2\n13\nACATATACGTTCTTCTTCATTTGG\nNA\n1879250-1879273\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 2 3 Onyango et al., 2021\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
+    "text": "The final outputs from MASCE (“_NT.fasta” or “_AA.fasta”) and SeekDeep (“selectedClustersInfo.tab.txt”) are as follows:\n\nMACSESeekDeep\n\n\nHere you have the sample name (seq_name) and the sequence (sequence).\n\n\n\n\nTable 13. Example of MACSE output\n\n\nseq_name\nsequence\n\n\n\n\nPF3D7_0709000\nMKFASKKNNQKNSSKNDERYRELDNLVQEGNGSRLGGGSCLGKCAHVFKLIFKEIKDNIFIYILSIIYLSVCVMNKIFAKRTLNKIGNYSFVTSETHNFICMIMFFIVYSLFGNKKGNSKERHRSFNLQFFAISMLDACSVILAFIGLTRTTGNIQSFVLQLSIPINMFFCFLILRYRYHLYNYLGAVIIVVTIALVEMKLSFETQEENSIIFNLVLISALIPVCFSNMTREIVFKKYKIDILRLNAMVSFFQLFTSCLILPVYTLPFLKQLHLPYNEIWTNIKNGFACLFLGRNTVVENCGLGMAKLCDDCDGAWKTFALFSFFNICDNLITSYIIDKFSTMTYTIVSCIQGPAIAIAYYFKFLAGDVVREPRLLDFVTLFGYLFGSIIYRVGNIILERKKMRNEENEDSEGELTNVDSIITQ*\n\n\n3D7.MID108.Pool1.0_f1\n---------------------------------------!LGKCAHVFKLIFKEIKDNIFIYILSIIYLSVCVMNKIFAKRTLNKIGNYSF----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n\n\nSAMPLE1.MID1.Pool1.0_f1\n---------------------------------------!LGKCAHVFKLIFKEIKDNIFIYILSIIYLSVCVMNKIFAKRTLNKIGNYSF----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n\n\nSAMPLE2.MID2.Pool1.0_f1\n---------------------------------------!LGKCAHVFKLIFKEIKDNIFIYILSIIYLSVCVMNKIFAKRTLNKIGNYSF----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n\n\nSAMPLE3.MID3.Pool1.0_f0.7328\n---------------------------------------!LGKCAHVFKLIFKEIKDNIFIYILSIIYLSVCVMNKIFAKRTLNKIGNYSF----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n\n\nSAMPLE3.MID3.Pool1.1_f0.2672\n---------------------------------------!LGKCAHVFKLIFKEIKDNIFIYILSIIYLSVCVIETIFAKRTLNKIGNYSF----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n\n\n\n\n\n\n\n\n\n\nThe key variables of interest from the SeekDeep outputs include:\n\nThe suffix in the s_SampleID column:\n\n.0_f1: 0 = Major Haplotype, f1 = 100% of the isolate\n.0_f0.7328 0 = Major Haplotype, f0.7328 = 73.28% of the isolate\n.1_f0.2672 1 = Minor Haplotype, f0.2672 = 26.72% of the isolate\n\nh_popUID: Same numbers as the major and minor haplotypes denoted in that suffix\nc_ReadCnt: Read Count per amplicon/haplotype\n\nNote, “Marker” was a user-generated column to denote which marker these data are attributed to e.g., crt.\n\n\n\n\nTable 14. Example of SeekDeep output\n\n\nMarker\ns_Sample\nh_popUID\nc_ReadCnt\n\n\n\n\ncrt\n3D7.MID108.Pool1.0_f1\n0\n2205\n\n\ncrt\nSAMPLE1.MID1.Pool1.0_f1\n0\n1772\n\n\ncrt\nSAMPLE2.MID2.Pool1.0_f1\n0\n4368\n\n\ncrt\nSAMPLE3.MID3.Pool1.0_f0.7328\n0\n3789\n\n\ncrt\nSAMPLE3.MID3.Pool1.1_f0.2672\n1\n2682",
     "crumbs": [
       "Home",
-      "PCR Protocol",
-      "Multiplex 4: aat1, pfs47"
-    ]
-  },
-  {
-    "objectID": "Multiplex_3.html",
-    "href": "Multiplex_3.html",
-    "title": "Multiplex 3: dhfr, dhps",
-    "section": "",
-    "text": "The round 1 PCR primers were designed using Geneious Prime R9 to target larger fragments that encapsulated the primers described in (Nag et al. 2017) that were used as the round 2 PCR primers.\n\n\n\n\nTable 6. Details about primers used in Multiplex 3 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nDihydropteroate synthase (pfdhps: PF3D7_0810800)\n\n\ndhps-out-F\n8\nACAACACACAGATATAGCATACTTTT\nNA\n549342-549367\n\n\ndhps-out-R\n8\nAATAGCTGTAGGAAGCAATTGC\nNA\n550530-550509\n\n\ndhps-in-F1\n8\nACCATCAGATGTTTATATAACAAATATGTG\n2\n549417-549446\n\n\ndhps-in-R1\n8\nCTGGATTATTTGTACAAGCACTAATATCA\n2\n549909-549881\n\n\ndhps-in-F2\n8\nAGAATGTGTTGATAATGATTTAGTTGATAT\n2\n549845-549874\n\n\ndhps-in-R2\n8\nGATATAAAAGTTGATCCTTGTCTTTCCT\n2\n550365-550338\n\n\nDihydrofolate reductase (pfdhfr: PF3D7_0417200)\n\n\ndhfr-out-F\n4\nGCCATTTTTGTATTCCCAAATAGC\nNA\n747913-747936\n\n\ndhfr-out-R\n4\nTGTCATCATTCTTTAAAGGCATATCA\nNA\n748853-748828\n\n\ndhfr-in-F\n4\nATGATGGAACAAGTCTGCGACGTTTTCGA\n2\n748088-748116\n\n\ndhfr-in-R\n4\nCTAAAAATTCTTGATAAACAACGGAACCTCC\n2\n748610-748580\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 2 Nag et al., 2017\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "Multiplex 3: dhfr, dhps"
-    ]
-  },
-  {
-    "objectID": "Multiplex_4.html#multiplex-3",
-    "href": "Multiplex_4.html#multiplex-3",
-    "title": "Multiplex 4: aat1, pfs47",
-    "section": "",
-    "text": "Details about primers used in Multiplex 4 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nPutative amino acid transporter (pfaat1r: PF3D7_0629500)\n\n\naat1-out-F\n6\nGTAGAACATTTAGTCGATTTACACC\nNA\n1215527-1215503\n\n\naat1-out-R\n6\nTGGCTGAATATCCAGTTCTT\nNA\n1214559-1214578\n\n\naat1-in-F\n6\nTGTACCTCGTCATTAGAACA\nNA\n1215345-1215326\n\n\naat1-in-R\n6\nCATTTGGTTGTTGAGAGAAGG\nNA\n1214898-1214918\n\n\n6-cysteine protein (pfs47r: PF3D7_1346800)\n\n\npfs47-out-F\n13\nATGTGTATGGGAAGAATGATCA\n3\n1880194-1880173\n\n\npfs47-out-R\n13\nACAAGTTCATTCATATGCTAACATA\n3\n1878865-1878889\n\n\npfs47-in-F1\n13\nSame as pfs47-out-F\n3\n1880194-1880173\n\n\npfs47-in-R1\n13\nATCACTGAACGATGAATTTATTGCA\nNA\n1879805-1879829\n\n\npfs47-in-F2\n13\nGGATTAGTAAAAATAATTTTAAGAAACC\nNA\n1879678-1879651\n\n\npfs47-in-R2\n13\nACATATACGTTCTTCTTCATTTGG\nNA\n1879250-1879273\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 2 3 Onyango et al., 2021\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "Multiplex 4: aat1, pfs47"
-    ]
-  },
-  {
-    "objectID": "Multiplex_2.html#multiplex-2",
-    "href": "Multiplex_2.html#multiplex-2",
-    "title": "Multiplex 2: crt, mdr1 (1034, 1042, 1246)",
-    "section": "",
-    "text": "Details about primers used in Multiplex 2 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nMultidrug resistance gene 1 (pfmdr1: Pf3D7_0523000)\n\n\nmdr1-out-F2\n5\nCCCAGGTGTTTTATCTGCACA\nNA\n960544-960564\n\n\nmdr1-out-R2\n5\nAGATGCAATTCTGTGGGCAA\nNA\n962011-961992\n\n\nmdr1-in-F2\n5\nTTTGTCCAATTGTTGCAGCTGTATTAACTTT\n2\n960672-960702\n\n\nmdr1-in-R2\n5\nTGCATTTTCTGAATCTCCTTTTAAGGACATT\n2\n961159-961129\n\n\nmdr1-in-F3\n5\nGGTAAAGTTGATATTAAAGATGTAAATTTCC\n2\n961259-961289\n\n\nmdr1-in-R3\n5\nTGGTCCAACATTTGTATCATATTTATTTGG\n2\n961810-961781\n\n\nChloroquine resistance transporter (pfcrt: PF3D7_070900)\n\n\ncrt-out-F\n7\nCAAGCAAAAATGACGAGCGT\nNA\n403259-403278\n\n\ncrt-out-R\n7\nCCAGTAGTTCTTGTAAGACCTATGA\nNA\n404035-404011\n\n\ncrt-in-F\n7\nTGGCTCACGTTTAGGTGGAGGTTCTTG\n2\n403491-403517\n\n\ncrt-in-R\n7\nCATACAAATAAAGTTGTGAGTTTCGGATGTTAC\nNA\n403704-403672\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 2 Nag et al., 2017\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "Multiplex 2: crt, mdr1 (1034, 1042, 1246)"
-    ]
-  },
-  {
-    "objectID": "Multiplex_1.html#multiplex-1",
-    "href": "Multiplex_1.html#multiplex-1",
-    "title": "Multiplex 1: K13 and mdr1 (86, 184)",
-    "section": "",
-    "text": "Details about primers used in Multiplex 1 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nKelch protein (pfk13: PF3D7_1343700)\n\n\nK13-out-F\n13\nAGTGGAAGACATCATGTAACCAG\n1\n1725857-1725835\n\n\nK13-out-R\n13\nAATTGCCATCTTTTATTAAATGGTTGA\n1\n1725013-1725039\n\n\nK13-in-F1\n13\nAGCCTTGTTGAAAGAAGCAGA\n1\n1725720-1725700\n\n\nK13-in-R1\n13\nTGATCATATGCTTCTACATTCGGT\n1\n1725319-1725342\n\n\nK13-in-F2\n13\nGGGGGATATGATGGCTCTTCT\n1\n1725368-1725348\n\n\nK13-in-R2\n13\nTCAACGGAATCTAATATGTTATGTTCA\n1\n1725046-1725072\n\n\nMultidrug resistance gene 1 (pfmdr1: Pf3D7_0523000)\n\n\nmdr1-out-F1\n5\nACCGTTTAAATGTTTACCTGCACA\n1\n958021-958044\n\n\nmdr1-out-R1\n5\nGCCTCTTCTATAATGGACATGGT\n1\n958599-958577\n\n\nmdr1-in-F1\n5\nGTGCTGTATTATCAGGAGGAACA\n1\n958077-958099\n\n\nmdr1-in-R1\n5\nGCAAGTAATACATAAAGTCAAACGTGC\n1\n958489-958463\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 Narh et al., 2020 2 Nag et al., 2017\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "Multiplex 1: K13 and mdr1 (86, 184)"
-    ]
-  },
-  {
-    "objectID": "Multiplex_3.html#multiplex-3",
-    "href": "Multiplex_3.html#multiplex-3",
-    "title": "Multiplex 3: dhfr, dhps",
-    "section": "",
-    "text": "Details about primers used in Multiplex 3 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nDihydropteroate synthase (pfdhps: PF3D7_0810800)\n\n\ndhps-out-F\n8\nACAACACACAGATATAGCATACTTTT\nNA\n549342-549367\n\n\ndhps-out-R\n8\nAATAGCTGTAGGAAGCAATTGC\nNA\n550530-550509\n\n\ndhps-in-F1\n8\nACCATCAGATGTTTATATAACAAATATGTG\n2\n549417-549446\n\n\ndhps-in-R1\n8\nCTGGATTATTTGTACAAGCACTAATATCA\n2\n549909-549881\n\n\ndhps-in-F2\n8\nAGAATGTGTTGATAATGATTTAGTTGATAT\n2\n549845-549874\n\n\ndhps-in-R2\n8\nGATATAAAAGTTGATCCTTGTCTTTCCT\n2\n550365-550338\n\n\nDihydrofolate reductase (pfdhfr: PF3D7_0417200)\n\n\ndhfr-out-F\n4\nGCCATTTTTGTATTCCCAAATAGC\nNA\n747913-747936\n\n\ndhfr-out-R\n4\nTGTCATCATTCTTTAAAGGCATATCA\nNA\n748853-748828\n\n\ndhfr-in-F\n4\nATGATGGAACAAGTCTGCGACGTTTTCGA\n2\n748088-748116\n\n\ndhfr-in-R\n4\nCTAAAAATTCTTGATAAACAACGGAACCTCC\n2\n748610-748580\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 2 Nag et al., 2017\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "Multiplex 3: dhfr, dhps"
-    ]
-  },
-  {
-    "objectID": "Multiplex_2.html#primers",
-    "href": "Multiplex_2.html#primers",
-    "title": "Multiplex 2: crt, mdr1 (1034, 1042, 1246)",
-    "section": "",
-    "text": "Round 1 PCR primers were designed using Geneious Prime R9 to target larger fragments that surrounded the codons of interest per marker. The forward and reverse primers for pfmdr1.1.2 and pfmdr1.1.3 and the forward primer for pfcrt from (Nag et al. 2017) were used as the round 2 PCR primers, and a novel pfcrt reverse primer was developed using Geneious Prime R9.\n\n\n\n\nTable 4. Details about primers used in Multiplex 2 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nMultidrug resistance gene 1 (pfmdr1: Pf3D7_0523000)\n\n\nmdr1-out-F2\n5\nCCCAGGTGTTTTATCTGCACA\nNA\n960544-960564\n\n\nmdr1-out-R2\n5\nAGATGCAATTCTGTGGGCAA\nNA\n962011-961992\n\n\nmdr1-in-F2\n5\nTTTGTCCAATTGTTGCAGCTGTATTAACTTT\n2\n960672-960702\n\n\nmdr1-in-R2\n5\nTGCATTTTCTGAATCTCCTTTTAAGGACATT\n2\n961159-961129\n\n\nmdr1-in-F3\n5\nGGTAAAGTTGATATTAAAGATGTAAATTTCC\n2\n961259-961289\n\n\nmdr1-in-R3\n5\nTGGTCCAACATTTGTATCATATTTATTTGG\n2\n961810-961781\n\n\nChloroquine resistance transporter (pfcrt: PF3D7_070900)\n\n\ncrt-out-F\n7\nCAAGCAAAAATGACGAGCGT\nNA\n403259-403278\n\n\ncrt-out-R\n7\nCCAGTAGTTCTTGTAAGACCTATGA\nNA\n404035-404011\n\n\ncrt-in-F\n7\nTGGCTCACGTTTAGGTGGAGGTTCTTG\n2\n403491-403517\n\n\ncrt-in-R\n7\nCATACAAATAAAGTTGTGAGTTTCGGATGTTAC\nNA\n403704-403672\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 2 Nag et al., 2017\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "Multiplex 2: crt, mdr1 (1034, 1042, 1246)"
-    ]
-  },
-  {
-    "objectID": "Multiplex_1.html#primers",
-    "href": "Multiplex_1.html#primers",
-    "title": "Multiplex 1: K13 and mdr1 (86, 184)",
-    "section": "",
-    "text": "The first round for multiplex 1 was modified from (Narh et al. 2020) and amplifies two regions of pfk13 and pfmdr1 fragment 1 (mdr1-1; codons 86, 184). Inner primers for each simplex reaction were used from (Narh et al. 2020).\n\n\n\n\nTable 2. Details about primers used in multiplex 1 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nKelch protein (pfk13: PF3D7_1343700)\n\n\nK13-out-F\n13\nAGTGGAAGACATCATGTAACCAG\n1\n1725857-1725835\n\n\nK13-out-R\n13\nAATTGCCATCTTTTATTAAATGGTTGA\n1\n1725013-1725039\n\n\nK13-in-F1\n13\nAGCCTTGTTGAAAGAAGCAGA\n1\n1725720-1725700\n\n\nK13-in-R1\n13\nTGATCATATGCTTCTACATTCGGT\n1\n1725319-1725342\n\n\nK13-in-F2\n13\nGGGGGATATGATGGCTCTTCT\n1\n1725368-1725348\n\n\nK13-in-R2\n13\nTCAACGGAATCTAATATGTTATGTTCA\n1\n1725046-1725072\n\n\nMultidrug resistance gene 1 (pfmdr1: Pf3D7_0523000)\n\n\nmdr1-out-F1\n5\nACCGTTTAAATGTTTACCTGCACA\n1\n958021-958044\n\n\nmdr1-out-R1\n5\nGCCTCTTCTATAATGGACATGGT\n1\n958599-958577\n\n\nmdr1-in-F1\n5\nGTGCTGTATTATCAGGAGGAACA\n1\n958077-958099\n\n\nmdr1-in-R1\n5\nGCAAGTAATACATAAAGTCAAACGTGC\n1\n958489-958463\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 Narh et al., 2020 2 Nag et al., 2017\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "Multiplex 1: K13 and mdr1 (86, 184)"
-    ]
-  },
-  {
-    "objectID": "Multiplex_1.html#final-sequences",
-    "href": "Multiplex_1.html#final-sequences",
-    "title": "Multiplex 1: K13 and mdr1 (86, 184)",
-    "section": "Final Sequences",
-    "text": "Final Sequences\n\n\n\n\nTable 3. Details about sequences genotyped in the multiplex 1 of the ALARMcoding protocol\n\n\nMarker\nLength\nPCR_Round\nCodons\n\n\n\n\nKelch protein (pfk13: PF3D7_1343700)\n\n\nK13 Round 1 Product\n845\n1\n\n\n\nK13-1\n412\n2\n426-560\n\n\nK13-2\n333\n2\n542-651\n\n\nMultidrug resistance gene 1 (pfmdr1: Pf3D7_0523000)\n\n\nmdr1-1 Round 1 Product\n579\n1\n\n\n\nmdr1-1\n423\n2\n86, 184",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "Multiplex 1: K13 and mdr1 (86, 184)"
-    ]
-  },
-  {
-    "objectID": "Multiplex_1.html#pcr-instructions",
-    "href": "Multiplex_1.html#pcr-instructions",
-    "title": "Multiplex 1: K13 and mdr1 (86, 184)",
-    "section": "PCR Instructions",
-    "text": "PCR Instructions\n\nRound 1.\nThe first round PCR was carried out in a total Volume of 25 μL with 1 x buffer, 500 μM dNTPs mix (Promega), 5 mM MgCl2, 200 nM of each primer (forward (F) and reverse (R)), 1.3 units of GoTaq Flexi Polymerase (Promega) and 3 μL of genomic DNA.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n8.49\n67.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\nK13-out-F\n0.2 μM\n0.50\n4.00\n\n\nK13-out-R\n0.2 μM\n0.50\n4.00\n\n\nmdr1-1-out-F\n0.2 μM\n0.50\n4.00\n\n\nmdr1-1-out-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec,\n58°C/2 min,\n72/2 min;\n\n72°C/10 min\nResting at 4°C.\n\n\n\nRound 2.\n\nK13-1K13-2mdr1-1\n\n\nThe pfk13 fragment 1 (K13-1) simplex PCR was in a total Volume of 25 μL with 1x Buffer, 500 μM dNTPs mix, 1.5 mM MgCl2, 300 nM of each primer (F/R), 1 unit of GoTaq Flexi Polymerase and 2 μL of PCR product from the first round.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n13.05\n104.4\n\n\n5X Buffer\n1x\n5.00\n40.0\n\n\nMgCl2 (25mM)\n2 mM\n2.00\n16.0\n\n\ndNTP\n0.5 μM\n1.25\n10.0\n\n\nK13-1-in-F\n0.3 μM\n0.75\n6.0\n\n\nK13-1-in-R\n0.3 μM\n0.75\n6.0\n\n\nG2 Flexi Taq (5U/μL)\n1 U/μL\n0.20\n1.6\n\n\n\n\n\n\n\n\n\n\nThe pfk13 fragment 2 (K13-2) simplex PCR °Ccurred with the same concentrations except that only 200 nM per primer (F/R was used).\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n13.55\n108.4\n\n\n5X Buffer\n1x\n5.00\n40.0\n\n\nMgCl2 (25mM)\n2 mM\n2.00\n16.0\n\n\ndNTP\n0.5 μM\n1.25\n10.0\n\n\nK13-2-in-F\n0.2 μM\n0.50\n4.0\n\n\nK13-2-in-R\n0.2 μM\n0.50\n4.0\n\n\nG2 Flexi Taq (5U/μL)\n1 U/μL\n0.20\n1.6\n\n\n\n\n\n\n\n\n\n\nThe simplex reaction for pfmdr1 fragment 1 (mdr1-1) had total Volume of 25 μL with 1x Buffer, 500 μM dNTPs mix, 1.5 mM MgCl2, 200 nM of each primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 2 μL of PCR product from the first round.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n13.99\n111.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n1.5 mM\n2.00\n16.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\nmdr1-1-in-F\n0.2 μM\n0.50\n4.00\n\n\nmdr1-1-in-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\n\n\n\nCycling conditions for each simplex reaction:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec\n58°C/2 min\n72/2 min;\n\n72°C/10 min\nResting at 4°C.",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "Multiplex 1: K13 and mdr1 (86, 184)"
-    ]
-  },
-  {
-    "objectID": "Multiplex_4.html#primers",
-    "href": "Multiplex_4.html#primers",
-    "title": "Multiplex 4: aat1, pfs47",
-    "section": "",
-    "text": "Round 1 PCR primers were obtained from (Onyango et al. 2021) and round 2 PCR primers were designed using Geneious Prime R9 to target smaller fragments. Novel pfaat1 primers were designed using Geneious Prime R9 for both round 1 and round 2 PCR primers surrounding the codons of interest.\n\n\n\n\nTable 8. Details about primers used in Multiplex 4 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nPutative amino acid transporter (pfaat1r: PF3D7_0629500)\n\n\naat1-out-F\n6\nGTAGAACATTTAGTCGATTTACACC\nNA\n1215527-1215503\n\n\naat1-out-R\n6\nTGGCTGAATATCCAGTTCTT\nNA\n1214559-1214578\n\n\naat1-in-F\n6\nTGTACCTCGTCATTAGAACA\nNA\n1215345-1215326\n\n\naat1-in-R\n6\nCATTTGGTTGTTGAGAGAAGG\nNA\n1214898-1214918\n\n\n6-cysteine protein (pfs47r: PF3D7_1346800)\n\n\npfs47-out-F\n13\nATGTGTATGGGAAGAATGATCA\n3\n1880194-1880173\n\n\npfs47-out-R\n13\nACAAGTTCATTCATATGCTAACATA\n3\n1878865-1878889\n\n\npfs47-in-F1\n13\nSame as pfs47-out-F\n3\n1880194-1880173\n\n\npfs47-in-R1\n13\nATCACTGAACGATGAATTTATTGCA\nNA\n1879805-1879829\n\n\npfs47-in-F2\n13\nGGATTAGTAAAAATAATTTTAAGAAACC\nNA\n1879678-1879651\n\n\npfs47-in-R2\n13\nACATATACGTTCTTCTTCATTTGG\nNA\n1879250-1879273\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 2 3 Onyango et al., 2021\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "Multiplex 4: aat1, pfs47"
-    ]
-  },
-  {
-    "objectID": "Multiplex_3.html#primers",
-    "href": "Multiplex_3.html#primers",
-    "title": "Multiplex 3: dhfr, dhps",
-    "section": "",
-    "text": "The round 1 PCR primers were designed using Geneious Prime R9 to target larger fragments that encapsulated the primers described in (Nag et al. 2017) that were used as the round 2 PCR primers.\n\n\n\n\nTable 6. Details about primers used in Multiplex 3 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nDihydropteroate synthase (pfdhps: PF3D7_0810800)\n\n\ndhps-out-F\n8\nACAACACACAGATATAGCATACTTTT\nNA\n549342-549367\n\n\ndhps-out-R\n8\nAATAGCTGTAGGAAGCAATTGC\nNA\n550530-550509\n\n\ndhps-in-F1\n8\nACCATCAGATGTTTATATAACAAATATGTG\n2\n549417-549446\n\n\ndhps-in-R1\n8\nCTGGATTATTTGTACAAGCACTAATATCA\n2\n549909-549881\n\n\ndhps-in-F2\n8\nAGAATGTGTTGATAATGATTTAGTTGATAT\n2\n549845-549874\n\n\ndhps-in-R2\n8\nGATATAAAAGTTGATCCTTGTCTTTCCT\n2\n550365-550338\n\n\nDihydrofolate reductase (pfdhfr: PF3D7_0417200)\n\n\ndhfr-out-F\n4\nGCCATTTTTGTATTCCCAAATAGC\nNA\n747913-747936\n\n\ndhfr-out-R\n4\nTGTCATCATTCTTTAAAGGCATATCA\nNA\n748853-748828\n\n\ndhfr-in-F\n4\nATGATGGAACAAGTCTGCGACGTTTTCGA\n2\n748088-748116\n\n\ndhfr-in-R\n4\nCTAAAAATTCTTGATAAACAACGGAACCTCC\n2\n748610-748580\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 2 Nag et al., 2017\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "Multiplex 3: dhfr, dhps"
-    ]
-  },
-  {
-    "objectID": "Multiplex_1.html#round-1.",
-    "href": "Multiplex_1.html#round-1.",
-    "title": "multiplex 1: K13 and mdr1 (86, 184)",
-    "section": "Round 1.",
-    "text": "Round 1.\nThe first round PCR was carried out in a total Volume of 25 μL with 1 x buffer, 500 μM dNTPs mix (Promega), 5 mM MgCl2, 200 nM of each primer (forward (F) and reverse (R)), 1.3 units of GoTaq Flexi Polymerase (Promega) and 3 μL of genomic DNA.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n8.49\n67.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\nK13-out-F\n0.2 μM\n0.50\n4.00\n\n\nK13-out-R\n0.2 μM\n0.50\n4.00\n\n\nmdr1-1-out-F\n0.2 μM\n0.50\n4.00\n\n\nmdr1-1-out-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95oC/2 min\n40 cycles of:\n\n95oC/20 sec,\n58oC/2 min,\n72/2 min;\n\n72oC/10 min\nResting at 4oC.\n\n\nRound 2.\n\n\n\nK13-1\nThe pfk13 fragment 1 (K13-1) simplex PCR was in a total Volume of 25 μL with 1x Buffer, 500 μM dNTPs mix, 1.5 mM MgCl2, 300 nM of each primer (F/R), 1 unit of GoTaq Flexi Polymerase and 2 μL of PCR product from the first round.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n13.05\n104.4\n\n\n5X Buffer\n1x\n5.00\n40.0\n\n\nMgCl2 (25mM)\n2 mM\n2.00\n16.0\n\n\ndNTP\n0.5 μM\n1.25\n10.0\n\n\nK13-1-in-F\n0.3 μM\n0.75\n6.0\n\n\nK13-1-in-R\n0.3 μM\n0.75\n6.0\n\n\nG2 Flexi Taq (5U/μL)\n1 U/μL\n0.20\n1.6\n\n\n\n\n\n\n\n\n\n\nK13-2\nThe pfk13 fragment 2 (K13-2) simplex PCR occurred with the same concentrations except that only 200 nM per primer (F/R was used).\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n13.05\n104.4\n\n\n5X Buffer\n1x\n5.00\n40.0\n\n\nMgCl2 (25mM)\n2 mM\n2.00\n16.0\n\n\ndNTP\n0.5 μM\n1.25\n10.0\n\n\nK13-2-in-F\n0.2 μM\n0.50\n4.0\n\n\nK13-2-in-R\n0.2 μM\n0.50\n4.0\n\n\nG2 Flexi Taq (5U/μL)\n1 U/μL\n0.20\n1.6\n\n\n\n\n\n\n\n\n\nmdr1-1\nThe simplex reaction for pfmdr1 fragment 1 (mdr1-1) had total Volume of 25 μL with 1x Buffer, 500 μM dNTPs mix, 1.5 mM MgCl2, 200 nM of each primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 2 μL of PCR product from the first round.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n13.05\n104.40\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n1.5 mM\n2.00\n16.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\nmdr1-1-in-F\n0.2 μM\n0.50\n4.00\n\n\nmdr1-1-in-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\n\n\n\n\n\nCycling conditions for each simplex reaction: * 95oC/2 min * 40 cycles of: * 95oC/20 sec * 58oC/2 min * 72/2 min; * 72oC/10 min * Resting at 4oC.",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "multiplex 1: K13 and mdr1 (86, 184)"
-    ]
-  },
-  {
-    "objectID": "Multiplex_2.html#pcr-instructions",
-    "href": "Multiplex_2.html#pcr-instructions",
-    "title": "Multiplex 2: crt, mdr1 (1034, 1042, 1246)",
-    "section": "PCR Instructions",
-    "text": "PCR Instructions\n\nRound 1.\nThe first round PCR was carried out in a total volume of 25 μL with 1 x buffer, 500 uM dNTPs mix (Promega), 5 mM MgCl2, 200 nM of each primer (forward (F) and reverse (R)), 1.3 units of GoTaq Flexi Polymerase (Promega) and only 2 μL of genomic DNA.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n9.49\n75.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\nmdr1-2-out-F\n0.2 μM\n0.50\n4.00\n\n\nmdr1-2-out-R\n0.2 μM\n0.50\n4.00\n\n\ncrt-out-F\n0.2 μM\n0.50\n4.00\n\n\ncrt-out-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec,\n58°C/2 min,\n72/2 min;\n\n72°C/10 min\nResting at 4°C.\n\n\n\nRound 2.\n\nmdr1-2mdr1-3crt\n\n\nFor both pfmdr1 markers (mdr1-2/mdr1-3), the simplex PCR was performed in separate reactions for each inner primer pair with a total volume of 25μL, with a master mix that contained 1x Buffer, 500 uM dNTPs mix, 5 mM MgCl2, 300 nM per primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n10.99\n87.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\nmdr1-2-in-F\n0.3 μM\n0.75\n6.00\n\n\nmdr1-2-in-R\n0.3 μM\n0.75\n6.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec\n58°C/2 min\n72/2 min;\n\n72°C/10 min\nResting at 4°C.\n\n\n\nFor both pfmdr1 markers (mdr1-2/mdr1-3), the simplex PCR was performed in separate reactions for each inner primer pair with a total volume of 25μL, with a master mix that contained 1x Buffer, 500 uM dNTPs mix, 5 mM MgCl2, 300 nM per primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n10.99\n87.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\nmdr1-3-in-F\n0.3 μM\n0.75\n6.00\n\n\nmdr1-3-in-R\n0.3 μM\n0.75\n6.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec\n58°C/2 min\n72/2 min;\n\n72°C/10 min\nResting at 4°C.\n\n\n\nFor pfcrt, the master mix contained 1x Buffer, 500 uM dNTPs mix, 5 mM MgCl2, 200 nM per primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n11.49\n91.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\ncrt-in-F\n0.2 μM\n0.50\n4.00\n\n\ncrt-in-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec\n62°C/2 min\n72/2 min;\n\n72°C/10 min\nResting at 4°C.",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "Multiplex 2: crt, mdr1 (1034, 1042, 1246)"
-    ]
-  },
-  {
-    "objectID": "Multiplex_2.html#final-sequences",
-    "href": "Multiplex_2.html#final-sequences",
-    "title": "Multiplex 2: crt, mdr1 (1034, 1042, 1246)",
-    "section": "Final Sequences",
-    "text": "Final Sequences\n\n\n\n\nTable 5. Details about sequences genotyped in Multiplex 2 of the ALARMcoding protocol\n\n\nMarker\nLength\nPCR_Round\nCodons\n\n\n\n\nMultidrug resistance gene 1 (pfmdr1: Pf3D7_0523000)\n\n\nmdr1-2 Round 1 Product\n1468\n1\n\n\n\nmdr1-2\n488\n2\n1034, 1042\n\n\nmdr1-3\n552\n2\n1246\n\n\nChloroquine resistance transporter (pfcrt: PF3D7_070900)\n\n\ncrt Round 1 Product\n777\n1\n\n\n\ncrt\n214\n2\n72, 73, 74, 75, 76",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "Multiplex 2: crt, mdr1 (1034, 1042, 1246)"
-    ]
-  },
-  {
-    "objectID": "Multiplex_3.html#pcr-instructions",
-    "href": "Multiplex_3.html#pcr-instructions",
-    "title": "Multiplex 3: dhfr, dhps",
-    "section": "PCR Instructions",
-    "text": "PCR Instructions\n\nRound 1.\nThe first round PCR was carried out in a total volume of 25 μL with 1 x buffer, 500 uM dNTPs mix (Promega), 5 mM MgCl2, 200 nM of each primer (forward (F) and reverse (R)), 1.3 units of GoTaq Flexi Polymerase (Promega) and only 2 μL of genomic DNA.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n9.49\n75.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\nK13-out-F\n0.2 μM\n0.50\n4.00\n\n\nK13-out-R\n0.2 μM\n0.50\n4.00\n\n\nmdr1-1-out-F\n0.2 μM\n0.50\n4.00\n\n\nmdr1-1-out-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec,\n58°C/2 min,\n72/2 min;\n\n72°C/10 min\nResting at 4°C.\n\n\n\nRound 2.\nThe second round of the nested PCR was carried out in separate reactions containing a single inner fragment primer pair and with a total volume of 25 μL containing 1x Buffer, 500 uM dNTPs mix, 5 mM MgCl2, 200 nM of each primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 1 μL of PCR product from round 1.\n\ndhps-1dhps-2dhfr\n\n\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n11.49\n91.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\ndhps-1-in-F\n0.2 μM\n0.50\n4.00\n\n\ndhps-1-in-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n11.49\n91.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\ndhps-2-in-F\n0.2 μM\n0.50\n4.00\n\n\ndhps-2-in-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n11.49\n91.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\ndhfr-in-F\n0.2 μM\n0.50\n4.00\n\n\ndhfr-in-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\n\n\n\nCycling conditions for each simplex reaction:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec\n58°C/2 min\n72/2 min;\n\n72°C/10 min\nResting at 4°C.",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "Multiplex 3: dhfr, dhps"
-    ]
-  },
-  {
-    "objectID": "Multiplex_3.html#final-sequences",
-    "href": "Multiplex_3.html#final-sequences",
-    "title": "Multiplex 3: dhfr, dhps",
-    "section": "Final Sequences",
-    "text": "Final Sequences\n\n\n\n\nTable 7. Details about sequences genotyped in Multiplex 3 of the ALARMcoding protocol\n\n\nMarker\nLength\nPCR_Round\nCodons\n\n\n\n\nDihydropteroate synthase (pfdhps: PF3D7_0810800)\n\n\ndhps Round 1 Product\n1189\n1\n\n\n\ndhps-1\n493\n2\n431, 436, 437\n\n\ndhps-2\n521\n2\n540, 581, 613\n\n\nDihydrofolate reductase (pfdhfr: PF3D7_0417200)\n\n\ndhfr Round 1 Product\n766\n1\n\n\n\ndhfr\n523\n2\n16, 50, 51, 59, 108, 164",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "Multiplex 3: dhfr, dhps"
-    ]
-  },
-  {
-    "objectID": "Multiplex_4.html#pcr-instructions",
-    "href": "Multiplex_4.html#pcr-instructions",
-    "title": "Multiplex 4: aat1, pfs47",
-    "section": "PCR Instructions",
-    "text": "PCR Instructions\n\nRound 1.\nThe first round PCR was carried out in a total volume of 25 μL with 1 x buffer, 500 uM dNTPs mix (Promega), 5 mM MgCl2, 200 nM of each primer (forward (F) and reverse (R)), 1.3 units of GoTaq Flexi Polymerase (Promega) and only 2 μL of genomic DNA.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n9.49\n75.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\nK13-out-F\n0.2 μM\n0.50\n4.00\n\n\nK13-out-R\n0.2 μM\n0.50\n4.00\n\n\nmdr1-1-out-F\n0.2 μM\n0.50\n4.00\n\n\nmdr1-1-out-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec,\n58°C/2 min,\n72/2 min;\n\n72°C/10 min\nResting at 4°C.\n\n\n\nRound 2.\nThe second-round simplex PCRs were carried out in separate reactions per inner fragment primer pair.\n\naat1pfs47-1pfs47-2\n\n\nFor pfaat1, there was a total volume of 25 μL containing 1x Buffer, 500 uM dNTPs mix, 5 mM MgCl2, 200 nM of each primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n14.49\n115.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n2 mM\n2.00\n16.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\naat1-in-F\n0.2 μM\n0.50\n4.00\n\n\naat1-in-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec\n56°C/2 min\n72/2 min;\n\n72°C/10 min\nResting at 4°C.\n\n\n\nFor pfs47 fragments 1 and 2, there conditions were as follows: a total volume of 20 μL containing 1x Buffer, 125 uM dNTPs mix, 2 mM MgCl2, 125 nM of each primer (F/R), 0.4 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n11.07\n88.56\n\n\n5X Buffer\n1x\n4.00\n32.00\n\n\nMgCl2 (25mM)\n2 mM\n1.60\n12.80\n\n\ndNTP\n0.125 μM\n0.25\n2.00\n\n\npfs47-1-in-F\n0.125 μM\n1.00\n8.00\n\n\npfs47-1-in-R\n0.125 μM\n1.00\n8.00\n\n\nG2 Flexi Taq (5U/μL)\n0.4 U/μL\n0.08\n0.64\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec\n59°C/2 min\n72/2 min;\n\n72°C/10 min\nResting at 4°C.\n\n\n\nFor pfs47 fragments 1 and 2, there conditions were as follows: a total volume of 20 μL containing 1x Buffer, 125 uM dNTPs mix, 2 mM MgCl2, 125 nM of each primer (F/R), 0.4 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n11.07\n88.56\n\n\n5X Buffer\n1x\n4.00\n32.00\n\n\nMgCl2 (25mM)\n2 mM\n1.60\n12.80\n\n\ndNTP\n0.125 μM\n0.25\n2.00\n\n\npfs47-1-in-F\n0.125 μM\n1.00\n8.00\n\n\npfs47-1-in-R\n0.125 μM\n1.00\n8.00\n\n\nG2 Flexi Taq (5U/μL)\n0.4 U/μL\n0.08\n0.64\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec\n59°C/2 min\n72/2 min;\n\n72°C/10 min\nResting at 4°C.",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "Multiplex 4: aat1, pfs47"
-    ]
-  },
-  {
-    "objectID": "Multiplex_4.html#final-sequences",
-    "href": "Multiplex_4.html#final-sequences",
-    "title": "Multiplex 4: aat1, pfs47",
-    "section": "Final Sequences",
-    "text": "Final Sequences\n\n\n\n\nTable 9. Details about sequences genotyped in Multiplex 4 of the ALARMcoding protocol\n\n\nMarker\nLength\nPCR_Round\nCodons\n\n\n\n\nPutative amino acid transporter (pfaat1r: PF3D7_0629500)\n\n\naat1 Round 1 Product\n969\n1\n\n\n\naat1\n448\n2\n258, 313\n\n\n6-cysteine protein (pfs47r: PF3D7_1346800)\n\n\npfs47 Round 1 Product\n1320\n1\n\n\n\npfs47-1\n390\n2\n1-120\n\n\npfs47-2\n429\n2\n172-302",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "Multiplex 4: aat1, pfs47"
-    ]
-  },
-  {
-    "objectID": "PCR_Important.html",
-    "href": "PCR_Important.html",
-    "title": "PCR: Important Notes",
-    "section": "",
-    "text": "This two-step protocol requires first, the amplification of the “outer” fragment and second, the amplification of the “inner” fragment. You can set up your plates with either 32 or 48 samples at a time. Handling more samples is not advisable, as it may lead to longer processing times and an increased risk of human error when adding gDNA. An example of conducting the PCR with 32 samples at a time is provided below.\nFor Step 1:\nEach master mix is exactly the same.\n\nFor Step 2:\nMaster mix differ by each row - corresponding to the molecular identifier (MID) tag on the forward primer, the reverse primer remains the same for each master mix. You will need to order unique MIDs + forward primer per molecular marker for each set of isolates you plan to pool together. In this work, I used 110 MIDs. See the list of MID tags here.\n\n\n\n\n32 samples48 Samples\n\n\n\nFor each PCR set up 32 samples (4 columns)\nPrepare 16 Master Mix (MM) solutions of “4x” per Multiplex Reaction (must have one negative control per MM)\nAdd each reagent in the order listed above\nIn each MM there will be two Primer sets (forward and reverse for each primer)\nPipette 22 or 23 uL of each MM into the PCR plate as indicated below, then add gDNA in biosafety cabinet\n\n\n\n\n\nFor each PCR set up 48 samples (6 columns)\nPrepare 8 Master Mix (MM) solutions of “8x” per Multiplex Reaction (must have one negative control per MM)\nAdd each reagent in the order listed above\nIn each MM there will be two Primer sets (forward and reverse for each primer)\nPipette 22 uL of each MM into the PCR plate as indicated below, then add gDNA in biosafety cabinet\n\n\n\n\n\n\n\n\n\n32 samples48 Samples\n\n\n\nFor each PCR set up 32 samples (4 columns)\nPrepare 16 Master Mix (MM) solutions of “4x” per Multiplex Reaction (must have one negative control and MID per MM)\nAdd each reagent in the order listed above\nIn each MM there will be two Primer sets (forward and reverse for each primer)\nPipette 23 or 24 uL of each MM into the PCR plate as indicated below, then add gDNA in biosafety cabinet\n\n\n\n\n\nFor each PCR set up 48 samples (6 columns)\nPrepare 8 Master Mix (MM) solutions of “8x” per Multiplex Reaction (must have one negative control and MID per MM)\nAdd each reagent in the order listed above\nIn each MM there will be two Primer sets (forward and reverse for each primer)\nPipette 23 or 24 uL of each MM into the PCR plate as indicated below, then add gDNA in biosafety cabinet",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "PCR: Important Notes"
-    ]
-  },
-  {
-    "objectID": "PCR_Important.html#pcr-general-workflow",
-    "href": "PCR_Important.html#pcr-general-workflow",
-    "title": "PCR: Important Notes",
-    "section": "",
-    "text": "This two-step protocol requires first, the amplification of the “outer” fragment and second, the amplification of the “inner” fragment. You can set up your plates with either 32 or 48 samples at a time. Handling more samples is not advisable, as it may lead to longer processing times and an increased risk of human error when adding gDNA. An example of conducting the PCR with 32 samples at a time is provided below.\nFor Step 1:\nEach master mix is exactly the same.\n\nFor Step 2:\nMaster mix differ by each row - corresponding to the molecular identifier (MID) tag on the forward primer, the reverse primer remains the same for each master mix. You will need to order unique MIDs + forward primer per molecular marker for each set of isolates you plan to pool together. In this work, I used 110 MIDs. See the list of MID tags here.\n\n\n\n\n32 samples48 Samples\n\n\n\nFor each PCR set up 32 samples (4 columns)\nPrepare 16 Master Mix (MM) solutions of “4x” per Multiplex Reaction (must have one negative control per MM)\nAdd each reagent in the order listed above\nIn each MM there will be two Primer sets (forward and reverse for each primer)\nPipette 22 or 23 uL of each MM into the PCR plate as indicated below, then add gDNA in biosafety cabinet\n\n\n\n\n\nFor each PCR set up 48 samples (6 columns)\nPrepare 8 Master Mix (MM) solutions of “8x” per Multiplex Reaction (must have one negative control per MM)\nAdd each reagent in the order listed above\nIn each MM there will be two Primer sets (forward and reverse for each primer)\nPipette 22 uL of each MM into the PCR plate as indicated below, then add gDNA in biosafety cabinet\n\n\n\n\n\n\n\n\n\n32 samples48 Samples\n\n\n\nFor each PCR set up 32 samples (4 columns)\nPrepare 16 Master Mix (MM) solutions of “4x” per Multiplex Reaction (must have one negative control and MID per MM)\nAdd each reagent in the order listed above\nIn each MM there will be two Primer sets (forward and reverse for each primer)\nPipette 23 or 24 uL of each MM into the PCR plate as indicated below, then add gDNA in biosafety cabinet\n\n\n\n\n\nFor each PCR set up 48 samples (6 columns)\nPrepare 8 Master Mix (MM) solutions of “8x” per Multiplex Reaction (must have one negative control and MID per MM)\nAdd each reagent in the order listed above\nIn each MM there will be two Primer sets (forward and reverse for each primer)\nPipette 23 or 24 uL of each MM into the PCR plate as indicated below, then add gDNA in biosafety cabinet",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "PCR: Important Notes"
-    ]
-  },
-  {
-    "objectID": "PCR_Important.html#reagents-and-equipment",
-    "href": "PCR_Important.html#reagents-and-equipment",
-    "title": "PCR: Important Notes",
-    "section": "Reagents and Equipment",
-    "text": "Reagents and Equipment\nReagents:\n\nNuclease-free water\n5x Buffer\nMgCl2 (25 mM)\ndNTPs (10 mM)\nG2 Flexi Taq (5U/μL)\n100bp ladder standard\n\nLaboratory consumables:\n\n96-well plates\n1 mL centrifuge tubes\n10 μL micropipette and tips\n20 μL micropipette and tips\n200 μL micropipette and tips\nMolecular Grade Agarose\n\nEquipment:\n\nPCR Machine and agarose-gel densitometry capabilities: Gel Doc\\(^{TM}\\) EM System\nElectrophoresis Apparatus",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "PCR: Important Notes"
-    ]
-  },
-  {
-    "objectID": "PCR_Important.html#plates",
-    "href": "PCR_Important.html#plates",
-    "title": "PCR: Important Notes",
-    "section": "Plates",
-    "text": "Plates",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "PCR: Important Notes"
-    ]
-  },
-  {
-    "objectID": "PCR_Important.html#gel-electrophoresis",
-    "href": "PCR_Important.html#gel-electrophoresis",
-    "title": "PCR: Important Notes",
-    "section": "Gel Electrophoresis",
-    "text": "Gel Electrophoresis\n\nExpected Bands\nAfter every PCR Round 2, 5 μL per well of each sample was visualised by a gel electrophoresis. Run a 2% agarose gel at 100 V for 110 minutes EXCEPT for crt which should be run at 100 minutes (smaller fragment).\n\n\n\n\nTable 1. Expected fragment sizes in the ALARMcoding PCR genotyping protocol\n\n\nMarker name\nLength (base pairs, bp)\nExpected position on gel (bp)\nDiagnostic codons\n\n\n\n\nK13-in-1\n412 bp + MID (10 bp)\n422\n426-560\n\n\nK13-in-2\n333 bp + MID (10 bp)\n343\n540-651\n\n\nmdr1-in-1\n432 bp + MID (10 bp)\n442\n86, 184\n\n\nmdr1-in-2\n488 bp + MID (10 bp)\n498\n1034, 1042\n\n\nmdr1-in-3\n522 bp + MID (10 bp)\n532\n1246\n\n\ncrt-in\n214 bp + MID (10 bp)\n224\n72-76\n\n\ndhfr-in\n523 bp + MID (10 bp)\n533\n16, 51, 59, 108, 164\n\n\ndhps-in-1\n492 bp + MID (10 bp)\n502\n431, 436, 437\n\n\ndhps-in-2\n521 bp + MID (10 bp)\n531\n540, 581, 613\n\n\naat1-in\n448 bp + MID (10 bp)\n458\n258, 313\n\n\npfs47-in-1\n390 bp + MID (10 bp)\n400\n1-120\n\n\npfs47-in-2\n429 bp + MID (10 bp)\n439\n172-302\n\n\n\n\n\n\n\n\n\n\nExpected Gel\nFor example, here are 18 isolates and 2 negative controls for K13-1:\n\n\n\nAgarose-gel densitometry\nFor each reaction, agarose-gel densitometry (EZQuant, Biorad, US) was used to quantify the DNA concentration of the fragment sizes using a 100bp ladder standard (Axygen, CA, US and MaestroGen, Taiwan).\nKeep these tabulations and refer to Post-PCR: Prepare for Sequencing",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "PCR: Important Notes"
-    ]
-  },
-  {
-    "objectID": "PCR_Important.html#troubleshooting",
-    "href": "PCR_Important.html#troubleshooting",
-    "title": "PCR: Important Notes",
-    "section": "Troubleshooting",
-    "text": "Troubleshooting\n\nGel Electrophoresis\n\nBands can be seen at the extreme bottom of the gel: primer dimers\nBands can be seen at the round 1 product length:\n\nK13-out: 845 bp\nmdr1-out-1: 579 bp\nmdr1-out-2: 1,468 bp\ncrt-out: 777 bp\ndhfr-out: 766 bp\ndhps-out: 1,189 bp\naat1-out: 969 bp\npfs47-out: 1,320 bp",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "PCR: Important Notes"
-    ]
-  },
-  {
-    "objectID": "Prepare_Sequencing.html#pooling-isolates",
-    "href": "Prepare_Sequencing.html#pooling-isolates",
-    "title": "Post-PCR: Prepare for Sequencing",
-    "section": "",
-    "text": "After completing all PCRs, gel electrophoresis and gel densitometry measurements, we can then pool isolates together at equimolar concentrations of 200 ng/μL.\n⚠️ REMEMBER: Ensure that there is only ONE of each MID per pool: this is important when demultiplexing bioinformatically.",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "Post-PCR: Prepare for Sequencing"
-    ]
-  },
-  {
-    "objectID": "Prepare_Sequencing.html#sub-pools-combining-all-isolates-with-unique-mids-per-marker-into-one-pool",
-    "href": "Prepare_Sequencing.html#sub-pools-combining-all-isolates-with-unique-mids-per-marker-into-one-pool",
-    "title": "Post-PCR: Prepare for Sequencing",
-    "section": "",
-    "text": "After completing all PCRs, gel electrophoresis and gel densitometry measurements, we can then pool isolates together at equimolar concentrations of 200 ng/μL.\n⚠️ REMEMBER: Ensure that there is only ONE of each MID per pool: this is important when demultiplexing bioinformatically.\nOnce you have collated all of your absolute quantity data, you can then generate a table as below. Note, each pool should have AT LEAST ONE POSITIVE CONTROL, e.g., 3D7. Each isolate genotyped with K13-1 with a unique MID are added to a unique “sub-pool”, in this case labelled “1A”.\n\n\n\n\nTable 2. Expected fragment sizes in the ALARMcoding PCR genotyping protocol\n\n\nSample Name\nMID\nMarker\nPool\nPlate Position\nDNA concentrationa\nVolume (μL) to add to pool\nCumulative volume\n\n\n\n\nIsolate 1\n1\nK13-1\n1A\n2A\n62.65\n3.2\n3.2\n\n\nIsolate 2\n2\nK13-1\n1A\n2B\n65.74\n3.0\n6.2\n\n\nIsolate 3\n3\nK13-1\n1A\n2C\n129.47\n1.5\n7.7\n\n\nIsolate 4\n4\nK13-1\n1A\n2D\n92.17\n2.2\n9.9\n\n\nIsolate 5\n5\nK13-1\n1A\n2E\n144.59\n1.4\n11.3\n\n\n3D7\n108\nK13-1\n1A\n7A\n129.00\n1.6\n12.9\n\n\n\na Agarose gel densitometry data\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNext, you can calculate the total volume (μL) (12.9) and total DNA concentration (ng/μL) (623.62). This information is relevant for the following section.",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "Post-PCR: Prepare for Sequencing"
-    ]
-  },
-  {
-    "objectID": "Prepare_Sequencing.html#master-pools-combining-sub-pools-of-each-marker-and-offsetting-based-on-fragment-size",
-    "href": "Prepare_Sequencing.html#master-pools-combining-sub-pools-of-each-marker-and-offsetting-based-on-fragment-size",
-    "title": "Post-PCR: Prepare for Sequencing",
-    "section": "“Master-Pools”: Combining “sub-pools” of each marker and offsetting based on fragment size",
-    "text": "“Master-Pools”: Combining “sub-pools” of each marker and offsetting based on fragment size\n\n\n\n\nTable 3. Offsetting by marker fragment size.\n\n\nMarker\nSize (bp)\nSize + MID (bp)\nOffset\n\n\n\n\nmdr1-3\n552\n562\n1.000\n\n\ndhfr\n523\n533\n0.948\n\n\ndhps-2\n521\n531\n0.945\n\n\ndhps-1\n493\n503\n0.895\n\n\nmdr1-2\n488\n498\n0.886\n\n\naat1\n448\n458\n0.815\n\n\npfs47-2\n429\n439\n0.781\n\n\nmdr1-1\n413\n423\n0.753\n\n\nK13-1\n402\n412\n0.733\n\n\npfs47-1\n390\n400\n0.712\n\n\nK13-2\n323\n333\n0.593\n\n\ncrt\n214\n224\n0.399\n\n\n\n\n\n\n\n\n\npooling_pools\n\n  Pool Sub.Pool Isolates Marker Amplicon.size...MID..bp. Pool.Offset.Ratio\n1    1       1E      104 mdr1-3                      562         1.0000000\n2    1       1G      104   dhfr                      533         0.9483986\n3    1       1I      104 dhps-2                      531         0.9448399\n4    1       1H      104 dhps-1                      503         0.8950178\n5    1       1D      104 mdr1-2                      498         0.8861210\n6    1       1C      104 mdr1-1                      423         0.7526690\n7    1       1A      104  K13-1                      412         0.7330961\n8    1       1B      104  K13-2                      333         0.5925267\n9    1       1F      104    crt                      224         0.3985765\n  Pool.Offset.Percentage REAL.DATA..Sub.pool.volume..uL. DNA.per.sub.pool..ng.\n1              1.0000000                           200.6                 20800\n2              0.9483986                           188.8                 20800\n3              0.9448399                           206.5                 20800\n4              0.8950178                           154.5                 20800\n5              0.8861210                           249.1                 20800\n6              0.7526690                           188.4                 20800\n7              0.7330961                           136.3                 20800\n8              0.5925267                           366.7                 20800\n9              0.3985765                           597.4                 20800\n  REAL.DATA..Sub.pool.....ng.uL. DNA.per.sub.pool.required.for.master.pool..ng.\n1                      103.68893                                       3500.000\n2                      110.16949                                       3319.395\n3                      100.72639                                       3306.940\n4                      134.62783                                       3132.562\n5                       83.50060                                       3101.423\n6                      110.40340                                       2634.342\n7                      152.60455                                       2565.836\n8                       56.72212                                       2073.843\n9                       34.81754                                       1395.018\n  Volume.per.sub.pool.required.for.master.pool..uL.\n1                                          33.75481\n2                                          30.12989\n3                                          32.83091\n4                                          23.26831\n5                                          37.14253\n6                                          23.86106\n7                                          16.81363\n8                                          36.56146\n9                                          40.06652",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "Post-PCR: Prepare for Sequencing"
-    ]
-  },
-  {
-    "objectID": "Prepare_Sequencing.html#picogreen",
-    "href": "Prepare_Sequencing.html#picogreen",
-    "title": "Post-PCR: Prepare for Sequencing",
-    "section": "PicoGreen",
-    "text": "PicoGreen",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "Post-PCR: Prepare for Sequencing"
-    ]
-  },
-  {
-    "objectID": "Prepare_Sequencing.html#now-youre-ready",
-    "href": "Prepare_Sequencing.html#now-youre-ready",
-    "title": "Post-PCR: Prepare for Sequencing",
-    "section": "Now you’re ready!",
-    "text": "Now you’re ready!",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "Post-PCR: Prepare for Sequencing"
-    ]
-  },
-  {
-    "objectID": "Prepare_Sequencing.html#sub-pools",
-    "href": "Prepare_Sequencing.html#sub-pools",
-    "title": "Post-PCR: Prepare for Sequencing",
-    "section": "",
-    "text": "After completing all PCRs, gel electrophoresis and gel densitometry measurements, we can then pool isolates together at equimolar concentrations of 200 ng/μL. Here we wish to combine all isolates with unique MIDs per marker into one pool.\n⚠️ REMEMBER: Ensure that there is only ONE of each MID per pool: this is important when demultiplexing bioinformatically.\nOnce you have collated all of your absolute quantity data, you can then generate a table as below. Note, each pool should have AT LEAST ONE POSITIVE CONTROL, e.g., 3D7. Each isolate genotyped with K13-1 with a unique MID are added to a unique “sub-pool”, in this case labelled “1A”.\n\n\n\n\nTable 10. Example table to organise pooling of isolates per marker in 'sub-pools'\n\n\nSample Name\nMID\nMarker\nPool\nPlate Position\nDNA concentrationa\nVolume (μL) to add to pool\nCumulative volume\n\n\n\n\nIsolate 1\n1\nK13-1\n1A\n2A\n62.65\n3.2\n3.2\n\n\nIsolate 2\n2\nK13-1\n1A\n2B\n65.74\n3.0\n6.2\n\n\nIsolate 3\n3\nK13-1\n1A\n2C\n129.47\n1.5\n7.7\n\n\nIsolate 4\n4\nK13-1\n1A\n2D\n92.17\n2.2\n9.9\n\n\nIsolate 5\n5\nK13-1\n1A\n2E\n144.59\n1.4\n11.3\n\n\n3D7\n108\nK13-1\n1A\n7A\n129.00\n1.6\n12.9\n\n\n\na Agarose gel densitometry data\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNext, you can calculate the total volume (μL) (12.9) and total DNA concentration (ng/μL) (623.62). This information is relevant for the following section.",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "Post-PCR: Prepare for Sequencing"
-    ]
-  },
-  {
-    "objectID": "Prepare_Sequencing.html#master-pools",
-    "href": "Prepare_Sequencing.html#master-pools",
-    "title": "Post-PCR: Prepare for Sequencing",
-    "section": "“Master-Pools”",
-    "text": "“Master-Pools”\nNow that we have our “sub-pools”, we can add all of our “Pool 1’s” for each marker together. However, before proceeding, we need to offset for fragment length to ensure that one marker isn’t preferentially sequenced over another. For the ALARMcoding protocol, this is our offsetting calculation:\n\n\n\n\nTable 11. Offsetting by marker fragment size.\n\n\nMarker\nSize (bp)\nSize + MID (bp)\nOffset\n\n\n\n\nmdr1-3\n552\n562\n1.000\n\n\ndhfr\n523\n533\n0.948\n\n\ndhps-2\n521\n531\n0.945\n\n\ndhps-1\n493\n503\n0.895\n\n\nmdr1-2\n488\n498\n0.886\n\n\naat1\n448\n458\n0.815\n\n\npfs47-2\n429\n439\n0.781\n\n\nmdr1-1\n413\n423\n0.753\n\n\nK13-1\n402\n412\n0.733\n\n\npfs47-1\n390\n400\n0.712\n\n\nK13-2\n323\n333\n0.593\n\n\ncrt\n214\n224\n0.399\n\n\n\n\n\n\n\n\nArmoured with this, we can create our “master-pools” containing one “sub-pool” of each marker.\n\n\n\n\nTable 12. Example table to organise pooling of isolates per marker in 'sub-pools'\n\n\nPool\nSub-Pool\nIsolates\nMarker\nAmplicon Size (bp)\nPool Offset Ratio\nSub-pool Total Volume (μL)\nDNA per sub-pool (ng)\nSub-pool Total DNA (ng/μL)\nDNA per sub-pool required for master-pool (ng)\nVolume per sub-pool required for master-pool (ng)\n\n\n\n\n1\n1E\n104\nmdr1-3\n562\n1.0000000\n296.3\n20800\n70.19912\n5000.000\n71.22596\n\n\n1\n1G\n104\ndhfr\n533\n0.9483986\n322.4\n20800\n64.51613\n4741.993\n73.50089\n\n\n1\n1I\n104\ndhps-2\n531\n0.9448399\n323.2\n20800\n64.35644\n4724.199\n73.40679\n\n\n1\n1H\n104\ndhps-1\n503\n0.8950178\n299.6\n20800\n69.42590\n4475.089\n64.45849\n\n\n1\n1D\n104\nmdr1-2\n498\n0.8861210\n449.9\n20800\n46.23250\n4430.605\n95.83313\n\n\n1\n1L\n104\naat1\n458\n0.8149466\n460.1\n20800\n45.20756\n4074.733\n90.13388\n\n\n1\n1K\n104\npfs47-2\n439\n0.7811388\n410.9\n20800\n50.62059\n3905.694\n77.15623\n\n\n1\n1C\n104\nmdr1-1\n423\n0.7526690\n285.0\n20800\n72.98246\n3763.345\n51.56507\n\n\n1\n1A\n104\nK13-1\n412\n0.7330961\n266.1\n20800\n78.16610\n3665.480\n46.89348\n\n\n1\n1J\n104\npfs47-1\n400\n0.7117438\n356.7\n20800\n58.31231\n3558.719\n61.02861\n\n\n1\n1B\n104\nK13-2\n333\n0.5925267\n613.9\n20800\n33.88174\n2962.633\n87.44042\n\n\n1\n1F\n104\ncrt\n224\n0.3985765\n474.8\n20800\n43.80792\n1992.883\n45.49138\n\n\n\na Calculated as the number of isolates per sub-pool (104) times the 200 ng/uL per amplicon equimolar concentration standardisation: 20,800 ng total\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNow add these volumes together to create the master-pool!",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "Post-PCR: Prepare for Sequencing"
-    ]
-  },
-  {
-    "objectID": "Prepare_Sequencing.html#purification-and-quantification",
-    "href": "Prepare_Sequencing.html#purification-and-quantification",
-    "title": "Post-PCR: Prepare for Sequencing",
-    "section": "Purification and Quantification",
-    "text": "Purification and Quantification\nThese “master-pools” were then purified using a Agencourt AMPure XP magnetic beads at 1.8X bead-to-sample ratio as described by the manufacturer (Beckman Coulter) and quantified using a PicoGreen Assay as described by the manufacturer (Thermo Scientific).\nNow you’re ready to send it off for sequencing!",
-    "crumbs": [
-      "Home",
-      "PCR Protocol",
-      "Post-PCR: Prepare for Sequencing"
+      "Drug Resistance Pipeline",
+      "Step 3: Processing in R"
     ]
   },
   {
@@ -786,18 +144,6 @@
     ]
   },
   {
-    "objectID": "3_Custom.html#step-03-specific",
-    "href": "3_Custom.html#step-03-specific",
-    "title": "Step 3: Processing in R",
-    "section": "Step 03: Specific",
-    "text": "Step 03: Specific\nBoth mdr1-2 and dhps-2 contain isolates that appear to have SAME genotype but are said to be in different clusters. I found that this is because for mdr1-2, either the last one or last six nucleotide differ. For dhps-2 there is a string of A’s that are variable.\n\nmdr1-2: Remove codons 1077, 1078, 1079\n\n\n\n\nLast 6 nucleotides\nn\n\n\n\n\nAAAATG\n1088\n\n\nAAAATT\n981\n\n\nTTTCTG\n550\n\n\n\n\ndhps-2: Remove codons 520 and 520.1\n\n\n\n\nNucleotides 50 to 75\nn\n\n\n\n\nTTAAAAAAAAAAAAAAACAAATTCT\n2\n\n\nTTAAAAAAAAAAAAAACAAATTCTA\n204\n\n\nTTAAAAAAAAAAAAACAAATTCTAT\n18\n\n\nTTAAAAAAAAAAAACAAATTCTATA\n1790\n\n\nTTAAAAAAAAAACAAATTCTATAGT\n964\n\n\nTTAAAAAAAAAAACAAATTCTATAG\n1\n\n\n\n\nNOTE: MID 47 (TGTGAGTAGT, Roche) exists within the dhps-2 amplicon sequence. Our current SeekDeep parameters account for this by only searching for the MID in the first 8 nucleotides of the amplicon.",
-    "crumbs": [
-      "Home",
-      "Drug Resistance Pipeline",
-      "Step 3: Processing in R"
-    ]
-  },
-  {
     "objectID": "3_Custom.html#step-03-specific-changes-dhps-2-and-mdr1-2",
     "href": "3_Custom.html#step-03-specific-changes-dhps-2-and-mdr1-2",
     "title": "Step 3: Processing in R",
@@ -807,6 +153,113 @@
       "Home",
       "Drug Resistance Pipeline",
       "Step 3: Processing in R"
+    ]
+  },
+  {
+    "objectID": "Multiplex_2.html",
+    "href": "Multiplex_2.html",
+    "title": "Multiplex 2: crt, mdr1 (1034, 1042, 1246)",
+    "section": "",
+    "text": "Round 1 PCR primers were designed using Geneious Prime R9 to target larger fragments that surrounded the codons of interest per marker. The forward and reverse primers for pfmdr1.1.2 and pfmdr1.1.3 and the forward primer for pfcrt from (Nag et al. 2017) were used as the round 2 PCR primers, and a novel pfcrt reverse primer was developed using Geneious Prime R9.\n\n\n\n\nTable 4. Details about primers used in Multiplex 2 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nMultidrug resistance gene 1 (pfmdr1: Pf3D7_0523000)\n\n\nmdr1-out-F2\n5\nCCCAGGTGTTTTATCTGCACA\nNA\n960544-960564\n\n\nmdr1-out-R2\n5\nAGATGCAATTCTGTGGGCAA\nNA\n962011-961992\n\n\nmdr1-in-F2\n5\nTTTGTCCAATTGTTGCAGCTGTATTAACTTT\n2\n960672-960702\n\n\nmdr1-in-R2\n5\nTGCATTTTCTGAATCTCCTTTTAAGGACATT\n2\n961159-961129\n\n\nmdr1-in-F3\n5\nGGTAAAGTTGATATTAAAGATGTAAATTTCC\n2\n961259-961289\n\n\nmdr1-in-R3\n5\nTGGTCCAACATTTGTATCATATTTATTTGG\n2\n961810-961781\n\n\nChloroquine resistance transporter (pfcrt: PF3D7_070900)\n\n\ncrt-out-F\n7\nCAAGCAAAAATGACGAGCGT\nNA\n403259-403278\n\n\ncrt-out-R\n7\nCCAGTAGTTCTTGTAAGACCTATGA\nNA\n404035-404011\n\n\ncrt-in-F\n7\nTGGCTCACGTTTAGGTGGAGGTTCTTG\n2\n403491-403517\n\n\ncrt-in-R\n7\nCATACAAATAAAGTTGTGAGTTTCGGATGTTAC\nNA\n403704-403672\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 2 Nag et al., 2017\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 2: crt, mdr1 (1034, 1042, 1246)"
+    ]
+  },
+  {
+    "objectID": "Multiplex_2.html#primers",
+    "href": "Multiplex_2.html#primers",
+    "title": "Multiplex 2: crt, mdr1 (1034, 1042, 1246)",
+    "section": "",
+    "text": "Round 1 PCR primers were designed using Geneious Prime R9 to target larger fragments that surrounded the codons of interest per marker. The forward and reverse primers for pfmdr1.1.2 and pfmdr1.1.3 and the forward primer for pfcrt from (Nag et al. 2017) were used as the round 2 PCR primers, and a novel pfcrt reverse primer was developed using Geneious Prime R9.\n\n\n\n\nTable 4. Details about primers used in Multiplex 2 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nMultidrug resistance gene 1 (pfmdr1: Pf3D7_0523000)\n\n\nmdr1-out-F2\n5\nCCCAGGTGTTTTATCTGCACA\nNA\n960544-960564\n\n\nmdr1-out-R2\n5\nAGATGCAATTCTGTGGGCAA\nNA\n962011-961992\n\n\nmdr1-in-F2\n5\nTTTGTCCAATTGTTGCAGCTGTATTAACTTT\n2\n960672-960702\n\n\nmdr1-in-R2\n5\nTGCATTTTCTGAATCTCCTTTTAAGGACATT\n2\n961159-961129\n\n\nmdr1-in-F3\n5\nGGTAAAGTTGATATTAAAGATGTAAATTTCC\n2\n961259-961289\n\n\nmdr1-in-R3\n5\nTGGTCCAACATTTGTATCATATTTATTTGG\n2\n961810-961781\n\n\nChloroquine resistance transporter (pfcrt: PF3D7_070900)\n\n\ncrt-out-F\n7\nCAAGCAAAAATGACGAGCGT\nNA\n403259-403278\n\n\ncrt-out-R\n7\nCCAGTAGTTCTTGTAAGACCTATGA\nNA\n404035-404011\n\n\ncrt-in-F\n7\nTGGCTCACGTTTAGGTGGAGGTTCTTG\n2\n403491-403517\n\n\ncrt-in-R\n7\nCATACAAATAAAGTTGTGAGTTTCGGATGTTAC\nNA\n403704-403672\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 2 Nag et al., 2017\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 2: crt, mdr1 (1034, 1042, 1246)"
+    ]
+  },
+  {
+    "objectID": "Multiplex_2.html#pcr-instructions",
+    "href": "Multiplex_2.html#pcr-instructions",
+    "title": "Multiplex 2: crt, mdr1 (1034, 1042, 1246)",
+    "section": "PCR Instructions",
+    "text": "PCR Instructions\n\nRound 1.\nThe first round PCR was carried out in a total volume of 25 μL with 1 x buffer, 500 uM dNTPs mix (Promega), 5 mM MgCl2, 200 nM of each primer (forward (F) and reverse (R)), 1.3 units of GoTaq Flexi Polymerase (Promega) and only 2 μL of genomic DNA.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n9.49\n75.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\nmdr1-2-out-F\n0.2 μM\n0.50\n4.00\n\n\nmdr1-2-out-R\n0.2 μM\n0.50\n4.00\n\n\ncrt-out-F\n0.2 μM\n0.50\n4.00\n\n\ncrt-out-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec,\n58°C/2 min,\n72/2 min;\n\n72°C/10 min\nResting at 4°C.\n\n\n\nRound 2.\n\nmdr1-2mdr1-3crt\n\n\nFor both pfmdr1 markers (mdr1-2/mdr1-3), the simplex PCR was performed in separate reactions for each inner primer pair with a total volume of 25μL, with a master mix that contained 1x Buffer, 500 uM dNTPs mix, 5 mM MgCl2, 300 nM per primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n10.99\n87.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\nmdr1-2-in-F\n0.3 μM\n0.75\n6.00\n\n\nmdr1-2-in-R\n0.3 μM\n0.75\n6.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec\n58°C/2 min\n72/2 min;\n\n72°C/10 min\nResting at 4°C.\n\n\n\nFor both pfmdr1 markers (mdr1-2/mdr1-3), the simplex PCR was performed in separate reactions for each inner primer pair with a total volume of 25μL, with a master mix that contained 1x Buffer, 500 uM dNTPs mix, 5 mM MgCl2, 300 nM per primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n10.99\n87.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\nmdr1-3-in-F\n0.3 μM\n0.75\n6.00\n\n\nmdr1-3-in-R\n0.3 μM\n0.75\n6.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec\n58°C/2 min\n72/2 min;\n\n72°C/10 min\nResting at 4°C.\n\n\n\nFor pfcrt, the master mix contained 1x Buffer, 500 uM dNTPs mix, 5 mM MgCl2, 200 nM per primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n11.49\n91.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\ncrt-in-F\n0.2 μM\n0.50\n4.00\n\n\ncrt-in-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec\n62°C/2 min\n72/2 min;\n\n72°C/10 min\nResting at 4°C.",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 2: crt, mdr1 (1034, 1042, 1246)"
+    ]
+  },
+  {
+    "objectID": "Multiplex_2.html#final-sequences",
+    "href": "Multiplex_2.html#final-sequences",
+    "title": "Multiplex 2: crt, mdr1 (1034, 1042, 1246)",
+    "section": "Final Sequences",
+    "text": "Final Sequences\n\n\n\n\nTable 5. Details about sequences genotyped in Multiplex 2 of the ALARMcoding protocol\n\n\nMarker\nLength\nPCR_Round\nCodons\n\n\n\n\nMultidrug resistance gene 1 (pfmdr1: Pf3D7_0523000)\n\n\nmdr1-2 Round 1 Product\n1468\n1\n\n\n\nmdr1-2\n488\n2\n1034, 1042\n\n\nmdr1-3\n552\n2\n1246\n\n\nChloroquine resistance transporter (pfcrt: PF3D7_070900)\n\n\ncrt Round 1 Product\n777\n1\n\n\n\ncrt\n214\n2\n72, 73, 74, 75, 76",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 2: crt, mdr1 (1034, 1042, 1246)"
+    ]
+  },
+  {
+    "objectID": "Multiplex_1.html",
+    "href": "Multiplex_1.html",
+    "title": "Multiplex 1: K13 and mdr1 (86, 184)",
+    "section": "",
+    "text": "The first round for multiplex 1 was modified from (Narh et al. 2020) and amplifies two regions of pfk13 and pfmdr1 fragment 1 (mdr1-1; codons 86, 184). Inner primers for each simplex reaction were used from (Narh et al. 2020).\n\n\n\n\nTable 2. Details about primers used in multiplex 1 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nKelch protein (pfk13: PF3D7_1343700)\n\n\nK13-out-F\n13\nAGTGGAAGACATCATGTAACCAG\n1\n1725857-1725835\n\n\nK13-out-R\n13\nAATTGCCATCTTTTATTAAATGGTTGA\n1\n1725013-1725039\n\n\nK13-in-F1\n13\nAGCCTTGTTGAAAGAAGCAGA\n1\n1725720-1725700\n\n\nK13-in-R1\n13\nTGATCATATGCTTCTACATTCGGT\n1\n1725319-1725342\n\n\nK13-in-F2\n13\nGGGGGATATGATGGCTCTTCT\n1\n1725368-1725348\n\n\nK13-in-R2\n13\nTCAACGGAATCTAATATGTTATGTTCA\n1\n1725046-1725072\n\n\nMultidrug resistance gene 1 (pfmdr1: Pf3D7_0523000)\n\n\nmdr1-out-F1\n5\nACCGTTTAAATGTTTACCTGCACA\n1\n958021-958044\n\n\nmdr1-out-R1\n5\nGCCTCTTCTATAATGGACATGGT\n1\n958599-958577\n\n\nmdr1-in-F1\n5\nGTGCTGTATTATCAGGAGGAACA\n1\n958077-958099\n\n\nmdr1-in-R1\n5\nGCAAGTAATACATAAAGTCAAACGTGC\n1\n958489-958463\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 Narh et al., 2020 2 Nag et al., 2017\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 1: K13 and mdr1 (86, 184)"
+    ]
+  },
+  {
+    "objectID": "Multiplex_1.html#primers",
+    "href": "Multiplex_1.html#primers",
+    "title": "Multiplex 1: K13 and mdr1 (86, 184)",
+    "section": "",
+    "text": "The first round for multiplex 1 was modified from (Narh et al. 2020) and amplifies two regions of pfk13 and pfmdr1 fragment 1 (mdr1-1; codons 86, 184). Inner primers for each simplex reaction were used from (Narh et al. 2020).\n\n\n\n\nTable 2. Details about primers used in multiplex 1 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nKelch protein (pfk13: PF3D7_1343700)\n\n\nK13-out-F\n13\nAGTGGAAGACATCATGTAACCAG\n1\n1725857-1725835\n\n\nK13-out-R\n13\nAATTGCCATCTTTTATTAAATGGTTGA\n1\n1725013-1725039\n\n\nK13-in-F1\n13\nAGCCTTGTTGAAAGAAGCAGA\n1\n1725720-1725700\n\n\nK13-in-R1\n13\nTGATCATATGCTTCTACATTCGGT\n1\n1725319-1725342\n\n\nK13-in-F2\n13\nGGGGGATATGATGGCTCTTCT\n1\n1725368-1725348\n\n\nK13-in-R2\n13\nTCAACGGAATCTAATATGTTATGTTCA\n1\n1725046-1725072\n\n\nMultidrug resistance gene 1 (pfmdr1: Pf3D7_0523000)\n\n\nmdr1-out-F1\n5\nACCGTTTAAATGTTTACCTGCACA\n1\n958021-958044\n\n\nmdr1-out-R1\n5\nGCCTCTTCTATAATGGACATGGT\n1\n958599-958577\n\n\nmdr1-in-F1\n5\nGTGCTGTATTATCAGGAGGAACA\n1\n958077-958099\n\n\nmdr1-in-R1\n5\nGCAAGTAATACATAAAGTCAAACGTGC\n1\n958489-958463\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 Narh et al., 2020 2 Nag et al., 2017\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 1: K13 and mdr1 (86, 184)"
+    ]
+  },
+  {
+    "objectID": "Multiplex_1.html#pcr-instructions",
+    "href": "Multiplex_1.html#pcr-instructions",
+    "title": "Multiplex 1: K13 and mdr1 (86, 184)",
+    "section": "PCR Instructions",
+    "text": "PCR Instructions\n\nRound 1.\nThe first round PCR was carried out in a total Volume of 25 μL with 1 x buffer, 500 μM dNTPs mix (Promega), 5 mM MgCl2, 200 nM of each primer (forward (F) and reverse (R)), 1.3 units of GoTaq Flexi Polymerase (Promega) and 3 μL of genomic DNA.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n8.49\n67.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\nK13-out-F\n0.2 μM\n0.50\n4.00\n\n\nK13-out-R\n0.2 μM\n0.50\n4.00\n\n\nmdr1-1-out-F\n0.2 μM\n0.50\n4.00\n\n\nmdr1-1-out-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec,\n58°C/2 min,\n72/2 min;\n\n72°C/10 min\nResting at 4°C.\n\n\n\nRound 2.\n\nK13-1K13-2mdr1-1\n\n\nThe pfk13 fragment 1 (K13-1) simplex PCR was in a total Volume of 25 μL with 1x Buffer, 500 μM dNTPs mix, 1.5 mM MgCl2, 300 nM of each primer (F/R), 1 unit of GoTaq Flexi Polymerase and 2 μL of PCR product from the first round.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n13.05\n104.4\n\n\n5X Buffer\n1x\n5.00\n40.0\n\n\nMgCl2 (25mM)\n2 mM\n2.00\n16.0\n\n\ndNTP\n0.5 μM\n1.25\n10.0\n\n\nK13-1-in-F\n0.3 μM\n0.75\n6.0\n\n\nK13-1-in-R\n0.3 μM\n0.75\n6.0\n\n\nG2 Flexi Taq (5U/μL)\n1 U/μL\n0.20\n1.6\n\n\n\n\n\n\n\n\n\n\nThe pfk13 fragment 2 (K13-2) simplex PCR °Ccurred with the same concentrations except that only 200 nM per primer (F/R was used).\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n13.55\n108.4\n\n\n5X Buffer\n1x\n5.00\n40.0\n\n\nMgCl2 (25mM)\n2 mM\n2.00\n16.0\n\n\ndNTP\n0.5 μM\n1.25\n10.0\n\n\nK13-2-in-F\n0.2 μM\n0.50\n4.0\n\n\nK13-2-in-R\n0.2 μM\n0.50\n4.0\n\n\nG2 Flexi Taq (5U/μL)\n1 U/μL\n0.20\n1.6\n\n\n\n\n\n\n\n\n\n\nThe simplex reaction for pfmdr1 fragment 1 (mdr1-1) had total Volume of 25 μL with 1x Buffer, 500 μM dNTPs mix, 1.5 mM MgCl2, 200 nM of each primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 2 μL of PCR product from the first round.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n13.99\n111.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n1.5 mM\n2.00\n16.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\nmdr1-1-in-F\n0.2 μM\n0.50\n4.00\n\n\nmdr1-1-in-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\n\n\n\nCycling conditions for each simplex reaction:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec\n58°C/2 min\n72/2 min;\n\n72°C/10 min\nResting at 4°C.",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 1: K13 and mdr1 (86, 184)"
+    ]
+  },
+  {
+    "objectID": "Multiplex_1.html#final-sequences",
+    "href": "Multiplex_1.html#final-sequences",
+    "title": "Multiplex 1: K13 and mdr1 (86, 184)",
+    "section": "Final Sequences",
+    "text": "Final Sequences\n\n\n\n\nTable 3. Details about sequences genotyped in the multiplex 1 of the ALARMcoding protocol\n\n\nMarker\nLength\nPCR_Round\nCodons\n\n\n\n\nKelch protein (pfk13: PF3D7_1343700)\n\n\nK13 Round 1 Product\n845\n1\n\n\n\nK13-1\n412\n2\n426-560\n\n\nK13-2\n333\n2\n542-651\n\n\nMultidrug resistance gene 1 (pfmdr1: Pf3D7_0523000)\n\n\nmdr1-1 Round 1 Product\n579\n1\n\n\n\nmdr1-1\n423\n2\n86, 184",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 1: K13 and mdr1 (86, 184)"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Welcome",
+    "section": "",
+    "text": "This is a step-by-step tutorial on what the ALARMcoding panel is and how to perform the PCRs and bioinformatic processing.",
+    "crumbs": [
+      "Home",
+      "Welcome"
     ]
   },
   {
@@ -829,6 +282,301 @@
     "crumbs": [
       "Home",
       "Welcome"
+    ]
+  },
+  {
+    "objectID": "About_Resistance.html",
+    "href": "About_Resistance.html",
+    "title": "Antimalarial Drug Resistance",
+    "section": "",
+    "text": "Treatment failure of antifolate drugs such as sulfadoxine and pyrimethamine (collectively referred to as SP) have been associated with point mutations in P. falciparum dihydrofolate reductase (pfdhfr) and P. falciparum dihydropteroate synthase (pfdhps) genes on chromosome 4 and 8 respectively. These genes encode for enzymes in the folate biosynthesis pathway; pfdhfr reduces 7,8-dihydrofolate into 5,6,7,8-tetrahydrofolate and pfdhps aids in the synthesis of folate from GTPC. These enzymes are targeted by pyrimethamine and sulfadoxine respectively.\nThe pfdhfr S108N substitution is critical for pyrimethamine resistance, with N51I and C59R modulating the strength of resistance conferring sub-optimal activity and reduced binding affinity to the drug (reviewed in Naidoo and Roper (2013)). Additional mutations at A16V and C50A have been shown to confer resistance to cycloguanil and enhance pyrimethamine in Bolivia (Foote, Galatis, and Cowman 1990; Plowe et al. 1997). The I164L substitution has been found alone or in combination with the triple pfdhfr mutant haplotype as an important resistance-conferring mutation. Haplotypes are biologically meaningful, since they determine the resistance properties of parasites that are exposed to drugs at the time of treatment. A triple mutant pfdhfr haplotype with 51I-59R-108N has a 1.5- to 3-fold higher pyrimethamine resistance in vitro than either 51I-108N or 59-108N double mutant haplotypes (Sirawaraporn et al. 1997).\nSulfadoxine resistance first arises from the A437G substitution with compensatory mutations at I431V, S436A/F, K540E, A581G, A613S further increasing resistance. There are location-specific differences in pfdhps haplotypes in Africa, with East & Southern African isolates containing both 437G and 540E, while only 437G is predominantly observed West and Central Africa (Naidoo and Roper 2013). The 540E allele has been found to work together with 437G to raise the sulfadoxine tolerance of sensitive pfdhps by 200-fold compared to just 10-fold with only 437G substitution (Triglia et al. 1997). The A581G substitution was found in northern Tanzania (Gesase et al. 2009) to reduce the efficacy of IPTp-SP (Minja et al. 2013), and is also rare in West and Central Africa. I431V was identified from UK imported malaria infections originating Nigeria (Sutherland et al. 2009) and pregnant women in Cameroon (Chauvin et al. (2015)).\nNaidoo and Roper Naidoo and Roper (2013) have classified pfdhfr and pfdhps mediated resistance into three categories:\n\n“partial resistant” haplotypes (pfdhfr 51I, 59R, 108N; pfdhps 473G),\n“full resistant” haplotypes also containing pfdhps 540E, associated with clinical failure of SP treatment, and\n“super-resistant” haplotypes additionally harbouring 581G. More recently, the local emergence and clonal expansion of a VAGKGS mutant\n\nhaplotype was observed in north-western Central Africa (Cameroon and Nigeria) and there was a mutually exclusive relationship with the presence of the 431V mutation and the 540E mutation in countries further south in Central Africa (Republic of Congo, Democratic Republic of Congo, Gabon, Central African Republic and Angola) (Guémas et al. 2023). The study also found the 431V mutant found in 15 countries in Central and West Africa, with the majority also having the VAGKGS haplotype. Given the additive nature of pfdhps mutations leading to increased resistance, this haplotype would confer an increased level of resistance to SP. It was therefore theorised that this haplotype is the Central and West African equivalent of a “super-resistant” mutant (Guémas et al. 2023).",
+    "crumbs": [
+      "Home",
+      "About ALARMcoding",
+      "Antimalarial Drug Resistance"
+    ]
+  },
+  {
+    "objectID": "About_Resistance.html#antifolates-pfdhfr-pfdhps",
+    "href": "About_Resistance.html#antifolates-pfdhfr-pfdhps",
+    "title": "Antimalarial Drug Resistance",
+    "section": "",
+    "text": "Treatment failure of antifolate drugs such as sulfadoxine and pyrimethamine (collectively referred to as SP) have been associated with point mutations in P. falciparum dihydrofolate reductase (pfdhfr) and P. falciparum dihydropteroate synthase (pfdhps) genes on chromosome 4 and 8 respectively. These genes encode for enzymes in the folate biosynthesis pathway; pfdhfr reduces 7,8-dihydrofolate into 5,6,7,8-tetrahydrofolate and pfdhps aids in the synthesis of folate from GTPC. These enzymes are targeted by pyrimethamine and sulfadoxine respectively.\nThe pfdhfr S108N substitution is critical for pyrimethamine resistance, with N51I and C59R modulating the strength of resistance conferring sub-optimal activity and reduced binding affinity to the drug (reviewed in Naidoo and Roper (2013)). Additional mutations at A16V and C50A have been shown to confer resistance to cycloguanil and enhance pyrimethamine in Bolivia (Foote, Galatis, and Cowman 1990; Plowe et al. 1997). The I164L substitution has been found alone or in combination with the triple pfdhfr mutant haplotype as an important resistance-conferring mutation. Haplotypes are biologically meaningful, since they determine the resistance properties of parasites that are exposed to drugs at the time of treatment. A triple mutant pfdhfr haplotype with 51I-59R-108N has a 1.5- to 3-fold higher pyrimethamine resistance in vitro than either 51I-108N or 59-108N double mutant haplotypes (Sirawaraporn et al. 1997).\nSulfadoxine resistance first arises from the A437G substitution with compensatory mutations at I431V, S436A/F, K540E, A581G, A613S further increasing resistance. There are location-specific differences in pfdhps haplotypes in Africa, with East & Southern African isolates containing both 437G and 540E, while only 437G is predominantly observed West and Central Africa (Naidoo and Roper 2013). The 540E allele has been found to work together with 437G to raise the sulfadoxine tolerance of sensitive pfdhps by 200-fold compared to just 10-fold with only 437G substitution (Triglia et al. 1997). The A581G substitution was found in northern Tanzania (Gesase et al. 2009) to reduce the efficacy of IPTp-SP (Minja et al. 2013), and is also rare in West and Central Africa. I431V was identified from UK imported malaria infections originating Nigeria (Sutherland et al. 2009) and pregnant women in Cameroon (Chauvin et al. (2015)).\nNaidoo and Roper Naidoo and Roper (2013) have classified pfdhfr and pfdhps mediated resistance into three categories:\n\n“partial resistant” haplotypes (pfdhfr 51I, 59R, 108N; pfdhps 473G),\n“full resistant” haplotypes also containing pfdhps 540E, associated with clinical failure of SP treatment, and\n“super-resistant” haplotypes additionally harbouring 581G. More recently, the local emergence and clonal expansion of a VAGKGS mutant\n\nhaplotype was observed in north-western Central Africa (Cameroon and Nigeria) and there was a mutually exclusive relationship with the presence of the 431V mutation and the 540E mutation in countries further south in Central Africa (Republic of Congo, Democratic Republic of Congo, Gabon, Central African Republic and Angola) (Guémas et al. 2023). The study also found the 431V mutant found in 15 countries in Central and West Africa, with the majority also having the VAGKGS haplotype. Given the additive nature of pfdhps mutations leading to increased resistance, this haplotype would confer an increased level of resistance to SP. It was therefore theorised that this haplotype is the Central and West African equivalent of a “super-resistant” mutant (Guémas et al. 2023).",
+    "crumbs": [
+      "Home",
+      "About ALARMcoding",
+      "Antimalarial Drug Resistance"
+    ]
+  },
+  {
+    "objectID": "About_Resistance.html#aminoquinolines-and-arylaminoalcohols-pfcrt-pfmdr1-pfaat1",
+    "href": "About_Resistance.html#aminoquinolines-and-arylaminoalcohols-pfcrt-pfmdr1-pfaat1",
+    "title": "Antimalarial Drug Resistance",
+    "section": "Aminoquinolines and Arylaminoalcohols (pfcrt, pfmdr1, pfaat1)",
+    "text": "Aminoquinolines and Arylaminoalcohols (pfcrt, pfmdr1, pfaat1)\n4-aminoquinoline and arylaminoalcohol antimalarial drugs such as chloroquine, amodiaquine and lumefantrine accumulate in the digestive vacuole and reduce haemoglobin degradation, resulting in parasite death (reviewed in Wicht, Mok, and Fidock (2020)).\nNon-synonymous point mutations in P. falciparum chloroquine resistance transporter (pfcrt) on chromosome 7 mediate drug resistance by preventing drug accumulation in the digestive vacuole. The K76T substitution in pfcrt results in the export of drugs from the digestive vacuole and additional region-specific mutations exist at codon positions 72-75 line the central drug binding cavity of pfcrt (reviewed in Wicht, Mok, and Fidock (2020)). For example, the SVMNT haplotype is predominantly observed in South American isolates as opposed to the CVIET haplotypes found in Africa and Asian isolates Veiga et al. (2016). Both haplotypes have been demonstrated to be equally associated with AQR (Wicht, Mok, and Fidock 2020).\nMutations in pfcrt alone cannot halt drug accumulation in the digestive vacuole via passive diffusion. This is supplemented by mutations in P. falciparum multidrug resistance protein 1 (pfmdr1) on chromosome 5 and P. falciparum putative amino acid transporter 1 (pfaat1) on chromosome 6. Substitutions at pfmdr1 codons 86, 184, 1034, 1042 and 1246 result in a strong epistatic interaction with pfcrt 76T and act to augment drug resistance. Amino-terminal substitutions (N86Y and Y184F) are common in Asian and African parasites, while carboxy-terminal mutations (S1034C, N1042D and D1246Y) are found at a higher frequency in South American isolates (Veiga et al. 2016; Wicht, Mok, and Fidock 2020). Mutations at 1034C and 1042D have been shown to be involved in the binding pocket of 4-aminoquinolines (Sidhu, Valderramos, and Fidock 2005). ASAQ and AL are the most commonly used ACTs in Africa (World Health Organisation 2020) and exert opposing selection pressures on pfcrt and pfmdr1. ASAQ selects for the pfmdr1 86Y, Y184 and 1246Y alleles (or the pfmdr1 YYY haplotype) while the absence of aminoquinoline resistance mutations is preferentially selected for by AL (i.e., N86, 184F and D1246 alleles; or the pfmdr1 NFD haplotype) (Ochong et al. 2003; Dokomajilar et al. 2006; Happi et al. 2006; Holmgren et al. 2007; Humphreys et al. 2007; Tinto et al. 2008; Fröberg et al. 2012; Baraka et al. 2014; Venkatesan et al. 2014; Otienoburu et al. 2016; Sondo et al. 2016; Okell et al. 2018). ASAQ also preferentially selects for pfcrt 76T allele, while AL has been associated with increased prevalence of the pfcrt K76 allele (Echeverry et al. 2007; Folarin et al. 2011; Venkatesan et al. 2014). Therefore it has been proposed that either rotating or deploying b ASAQ and AL simultaneously may reduce the spread of mutations that confer resistance the ACT and/or ACT partner drugs in the population (Valderramos et al. 2010; Nguyen et al. 2015; Yeka et al. 2015).\nRecently, pfaat1 was found to have an epistatic interaction with 76T and parasite fitness (Amambua-Ngwa et al. 2023). The combined pfaat1 single mutant 258L and pfcrt 76T types result in high chloroquine resistance but at a very high fitness cost and was found in African isolates, while the pfaat1 double mutant (258L and 313S) and pfcrt 76T causes chloroquine resistance and an increase in fitness (to almost wild-type levels) and is found in southeast Asian isolates.",
+    "crumbs": [
+      "Home",
+      "About ALARMcoding",
+      "Antimalarial Drug Resistance"
+    ]
+  },
+  {
+    "objectID": "About_Resistance.html#artemisinins-pfk13",
+    "href": "About_Resistance.html#artemisinins-pfk13",
+    "title": "Antimalarial Drug Resistance",
+    "section": "Artemisinins (pfk13)",
+    "text": "Artemisinins (pfk13)\nArtemisinin resistance is defined as delayed parasite clearance following treatment with an artemisinin derivative drug (reviewed in Pandit et al. (2023)). This is a form of ‘partial resistance’ where the phenotype manifests as reduced drug susceptibility in ring-stage parasites. Single point mutations in the Broad-Complex, Tramtrack and Bric-à-bac/Pox virus and Zinc Finger domain (BTB/POZ; codons 350-437) and the propeller domain (codons 350-726) of pfk13 (encoded by pfk13 on chromosome 13) have been found to confer this phenotype. There are currently 13 validated pfk13 markers and nine that are candidate/associated with artemisinin resistance. The pfk13 mutations that have originated in southeast Asia (C580Y, R539T, Y493H, I543T) confer the slow-clearance phenotype in vitro following exposure to artemisinin [Ariey et al. (2014); Conrad et al. (2014); Zhu et al. (2018); Moser et al. (2020); Uwimana et al. (2020); Kirby et al. (2022); Fola et al. (2023); Juliano et al. (2023)).\nValidated pfk13 mutations have been identified in Africa at very low frequencies (&lt;1%) (Owoloye et al. 2021). De novo non-synonymous mutations with local flanking haplotypes (SNPs or microsatellites) have arisen at low frequency such as R561H (Rwanda, Tanzania), R622I (Ethiopia), and A675V (Uganda) in East Africa. However, 622I has not yet been validated to cause artemisinin resistance in vitro nor in vivo (Fola et al. 2023). The introduction and spread of ART resistant strains in Tanzania [Juliano et al. (2023)), Uganda (Conrad et al. 2023), Rwanda (Uwimana et al. 2020) and Ethiopia (Fola et al. 2023) raise concerns for the rest of Africa and its first-line therapeutic. Other markers in different genes have been observed to act as background and secondary determinants of resistance such as PfCoronin, PfUbp1, PfAP2μ, pfmdr1 copy number, PfTrx1 and PfSpp (Pandit2023).",
+    "crumbs": [
+      "Home",
+      "About ALARMcoding",
+      "Antimalarial Drug Resistance"
+    ]
+  },
+  {
+    "objectID": "PCR_Important.html",
+    "href": "PCR_Important.html",
+    "title": "PCR: Important Notes",
+    "section": "",
+    "text": "This two-step protocol requires first, the amplification of the “outer” fragment and second, the amplification of the “inner” fragment. You can set up your plates with either 32 or 48 samples at a time. Handling more samples is not advisable, as it may lead to longer processing times and an increased risk of human error when adding gDNA. An example of conducting the PCR with 32 samples at a time is provided below.\nFor Step 1:\nEach master mix is exactly the same.\n\nFor Step 2:\nMaster mix differ by each row - corresponding to the molecular identifier (MID) tag on the forward primer, the reverse primer remains the same for each master mix. You will need to order unique MIDs + forward primer per molecular marker for each set of isolates you plan to pool together. In this work, I used 110 MIDs. See the list of MID tags here.\n\n\n\n\n32 samples48 Samples\n\n\n\nFor each PCR set up 32 samples (4 columns)\nPrepare 16 Master Mix (MM) solutions of “4x” per Multiplex Reaction (must have one negative control per MM)\nAdd each reagent in the order listed above\nIn each MM there will be two Primer sets (forward and reverse for each primer)\nPipette 22 or 23 uL of each MM into the PCR plate as indicated below, then add gDNA in biosafety cabinet\n\n\n\n\n\nFor each PCR set up 48 samples (6 columns)\nPrepare 8 Master Mix (MM) solutions of “8x” per Multiplex Reaction (must have one negative control per MM)\nAdd each reagent in the order listed above\nIn each MM there will be two Primer sets (forward and reverse for each primer)\nPipette 22 uL of each MM into the PCR plate as indicated below, then add gDNA in biosafety cabinet\n\n\n\n\n\n\n\n\n\n32 samples48 Samples\n\n\n\nFor each PCR set up 32 samples (4 columns)\nPrepare 16 Master Mix (MM) solutions of “4x” per Multiplex Reaction (must have one negative control and MID per MM)\nAdd each reagent in the order listed above\nIn each MM there will be two Primer sets (forward and reverse for each primer)\nPipette 23 or 24 uL of each MM into the PCR plate as indicated below, then add gDNA in biosafety cabinet\n\n\n\n\n\nFor each PCR set up 48 samples (6 columns)\nPrepare 8 Master Mix (MM) solutions of “8x” per Multiplex Reaction (must have one negative control and MID per MM)\nAdd each reagent in the order listed above\nIn each MM there will be two Primer sets (forward and reverse for each primer)\nPipette 23 or 24 uL of each MM into the PCR plate as indicated below, then add gDNA in biosafety cabinet",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "PCR: Important Notes"
+    ]
+  },
+  {
+    "objectID": "PCR_Important.html#pcr-general-workflow",
+    "href": "PCR_Important.html#pcr-general-workflow",
+    "title": "PCR: Important Notes",
+    "section": "",
+    "text": "This two-step protocol requires first, the amplification of the “outer” fragment and second, the amplification of the “inner” fragment. You can set up your plates with either 32 or 48 samples at a time. Handling more samples is not advisable, as it may lead to longer processing times and an increased risk of human error when adding gDNA. An example of conducting the PCR with 32 samples at a time is provided below.\nFor Step 1:\nEach master mix is exactly the same.\n\nFor Step 2:\nMaster mix differ by each row - corresponding to the molecular identifier (MID) tag on the forward primer, the reverse primer remains the same for each master mix. You will need to order unique MIDs + forward primer per molecular marker for each set of isolates you plan to pool together. In this work, I used 110 MIDs. See the list of MID tags here.\n\n\n\n\n32 samples48 Samples\n\n\n\nFor each PCR set up 32 samples (4 columns)\nPrepare 16 Master Mix (MM) solutions of “4x” per Multiplex Reaction (must have one negative control per MM)\nAdd each reagent in the order listed above\nIn each MM there will be two Primer sets (forward and reverse for each primer)\nPipette 22 or 23 uL of each MM into the PCR plate as indicated below, then add gDNA in biosafety cabinet\n\n\n\n\n\nFor each PCR set up 48 samples (6 columns)\nPrepare 8 Master Mix (MM) solutions of “8x” per Multiplex Reaction (must have one negative control per MM)\nAdd each reagent in the order listed above\nIn each MM there will be two Primer sets (forward and reverse for each primer)\nPipette 22 uL of each MM into the PCR plate as indicated below, then add gDNA in biosafety cabinet\n\n\n\n\n\n\n\n\n\n32 samples48 Samples\n\n\n\nFor each PCR set up 32 samples (4 columns)\nPrepare 16 Master Mix (MM) solutions of “4x” per Multiplex Reaction (must have one negative control and MID per MM)\nAdd each reagent in the order listed above\nIn each MM there will be two Primer sets (forward and reverse for each primer)\nPipette 23 or 24 uL of each MM into the PCR plate as indicated below, then add gDNA in biosafety cabinet\n\n\n\n\n\nFor each PCR set up 48 samples (6 columns)\nPrepare 8 Master Mix (MM) solutions of “8x” per Multiplex Reaction (must have one negative control and MID per MM)\nAdd each reagent in the order listed above\nIn each MM there will be two Primer sets (forward and reverse for each primer)\nPipette 23 or 24 uL of each MM into the PCR plate as indicated below, then add gDNA in biosafety cabinet",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "PCR: Important Notes"
+    ]
+  },
+  {
+    "objectID": "PCR_Important.html#gel-electrophoresis",
+    "href": "PCR_Important.html#gel-electrophoresis",
+    "title": "PCR: Important Notes",
+    "section": "Gel Electrophoresis",
+    "text": "Gel Electrophoresis\n\nExpected Bands\nAfter every PCR Round 2, 5 μL per well of each sample was visualised by a gel electrophoresis. Run a 2% agarose gel at 100 V for 110 minutes EXCEPT for crt which should be run at 100 minutes (smaller fragment).\n\n\n\n\nTable 1. Expected fragment sizes in the ALARMcoding PCR genotyping protocol\n\n\nMarker name\nLength (base pairs, bp)\nExpected position on gel (bp)\nDiagnostic codons\n\n\n\n\nK13-in-1\n412 bp + MID (10 bp)\n422\n426-560\n\n\nK13-in-2\n333 bp + MID (10 bp)\n343\n540-651\n\n\nmdr1-in-1\n432 bp + MID (10 bp)\n442\n86, 184\n\n\nmdr1-in-2\n488 bp + MID (10 bp)\n498\n1034, 1042\n\n\nmdr1-in-3\n522 bp + MID (10 bp)\n532\n1246\n\n\ncrt-in\n214 bp + MID (10 bp)\n224\n72-76\n\n\ndhfr-in\n523 bp + MID (10 bp)\n533\n16, 51, 59, 108, 164\n\n\ndhps-in-1\n492 bp + MID (10 bp)\n502\n431, 436, 437\n\n\ndhps-in-2\n521 bp + MID (10 bp)\n531\n540, 581, 613\n\n\naat1-in\n448 bp + MID (10 bp)\n458\n258, 313\n\n\npfs47-in-1\n390 bp + MID (10 bp)\n400\n1-120\n\n\npfs47-in-2\n429 bp + MID (10 bp)\n439\n172-302\n\n\n\n\n\n\n\n\n\n\nExpected Gel\nFor example, here are 18 isolates and 2 negative controls for K13-1:\n\n\n\nAgarose-gel densitometry\nFor each reaction, agarose-gel densitometry (EZQuant, Biorad, US) was used to quantify the DNA concentration of the fragment sizes using a 100bp ladder standard (Axygen, CA, US and MaestroGen, Taiwan).\nKeep these tabulations and refer to Post-PCR: Prepare for Sequencing",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "PCR: Important Notes"
+    ]
+  },
+  {
+    "objectID": "PCR_Important.html#reagents-and-equipment",
+    "href": "PCR_Important.html#reagents-and-equipment",
+    "title": "PCR: Important Notes",
+    "section": "Reagents and Equipment",
+    "text": "Reagents and Equipment\nReagents:\n\nNuclease-free water\n5x Buffer\nMgCl2 (25 mM)\ndNTPs (10 mM)\nG2 Flexi Taq (5U/μL)\n100bp ladder standard\n\nLaboratory consumables:\n\n96-well plates\n1 mL centrifuge tubes\n10 μL micropipette and tips\n20 μL micropipette and tips\n200 μL micropipette and tips\nMolecular Grade Agarose\n\nEquipment:\n\nPCR Machine and agarose-gel densitometry capabilities: Gel Doc\\(^{TM}\\) EM System\nElectrophoresis Apparatus",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "PCR: Important Notes"
+    ]
+  },
+  {
+    "objectID": "PCR_Important.html#troubleshooting",
+    "href": "PCR_Important.html#troubleshooting",
+    "title": "PCR: Important Notes",
+    "section": "Troubleshooting",
+    "text": "Troubleshooting\n\nGel Electrophoresis\n\nBands can be seen at the extreme bottom of the gel: primer dimers\nBands can be seen at the round 1 product length:\n\nK13-out: 845 bp\nmdr1-out-1: 579 bp\nmdr1-out-2: 1,468 bp\ncrt-out: 777 bp\ndhfr-out: 766 bp\ndhps-out: 1,189 bp\naat1-out: 969 bp\npfs47-out: 1,320 bp",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "PCR: Important Notes"
+    ]
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About the Author",
+    "section": "",
+    "text": "Back to top"
+  },
+  {
+    "objectID": "Multiplex_3.html",
+    "href": "Multiplex_3.html",
+    "title": "Multiplex 3: dhfr, dhps",
+    "section": "",
+    "text": "The round 1 PCR primers were designed using Geneious Prime R9 to target larger fragments that encapsulated the primers described in (Nag et al. 2017) that were used as the round 2 PCR primers.\n\n\n\n\nTable 6. Details about primers used in Multiplex 3 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nDihydropteroate synthase (pfdhps: PF3D7_0810800)\n\n\ndhps-out-F\n8\nACAACACACAGATATAGCATACTTTT\nNA\n549342-549367\n\n\ndhps-out-R\n8\nAATAGCTGTAGGAAGCAATTGC\nNA\n550530-550509\n\n\ndhps-in-F1\n8\nACCATCAGATGTTTATATAACAAATATGTG\n2\n549417-549446\n\n\ndhps-in-R1\n8\nCTGGATTATTTGTACAAGCACTAATATCA\n2\n549909-549881\n\n\ndhps-in-F2\n8\nAGAATGTGTTGATAATGATTTAGTTGATAT\n2\n549845-549874\n\n\ndhps-in-R2\n8\nGATATAAAAGTTGATCCTTGTCTTTCCT\n2\n550365-550338\n\n\nDihydrofolate reductase (pfdhfr: PF3D7_0417200)\n\n\ndhfr-out-F\n4\nGCCATTTTTGTATTCCCAAATAGC\nNA\n747913-747936\n\n\ndhfr-out-R\n4\nTGTCATCATTCTTTAAAGGCATATCA\nNA\n748853-748828\n\n\ndhfr-in-F\n4\nATGATGGAACAAGTCTGCGACGTTTTCGA\n2\n748088-748116\n\n\ndhfr-in-R\n4\nCTAAAAATTCTTGATAAACAACGGAACCTCC\n2\n748610-748580\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 2 Nag et al., 2017\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 3: dhfr, dhps"
+    ]
+  },
+  {
+    "objectID": "Multiplex_3.html#primers",
+    "href": "Multiplex_3.html#primers",
+    "title": "Multiplex 3: dhfr, dhps",
+    "section": "",
+    "text": "The round 1 PCR primers were designed using Geneious Prime R9 to target larger fragments that encapsulated the primers described in (Nag et al. 2017) that were used as the round 2 PCR primers.\n\n\n\n\nTable 6. Details about primers used in Multiplex 3 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nDihydropteroate synthase (pfdhps: PF3D7_0810800)\n\n\ndhps-out-F\n8\nACAACACACAGATATAGCATACTTTT\nNA\n549342-549367\n\n\ndhps-out-R\n8\nAATAGCTGTAGGAAGCAATTGC\nNA\n550530-550509\n\n\ndhps-in-F1\n8\nACCATCAGATGTTTATATAACAAATATGTG\n2\n549417-549446\n\n\ndhps-in-R1\n8\nCTGGATTATTTGTACAAGCACTAATATCA\n2\n549909-549881\n\n\ndhps-in-F2\n8\nAGAATGTGTTGATAATGATTTAGTTGATAT\n2\n549845-549874\n\n\ndhps-in-R2\n8\nGATATAAAAGTTGATCCTTGTCTTTCCT\n2\n550365-550338\n\n\nDihydrofolate reductase (pfdhfr: PF3D7_0417200)\n\n\ndhfr-out-F\n4\nGCCATTTTTGTATTCCCAAATAGC\nNA\n747913-747936\n\n\ndhfr-out-R\n4\nTGTCATCATTCTTTAAAGGCATATCA\nNA\n748853-748828\n\n\ndhfr-in-F\n4\nATGATGGAACAAGTCTGCGACGTTTTCGA\n2\n748088-748116\n\n\ndhfr-in-R\n4\nCTAAAAATTCTTGATAAACAACGGAACCTCC\n2\n748610-748580\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 2 Nag et al., 2017\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 3: dhfr, dhps"
+    ]
+  },
+  {
+    "objectID": "Multiplex_3.html#pcr-instructions",
+    "href": "Multiplex_3.html#pcr-instructions",
+    "title": "Multiplex 3: dhfr, dhps",
+    "section": "PCR Instructions",
+    "text": "PCR Instructions\n\nRound 1.\nThe first round PCR was carried out in a total volume of 25 μL with 1 x buffer, 500 uM dNTPs mix (Promega), 5 mM MgCl2, 200 nM of each primer (forward (F) and reverse (R)), 1.3 units of GoTaq Flexi Polymerase (Promega) and only 2 μL of genomic DNA.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n9.49\n75.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\nK13-out-F\n0.2 μM\n0.50\n4.00\n\n\nK13-out-R\n0.2 μM\n0.50\n4.00\n\n\nmdr1-1-out-F\n0.2 μM\n0.50\n4.00\n\n\nmdr1-1-out-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec,\n58°C/2 min,\n72/2 min;\n\n72°C/10 min\nResting at 4°C.\n\n\n\nRound 2.\nThe second round of the nested PCR was carried out in separate reactions containing a single inner fragment primer pair and with a total volume of 25 μL containing 1x Buffer, 500 uM dNTPs mix, 5 mM MgCl2, 200 nM of each primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 1 μL of PCR product from round 1.\n\ndhps-1dhps-2dhfr\n\n\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n11.49\n91.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\ndhps-1-in-F\n0.2 μM\n0.50\n4.00\n\n\ndhps-1-in-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n11.49\n91.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\ndhps-2-in-F\n0.2 μM\n0.50\n4.00\n\n\ndhps-2-in-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n11.49\n91.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\ndhfr-in-F\n0.2 μM\n0.50\n4.00\n\n\ndhfr-in-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\n\n\n\nCycling conditions for each simplex reaction:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec\n58°C/2 min\n72/2 min;\n\n72°C/10 min\nResting at 4°C.",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 3: dhfr, dhps"
+    ]
+  },
+  {
+    "objectID": "Multiplex_3.html#final-sequences",
+    "href": "Multiplex_3.html#final-sequences",
+    "title": "Multiplex 3: dhfr, dhps",
+    "section": "Final Sequences",
+    "text": "Final Sequences\n\n\n\n\nTable 7. Details about sequences genotyped in Multiplex 3 of the ALARMcoding protocol\n\n\nMarker\nLength\nPCR_Round\nCodons\n\n\n\n\nDihydropteroate synthase (pfdhps: PF3D7_0810800)\n\n\ndhps Round 1 Product\n1189\n1\n\n\n\ndhps-1\n493\n2\n431, 436, 437\n\n\ndhps-2\n521\n2\n540, 581, 613\n\n\nDihydrofolate reductase (pfdhfr: PF3D7_0417200)\n\n\ndhfr Round 1 Product\n766\n1\n\n\n\ndhfr\n523\n2\n16, 50, 51, 59, 108, 164",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 3: dhfr, dhps"
+    ]
+  },
+  {
+    "objectID": "Multiplex_4.html",
+    "href": "Multiplex_4.html",
+    "title": "Multiplex 4: aat1, pfs47",
+    "section": "",
+    "text": "Round 1 PCR primers were obtained from (Onyango et al. 2021) and round 2 PCR primers were designed using Geneious Prime R9 to target smaller fragments. Novel pfaat1 primers were designed using Geneious Prime R9 for both round 1 and round 2 PCR primers surrounding the codons of interest.\n\n\n\n\nTable 8. Details about primers used in Multiplex 4 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nPutative amino acid transporter (pfaat1r: PF3D7_0629500)\n\n\naat1-out-F\n6\nGTAGAACATTTAGTCGATTTACACC\nNA\n1215527-1215503\n\n\naat1-out-R\n6\nTGGCTGAATATCCAGTTCTT\nNA\n1214559-1214578\n\n\naat1-in-F\n6\nTGTACCTCGTCATTAGAACA\nNA\n1215345-1215326\n\n\naat1-in-R\n6\nCATTTGGTTGTTGAGAGAAGG\nNA\n1214898-1214918\n\n\n6-cysteine protein (pfs47r: PF3D7_1346800)\n\n\npfs47-out-F\n13\nATGTGTATGGGAAGAATGATCA\n3\n1880194-1880173\n\n\npfs47-out-R\n13\nACAAGTTCATTCATATGCTAACATA\n3\n1878865-1878889\n\n\npfs47-in-F1\n13\nSame as pfs47-out-F\n3\n1880194-1880173\n\n\npfs47-in-R1\n13\nATCACTGAACGATGAATTTATTGCA\nNA\n1879805-1879829\n\n\npfs47-in-F2\n13\nGGATTAGTAAAAATAATTTTAAGAAACC\nNA\n1879678-1879651\n\n\npfs47-in-R2\n13\nACATATACGTTCTTCTTCATTTGG\nNA\n1879250-1879273\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 2 3 Onyango et al., 2021\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 4: aat1, pfs47"
+    ]
+  },
+  {
+    "objectID": "Multiplex_4.html#primers",
+    "href": "Multiplex_4.html#primers",
+    "title": "Multiplex 4: aat1, pfs47",
+    "section": "",
+    "text": "Round 1 PCR primers were obtained from (Onyango et al. 2021) and round 2 PCR primers were designed using Geneious Prime R9 to target smaller fragments. Novel pfaat1 primers were designed using Geneious Prime R9 for both round 1 and round 2 PCR primers surrounding the codons of interest.\n\n\n\n\nTable 8. Details about primers used in Multiplex 4 of the ALARMcoding PCR genotyping protocol\n\n\nPrimer\nChromosome\nSequence (5' to 3')\nReference\nNucleotide positiona\n\n\n\n\nPutative amino acid transporter (pfaat1r: PF3D7_0629500)\n\n\naat1-out-F\n6\nGTAGAACATTTAGTCGATTTACACC\nNA\n1215527-1215503\n\n\naat1-out-R\n6\nTGGCTGAATATCCAGTTCTT\nNA\n1214559-1214578\n\n\naat1-in-F\n6\nTGTACCTCGTCATTAGAACA\nNA\n1215345-1215326\n\n\naat1-in-R\n6\nCATTTGGTTGTTGAGAGAAGG\nNA\n1214898-1214918\n\n\n6-cysteine protein (pfs47r: PF3D7_1346800)\n\n\npfs47-out-F\n13\nATGTGTATGGGAAGAATGATCA\n3\n1880194-1880173\n\n\npfs47-out-R\n13\nACAAGTTCATTCATATGCTAACATA\n3\n1878865-1878889\n\n\npfs47-in-F1\n13\nSame as pfs47-out-F\n3\n1880194-1880173\n\n\npfs47-in-R1\n13\nATCACTGAACGATGAATTTATTGCA\nNA\n1879805-1879829\n\n\npfs47-in-F2\n13\nGGATTAGTAAAAATAATTTTAAGAAACC\nNA\n1879678-1879651\n\n\npfs47-in-R2\n13\nACATATACGTTCTTCTTCATTTGG\nNA\n1879250-1879273\n\n\n\nNote:   Blank references denote that the primer was created by this author. Manuscript in preparation.\n\n\n\n\n\n\n1 2 3 Onyango et al., 2021\n\n\n\n\n\n\na Nucleotide position relative ot the 3D7 v3 reference genome",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 4: aat1, pfs47"
+    ]
+  },
+  {
+    "objectID": "Multiplex_4.html#pcr-instructions",
+    "href": "Multiplex_4.html#pcr-instructions",
+    "title": "Multiplex 4: aat1, pfs47",
+    "section": "PCR Instructions",
+    "text": "PCR Instructions\n\nRound 1.\nThe first round PCR was carried out in a total volume of 25 μL with 1 x buffer, 500 uM dNTPs mix (Promega), 5 mM MgCl2, 200 nM of each primer (forward (F) and reverse (R)), 1.3 units of GoTaq Flexi Polymerase (Promega) and only 2 μL of genomic DNA.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n9.49\n75.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n5 mM\n5.00\n40.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\nK13-out-F\n0.2 μM\n0.50\n4.00\n\n\nK13-out-R\n0.2 μM\n0.50\n4.00\n\n\nmdr1-1-out-F\n0.2 μM\n0.50\n4.00\n\n\nmdr1-1-out-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec,\n58°C/2 min,\n72/2 min;\n\n72°C/10 min\nResting at 4°C.\n\n\n\nRound 2.\nThe second-round simplex PCRs were carried out in separate reactions per inner fragment primer pair.\n\naat1pfs47-1pfs47-2\n\n\nFor pfaat1, there was a total volume of 25 μL containing 1x Buffer, 500 uM dNTPs mix, 5 mM MgCl2, 200 nM of each primer (F/R), 1.3 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n14.49\n115.92\n\n\n5X Buffer\n1x\n5.00\n40.00\n\n\nMgCl2 (25mM)\n2 mM\n2.00\n16.00\n\n\ndNTP\n0.5 μM\n1.25\n10.00\n\n\naat1-in-F\n0.2 μM\n0.50\n4.00\n\n\naat1-in-R\n0.2 μM\n0.50\n4.00\n\n\nG2 Flexi Taq (5U/μL)\n1.3 U/μL\n0.26\n2.08\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec\n56°C/2 min\n72/2 min;\n\n72°C/10 min\nResting at 4°C.\n\n\n\nFor pfs47 fragments 1 and 2, there conditions were as follows: a total volume of 20 μL containing 1x Buffer, 125 uM dNTPs mix, 2 mM MgCl2, 125 nM of each primer (F/R), 0.4 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n11.07\n88.56\n\n\n5X Buffer\n1x\n4.00\n32.00\n\n\nMgCl2 (25mM)\n2 mM\n1.60\n12.80\n\n\ndNTP\n0.125 μM\n0.25\n2.00\n\n\npfs47-1-in-F\n0.125 μM\n1.00\n8.00\n\n\npfs47-1-in-R\n0.125 μM\n1.00\n8.00\n\n\nG2 Flexi Taq (5U/μL)\n0.4 U/μL\n0.08\n0.64\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec\n59°C/2 min\n72/2 min;\n\n72°C/10 min\nResting at 4°C.\n\n\n\nFor pfs47 fragments 1 and 2, there conditions were as follows: a total volume of 20 μL containing 1x Buffer, 125 uM dNTPs mix, 2 mM MgCl2, 125 nM of each primer (F/R), 0.4 units of GoTaq Flexi Polymerase and 1 μL of PCR product from the first round.\n\n\n\n\n\n\nReagent\nFinal Concentration\nVolume x1 (μL)\nVolume x8 (μL)\n\n\n\n\nWater\n\n11.07\n88.56\n\n\n5X Buffer\n1x\n4.00\n32.00\n\n\nMgCl2 (25mM)\n2 mM\n1.60\n12.80\n\n\ndNTP\n0.125 μM\n0.25\n2.00\n\n\npfs47-1-in-F\n0.125 μM\n1.00\n8.00\n\n\npfs47-1-in-R\n0.125 μM\n1.00\n8.00\n\n\nG2 Flexi Taq (5U/μL)\n0.4 U/μL\n0.08\n0.64\n\n\n\n\n\n\n\n\nCycling conditions:\n\n95°C/2 min\n40 cycles of:\n\n95°C/20 sec\n59°C/2 min\n72/2 min;\n\n72°C/10 min\nResting at 4°C.",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 4: aat1, pfs47"
+    ]
+  },
+  {
+    "objectID": "Multiplex_4.html#final-sequences",
+    "href": "Multiplex_4.html#final-sequences",
+    "title": "Multiplex 4: aat1, pfs47",
+    "section": "Final Sequences",
+    "text": "Final Sequences\n\n\n\n\nTable 9. Details about sequences genotyped in Multiplex 4 of the ALARMcoding protocol\n\n\nMarker\nLength\nPCR_Round\nCodons\n\n\n\n\nPutative amino acid transporter (pfaat1r: PF3D7_0629500)\n\n\naat1 Round 1 Product\n969\n1\n\n\n\naat1\n448\n2\n258, 313\n\n\n6-cysteine protein (pfs47r: PF3D7_1346800)\n\n\npfs47 Round 1 Product\n1320\n1\n\n\n\npfs47-1\n390\n2\n1-120\n\n\npfs47-2\n429\n2\n172-302",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Multiplex 4: aat1, pfs47"
+    ]
+  },
+  {
+    "objectID": "Prepare_Sequencing.html",
+    "href": "Prepare_Sequencing.html",
+    "title": "Post-PCR: Prepare for Sequencing",
+    "section": "",
+    "text": "After completing all PCRs, gel electrophoresis and gel densitometry measurements, we can then pool isolates together at equimolar concentrations of 200 ng/μL. Here we wish to combine all isolates with unique MIDs per marker into one pool.\n⚠️ REMEMBER: Ensure that there is only ONE of each MID per pool: this is important when demultiplexing bioinformatically.\nOnce you have collated all of your absolute quantity data, you can then generate a table as below. Note, each pool should have AT LEAST ONE POSITIVE CONTROL, e.g., 3D7. Each isolate genotyped with K13-1 with a unique MID are added to a unique “sub-pool”, in this case labelled “1A”.\n\n\n\n\nTable 10. Example table to organise pooling of isolates per marker in 'sub-pools'\n\n\nSample Name\nMID\nMarker\nPool\nPlate Position\nDNA concentrationa\nVolume (μL) to add to pool\nCumulative volume\n\n\n\n\nIsolate 1\n1\nK13-1\n1A\n2A\n62.65\n3.2\n3.2\n\n\nIsolate 2\n2\nK13-1\n1A\n2B\n65.74\n3.0\n6.2\n\n\nIsolate 3\n3\nK13-1\n1A\n2C\n129.47\n1.5\n7.7\n\n\nIsolate 4\n4\nK13-1\n1A\n2D\n92.17\n2.2\n9.9\n\n\nIsolate 5\n5\nK13-1\n1A\n2E\n144.59\n1.4\n11.3\n\n\n3D7\n108\nK13-1\n1A\n7A\n129.00\n1.6\n12.9\n\n\n\na Agarose gel densitometry data\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNext, you can calculate the total volume (μL) (12.9) and total DNA concentration (ng/μL) (623.62). This information is relevant for the following section.",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Post-PCR: Prepare for Sequencing"
+    ]
+  },
+  {
+    "objectID": "Prepare_Sequencing.html#sub-pools",
+    "href": "Prepare_Sequencing.html#sub-pools",
+    "title": "Post-PCR: Prepare for Sequencing",
+    "section": "",
+    "text": "After completing all PCRs, gel electrophoresis and gel densitometry measurements, we can then pool isolates together at equimolar concentrations of 200 ng/μL. Here we wish to combine all isolates with unique MIDs per marker into one pool.\n⚠️ REMEMBER: Ensure that there is only ONE of each MID per pool: this is important when demultiplexing bioinformatically.\nOnce you have collated all of your absolute quantity data, you can then generate a table as below. Note, each pool should have AT LEAST ONE POSITIVE CONTROL, e.g., 3D7. Each isolate genotyped with K13-1 with a unique MID are added to a unique “sub-pool”, in this case labelled “1A”.\n\n\n\n\nTable 10. Example table to organise pooling of isolates per marker in 'sub-pools'\n\n\nSample Name\nMID\nMarker\nPool\nPlate Position\nDNA concentrationa\nVolume (μL) to add to pool\nCumulative volume\n\n\n\n\nIsolate 1\n1\nK13-1\n1A\n2A\n62.65\n3.2\n3.2\n\n\nIsolate 2\n2\nK13-1\n1A\n2B\n65.74\n3.0\n6.2\n\n\nIsolate 3\n3\nK13-1\n1A\n2C\n129.47\n1.5\n7.7\n\n\nIsolate 4\n4\nK13-1\n1A\n2D\n92.17\n2.2\n9.9\n\n\nIsolate 5\n5\nK13-1\n1A\n2E\n144.59\n1.4\n11.3\n\n\n3D7\n108\nK13-1\n1A\n7A\n129.00\n1.6\n12.9\n\n\n\na Agarose gel densitometry data\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNext, you can calculate the total volume (μL) (12.9) and total DNA concentration (ng/μL) (623.62). This information is relevant for the following section.",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Post-PCR: Prepare for Sequencing"
+    ]
+  },
+  {
+    "objectID": "Prepare_Sequencing.html#master-pools",
+    "href": "Prepare_Sequencing.html#master-pools",
+    "title": "Post-PCR: Prepare for Sequencing",
+    "section": "“Master-Pools”",
+    "text": "“Master-Pools”\nNow that we have our “sub-pools”, we can add all of our “Pool 1’s” for each marker together. However, before proceeding, we need to offset for fragment length to ensure that one marker isn’t preferentially sequenced over another. For the ALARMcoding protocol, this is our offsetting calculation:\n\n\n\n\nTable 11. Offsetting by marker fragment size.\n\n\nMarker\nSize (bp)\nSize + MID (bp)\nOffset\n\n\n\n\nmdr1-3\n552\n562\n1.000\n\n\ndhfr\n523\n533\n0.948\n\n\ndhps-2\n521\n531\n0.945\n\n\ndhps-1\n493\n503\n0.895\n\n\nmdr1-2\n488\n498\n0.886\n\n\naat1\n448\n458\n0.815\n\n\npfs47-2\n429\n439\n0.781\n\n\nmdr1-1\n413\n423\n0.753\n\n\nK13-1\n402\n412\n0.733\n\n\npfs47-1\n390\n400\n0.712\n\n\nK13-2\n323\n333\n0.593\n\n\ncrt\n214\n224\n0.399\n\n\n\n\n\n\n\n\nArmoured with this, we can create our “master-pools” containing one “sub-pool” of each marker.\n\n\n\n\nTable 12. Example table to organise pooling of isolates per marker in 'sub-pools'\n\n\nPool\nSub-Pool\nIsolates\nMarker\nAmplicon Size (bp)\nPool Offset Ratio\nSub-pool Total Volume (μL)\nDNA per sub-pool (ng)\nSub-pool Total DNA (ng/μL)\nDNA per sub-pool required for master-pool (ng)\nVolume per sub-pool required for master-pool (ng)\n\n\n\n\n1\n1E\n104\nmdr1-3\n562\n1.0000000\n296.3\n20800\n70.19912\n5000.000\n71.22596\n\n\n1\n1G\n104\ndhfr\n533\n0.9483986\n322.4\n20800\n64.51613\n4741.993\n73.50089\n\n\n1\n1I\n104\ndhps-2\n531\n0.9448399\n323.2\n20800\n64.35644\n4724.199\n73.40679\n\n\n1\n1H\n104\ndhps-1\n503\n0.8950178\n299.6\n20800\n69.42590\n4475.089\n64.45849\n\n\n1\n1D\n104\nmdr1-2\n498\n0.8861210\n449.9\n20800\n46.23250\n4430.605\n95.83313\n\n\n1\n1L\n104\naat1\n458\n0.8149466\n460.1\n20800\n45.20756\n4074.733\n90.13388\n\n\n1\n1K\n104\npfs47-2\n439\n0.7811388\n410.9\n20800\n50.62059\n3905.694\n77.15623\n\n\n1\n1C\n104\nmdr1-1\n423\n0.7526690\n285.0\n20800\n72.98246\n3763.345\n51.56507\n\n\n1\n1A\n104\nK13-1\n412\n0.7330961\n266.1\n20800\n78.16610\n3665.480\n46.89348\n\n\n1\n1J\n104\npfs47-1\n400\n0.7117438\n356.7\n20800\n58.31231\n3558.719\n61.02861\n\n\n1\n1B\n104\nK13-2\n333\n0.5925267\n613.9\n20800\n33.88174\n2962.633\n87.44042\n\n\n1\n1F\n104\ncrt\n224\n0.3985765\n474.8\n20800\n43.80792\n1992.883\n45.49138\n\n\n\na Calculated as the number of isolates per sub-pool (104) times the 200 ng/uL per amplicon equimolar concentration standardisation: 20,800 ng total\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNow add these volumes together to create the master-pool!",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Post-PCR: Prepare for Sequencing"
+    ]
+  },
+  {
+    "objectID": "Prepare_Sequencing.html#purification-and-quantification",
+    "href": "Prepare_Sequencing.html#purification-and-quantification",
+    "title": "Post-PCR: Prepare for Sequencing",
+    "section": "Purification and Quantification",
+    "text": "Purification and Quantification\nThese “master-pools” were then purified using a Agencourt AMPure XP magnetic beads at 1.8X bead-to-sample ratio as described by the manufacturer (Beckman Coulter) and quantified using a PicoGreen Assay as described by the manufacturer (Thermo Scientific).\nNow you’re ready to send it off for sequencing!",
+    "crumbs": [
+      "Home",
+      "PCR Protocol",
+      "Post-PCR: Prepare for Sequencing"
+    ]
+  },
+  {
+    "objectID": "2_MACSE.html",
+    "href": "2_MACSE.html",
+    "title": "Step 2: MACSE",
+    "section": "",
+    "text": "This page contains the post-processing of MACSE data (.fasta) into a data frame (.csv) for manipulation in R. All MACSE runs were by pool by marker for each Fraction Cut-Off with respect to their SeekDeep runs. This means that the files will be input to the below code individually.",
+    "crumbs": [
+      "Home",
+      "Drug Resistance Pipeline",
+      "Step 2: MACSE"
+    ]
+  },
+  {
+    "objectID": "2_MACSE.html#workflow-to-process-sequences-post-seekdeep",
+    "href": "2_MACSE.html#workflow-to-process-sequences-post-seekdeep",
+    "title": "Step 2: MACSE",
+    "section": "Workflow to process sequences post-SeekDeep",
+    "text": "Workflow to process sequences post-SeekDeep\n\nUnzip .gz files in ~/SeekDeep/Pool_X/Run_X/popClustering/marker/analysis/final/. using this command:\n\nfor file in *.fastq.gz; do newfile=`echo \"$file\" | sed 's/.fastq.gz/.fastq/g'`; gunzip -c $file &gt; $newfile; done\n\nMake file containing all fastq files:\n\ncat /your/path/to/folder/*.fastq &gt; Pool_X_Marker.fastq\n\nConvert fastq to fasta:\n\npaste - - - - &lt; Pool_X_Marker.fastq | cut -f 1,2 | sed 's/^@/&gt;/' | tr \"\\t\" \"\\n\" &gt; Pool_X_Marker.fasta\n\nAdd Ref seq:\n\ncat ~/SeekDeep/MACSE/Marker_3D7_PlasmoDB.fasta Pool_X_Marker.fasta &gt; Pool_X_Marker_All.fasta\nTo add a space between the first file and the second use this:\nprintf \"\\n\" | cat ~/SeekDeep/MACSE/Marker_3D7_PlasmoDB.fasta - Pool_X_Marker.fasta &gt; Pool_X_Marker_All.fasta",
+    "crumbs": [
+      "Home",
+      "Drug Resistance Pipeline",
+      "Step 2: MACSE"
+    ]
+  },
+  {
+    "objectID": "2_MACSE.html#running-macse",
+    "href": "2_MACSE.html#running-macse",
+    "title": "Step 2: MACSE",
+    "section": "Running MACSE",
+    "text": "Running MACSE\nTo Run MACSE in Terminal, load:\n\nexport PATH=/home/software/jre1.8.0_341/bin:$PATH\nexport PATH=/home/software/macse_v2.06.jar/bin:$PATH\n\nRun MACSE: java -jar macse_v2.06.jar -prog alignSequences -seq test.fasta\nThen copy across the files to the computer local drive for input into R, e.g.,:\nscp -r YOUR_USERNAME@YOUR_LOCAL_DRIVE:~/SeekDeep/MACSE/FOLDER .",
+    "crumbs": [
+      "Home",
+      "Drug Resistance Pipeline",
+      "Step 2: MACSE"
     ]
   }
 ]
