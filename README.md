@@ -2,7 +2,7 @@
 
 Step-by-step process of the *ALARM*coding multiplex nested PCR protocol and bioinformatic processing. This workflow has been used in unpublished data and contributes to the thesis of D.C. Argyropoulos in the Day Lab, University of Melbourne.
 
-Please see the [this link]() to learn more about the *ALARM*coding marker choice, PCR genotyping strategy and bioinformatic steps. The custom qmd Notebooks notebooks created as part of this work are included in this repository: 
+Please see the [this link](https://unimelb-day-lab.github.io/tutorialALARMcoding/) to learn more about the *ALARM*coding marker choice, PCR genotyping strategy and bioinformatic steps. The custom qmd Notebooks notebooks created as part of this work are included in this repository: 
 
 - Step_01_MACSE_to_R.qmd
 - Step_02_R_Cleaning.qmd
