@@ -1,0 +1,733 @@
+---
+title: "Step_03_R_Cleaning"
+format: html
+---
+
+The aim of this `.qmd` is to manipulate the **processed** MACSE files into files that contain variables of interest (e.g., **Survey**, **Marker**) and separate files for **Controls**, **Repeats** and **Isolates**. Further, this notebook will calculate the number of **synonymous** and **non-synonymous** mutations per isolate/sample and contain a column with all of the non-synonymous changes (from 3D7 reference).
+
+```{r Load packages, include=FALSE}
+library(stringr)
+library(tidyverse)
+library(janitor)
+library(forcats)
+library(data.table)
+library(naniar)
+library(readr)
+```
+
+# Step 1: Process_Seq
+
+**INPUTS**: 
+
+- **Folder**: 04_Compiled_NT_Sequences 
+- **Files**: *All_NT_Aligned.csv Use as the sequence file and create haplotypes (e.g., CVMNT)
+
+Aims: 
+- Remove symbols: `*!-` 
+- Separate SeqID code into "Isolate", "MID", "MID_N", "Pool", "Date", "Haplotype" 
+- Create haplotype specific to marker
+
+**OUTPUTS**: 
+
+- 05_All_DrugR_NT_Sequences/Controls/*Controls_Haps.csv
+- 05_All_DrugR_NT_Sequences/Isolates/*Isolates_Haps.csv
+- 05_All_DrugR_NT_Sequences/Repeats/*Repeats_Haps.csv 
+- 05_All_DrugR_Haplotypes/temp/*Haps_only.csv
+
+The `Controls_Haps`, `Isolates_Haps` and `Repeats_Haps` files will contain the haplotype (Haps), the entire sequence separated by codon number and other info (SeqID, Reference and Marker). The `Haps_only` file will only contain the haplotype information (for the corresponding SeqID, Reference and Marker). 
+
+## Input File
+
+```{r}
+filenames_NT =          Sys.glob(file.path("04_Compiled_NT_Sequences/", pattern = "*NT_Aligned.csv"))
+filenames_AA =          Sys.glob(file.path("04_Compiled_AA_Sequences/", pattern = "*AA_Aligned.csv"))
+```
+
+## Processing Code
+
+```{r}
+for (filename in filenames_NT) {
+  
+  INPUT_1_NT = filename
+
+  replace_strs <- c("04_Compiled_NT_Sequences" = "", ".csv" = "")
+  
+  OUTPUT_1_NT = paste0("05_All_DrugR_NT_Sequences/Isolates", str_replace_all(filename, replace_strs, ""), "_Isolates_Haps.csv")
+  OUTPUT_2_NT = paste0("05_All_DrugR_NT_Sequences/Controls", str_replace_all(filename, replace_strs, ""), "_Controls_Haps.csv")
+  OUTPUT_3_NT = paste0("05_All_DrugR_NT_Sequences/Repeats", str_replace_all(filename, replace_strs, ""), "_Repeats_Haps.csv")
+  OUTPUT_4_NT = paste0("05_All_DrugR_Haplotypes/temp", str_replace_all(filename, replace_strs, ""), "_Haps_only.csv")
+  
+  ######## Part 1: Data transformation ######## 
+  
+  df <- read.csv(INPUT_1_NT)
+  df_1 <- as.data.frame(t(df))
+  df_2 <- df_1 %>% row_to_names(row_number = 1) %>% tibble::rownames_to_column("SeqID")
+
+  ######## Part 2: Survey Information ######## 
+
+  search_Survey <- c("Survey_2017", "Survey")
+
+  # Create an empty column called "Survey" in the data frame
+  df_3 <- df_2 %>% mutate(FileNames = INPUT_1_NT, Survey = NA)
+
+  # Loop through each search string and update the "Survey" column based on the presence of the string in file names
+
+for (survey in search_Survey) {
+  df_3$Survey[grepl(survey, df_3$FileNames, ignore.case = TRUE)] <- survey
+}
+  
+  ######## Part 3: Marker Information ######## 
+  
+  # Vector of strings to search for
+  search_strings <- c("aat1", "crt", "dhfr", "dhps1", "dhps2", "K131", "K132", "mdr11", "mdr12", "mdr13", "pfs471", "pfs472")
+
+  # Create an empty column called "Marker" in the data frame
+  df_4 <- df_3 %>% mutate(FileNames = INPUT_1_NT, Marker = NA)
+
+  # Loop through each search string and update the "Marker" column based on the presence of the string in file names
+
+for (marker in search_strings) {
+  df_4$Marker[grepl(marker, df_4$FileNames, ignore.case = TRUE)] <- marker
+}
+
+  df_5 <- df_4 %>% filter(!str_detect(SeqID, "Ref")) %>% select(-FileNames)
+  df_6 <- df_5 %>% 
+    separate(SeqID, 
+             c("StudyID", "MID", "MID_N", "Pool", "Date", "Haplotype", "Frequency"),  
+             sep="[\\._]", extra = "merge", fill = "right", remove = F) %>%
+    mutate(SeqID = gsub("X", "", SeqID), 
+           StudyID = gsub("X", "", StudyID), 
+           Frequency = gsub("f", "", Frequency)) %>% 
+    select(-c(MID, Pool, Date)) %>%
+    mutate_all(~ str_replace_all(., "-", NA_character_)) %>%
+    select(-where(~ all(is.na(.)))) %>% 
+    mutate(Reference = ifelse(str_detect(SeqID, "^C"), "Control", 
+                       ifelse(str_detect(SeqID, "^R"), "Repeat", "MRS_Isolate"))) %>%
+    select(SeqID:Frequency, Survey, Marker, Reference, everything())
+
+  ######## Part 3: Codon Key: Define codons per marker to then stratify ####### 
+df_7 <- df_6 %>% 
+    mutate(Haps_NT = 
+             ifelse(Marker=="aat1", paste(`3D7_258`, `3D7_313`, sep = "-"),
+             ifelse(Marker=="crt", paste(`3D7_72`, `3D7_73`, `3D7_74`, `3D7_75`, `3D7_76`, sep = "-"),
+             ifelse(Marker=="dhfr", paste(`3D7_16`, `3D7_50`, `3D7_51`, `3D7_59`, `3D7_108`, `3D7_164`, sep = "-"),
+             ifelse(Marker=="dhps1", paste(`3D7_431`, `3D7_436`, `3D7_437`, sep = "-"),
+             ifelse(Marker=="dhps2", paste(`3D7_540`, `3D7_581`, `3D7_613`, sep = "-"),
+             ifelse(Marker=="K131", paste(`3D7_441`, `3D7_446`, `3D7_449`, `3D7_454`, `3D7_458`,
+                                          `3D7_469`, `3D7_476`, `3D7_481`, `3D7_493`, `3D7_515`, 
+                                          `3D7_527`, `3D7_537`, `3D7_538`, `3D7_539`, `3D7_543`, 
+                                          sep = "-"),
+             ifelse(Marker=="K132", paste(`3D7_553`, `3D7_561`, `3D7_568`, `3D7_574`,
+                                          `3D7_578`, `3D7_580`, `3D7_603`, `3D7_622`,
+                                          sep = "-"),
+             ifelse(Marker=="mdr11", paste(`3D7_86`, `3D7_184`, sep = "-"),
+             ifelse(Marker=="mdr12", paste(`3D7_1034`, `3D7_1042`, sep = "-"),  
+             ifelse(Marker=="mdr13", paste(`3D7_1246`, sep = "-"),
+             ifelse(Marker=="pfs471", paste(`3D7_27`, `3D7_28`, `3D7_49`, `3D7_55`, sep = "-"),       
+             ifelse(Marker=="pfs472", paste(`3D7_186`, `3D7_188`, `3D7_194`, `3D7_224`, `3D7_236`, `3D7_240`, `3D7_242`, `3D7_248`, `3D7_272`, sep="-"), 
+                    Marker))))))))))))) %>%
+    select(SeqID:Reference, Haps_NT, everything()) %>%  
+    mutate(Haplotype = ifelse(Haplotype==0, "Major", 
+                       ifelse(Haplotype==1, "Minor_1", 
+                       ifelse(Haplotype==2, "Minor_2", 
+                       ifelse(Haplotype==3, "Minor_3",
+                       ifelse(Haplotype==4, "Minor_4", 
+                       ifelse(Haplotype==5, "Minor_5", Haplotype))))))) %>% 
+    arrange(Reference, SeqID)
+  
+  ######## Part 4: Separate data.frames into "Controls", "Repeats" and "Isolates" 
+
+  df_isolates <- df_7 %>% 
+    filter(Reference!="Control") %>% # Remove CONTROL sequences
+    filter(Reference!="Repeat") %>%  # Remove REPEATS sequences 
+  #  filter(!str_detect(StudyID, "SY")) %>%  # Remove SYMPTOMATIC sequences 
+    select(-MID_N) 
+  
+  df_controls <- df_7 %>% 
+    filter(Reference=="Control") %>% 
+    select(Control = StudyID, everything()) %>% select(-MID_N)
+  
+  repeat_strings <- read.csv("repeat_list_all.csv")
+  df_repeats <- df_7 %>% filter(Reference=="Repeat" | StudyID %in% repeat_strings$StudyID) 
+  
+  df_Haps_only <- df_7 %>% select(SeqID, Marker, Survey, Reference, Haps_NT) 
+  
+  # Write NT data frame 
+  
+  write.csv(df_isolates, OUTPUT_1_NT, row.names = FALSE)
+  write.csv(df_controls, OUTPUT_2_NT, row.names = FALSE)
+  write.csv(df_repeats, OUTPUT_3_NT, row.names = FALSE)
+  write.csv(df_Haps_only, OUTPUT_4_NT, row.names = FALSE)
+
+  for(filename_AA in filenames_AA){
+    
+  INPUT_1_AA = filename_AA
+  replace_strs_AA <- c("04_Compiled_AA_Sequences" = "", ".csv" = "")
+
+  OUTPUT_1_AA = paste0("05_All_DrugR_AA_Sequences/Isolates/", str_replace_all(filename_AA, replace_strs_AA, ""), "_Isolates_Haps.csv")
+  OUTPUT_2_AA = paste0("05_All_DrugR_AA_Sequences/Controls/", str_replace_all(filename_AA, replace_strs_AA, ""), "_Controls_Haps.csv")
+  OUTPUT_3_AA = paste0("05_All_DrugR_AA_Sequences/Repeats/", str_replace_all(filename_AA, replace_strs_AA, ""), "_Repeats_Haps.csv")
+  OUTPUT_4_AA = paste0("05_All_DrugR_Haplotypes/temp", str_replace_all(filename_AA, replace_strs_AA, ""), "_Haps_only.csv")
+
+  ######## Part 1: Data transformation ######## 
+  
+  df_AA <- read.csv(INPUT_1_AA)
+  df_AA_1 <- as.data.frame(t(df_AA), )
+  df_AA_2 <- df_AA_1 %>% row_to_names(row_number = 1) %>% tibble::rownames_to_column("SeqID")
+
+  ######## Part 2: Survey Information ######## 
+
+  search_Survey <- c("Survey_2017", "Survey")
+
+  # Create an empty column called "Survey" in the data frame
+  df_AA_3 <- df_AA_2 %>% mutate(FileNames = INPUT_1_AA, Survey = NA)
+
+  # Loop through each search string and update the "Survey" column based on the presence of the string in file names
+
+for (survey in search_Survey) {
+  df_AA_3$Survey[grepl(survey, df_AA_3$FileNames, ignore.case = TRUE)] <- survey
+}
+  
+  ######## Part 3: Marker Information ######## 
+  
+  # Vector of strings to search for
+  search_strings <- c("aat1", "crt", "dhfr", "dhps1", "dhps2", "K131", "K132", "mdr11", "mdr12", "mdr13", "pfs471", "pfs472")
+
+  # Create an empty column called "Marker" in the data frame
+  df_AA_4 <- df_AA_3 %>% mutate(FileNames = INPUT_1_AA, Marker = NA)
+
+  # Loop through each search string and update the "Marker" column based on the presence of the string in file names
+
+for (marker in search_strings) {
+  df_AA_4$Marker[grepl(marker, df_AA_4$FileNames, ignore.case = TRUE)] <- marker
+}
+
+  df_AA_5 <- df_AA_4 %>% filter(!str_detect(SeqID, "Ref")) %>% select(-FileNames)
+  df_AA_6 <- df_AA_5 %>% 
+    separate(SeqID, 
+             c("StudyID", "MID", "MID_N", "Pool", "Date", "Haplotype", "Frequency"),  
+             sep="[\\._]", extra = "merge", fill = "right", remove = F) %>%
+    mutate(SeqID = gsub("X", "", SeqID), 
+           StudyID = gsub("X", "", StudyID), 
+           Frequency = gsub("f", "", Frequency)) %>% 
+    select(-c(MID, Pool, Date)) %>%
+    mutate_all(~ str_replace_all(., "-", NA_character_)) %>%
+    select(-where(~ all(is.na(.)))) %>% 
+    mutate(Reference = ifelse(str_detect(SeqID, "^C"), "Control", 
+                       ifelse(str_detect(SeqID, "^R"), "Repeat", "MRS_Isolate"))) %>%
+    select(SeqID:Frequency, Survey, Marker, Reference, everything())
+
+  df_AA_7 <- df_AA_6 %>% 
+    mutate(Haps_AA = 
+             ifelse(Marker=="aat1", paste(`3D7_258`, `3D7_313`, sep=""),
+             ifelse(Marker=="crt", paste(`3D7_72`, `3D7_73`, `3D7_74`, `3D7_75`, `3D7_76`, sep=""),
+             ifelse(Marker=="dhfr", paste(`3D7_16`, `3D7_50`, `3D7_51`, `3D7_59`, `3D7_108`, `3D7_164`, sep=""),
+             ifelse(Marker=="dhps1", paste(`3D7_431`, `3D7_436`, `3D7_437`, sep=""),
+             ifelse(Marker=="dhps2", paste(`3D7_540`, `3D7_581`, `3D7_613`, sep=""),
+             ifelse(Marker=="K131", paste(`3D7_441`, `3D7_446`, `3D7_449`, `3D7_454`, `3D7_458`, 
+                                          `3D7_469`, `3D7_476`, `3D7_481`, `3D7_493`, `3D7_515`, 
+                                          `3D7_527`, `3D7_537`, `3D7_538`, `3D7_539`, `3D7_543`, sep=""),
+             ifelse(Marker=="K132", paste(`3D7_553`, `3D7_561`, `3D7_568`, `3D7_574`, 
+                                          `3D7_578`, `3D7_580`, `3D7_603`, `3D7_622`, sep=""),
+             ifelse(Marker=="mdr11", paste(`3D7_86`, `3D7_184`, sep=""),
+             ifelse(Marker=="mdr12", paste(`3D7_1034`, `3D7_1042`, sep=""),  
+             ifelse(Marker=="mdr13", paste(`3D7_1246`),
+             ifelse(Marker=="pfs471", paste(`3D7_27`, `3D7_28`, `3D7_49`, `3D7_55`, sep=""),       
+             ifelse(Marker=="pfs472", paste(`3D7_186`, `3D7_188`, `3D7_194`, `3D7_224`, `3D7_236`, `3D7_240`, `3D7_242`, `3D7_248`, `3D7_272`, sep=""), 
+                    Marker))))))))))))) %>%
+    select(SeqID:Reference, Haps_AA, everything()) %>%  
+    mutate(Haplotype = ifelse(Haplotype==0, "Major", 
+                       ifelse(Haplotype==1, "Minor_1", 
+                       ifelse(Haplotype==2, "Minor_2", 
+                       ifelse(Haplotype==3, "Minor_3",
+                       ifelse(Haplotype==4, "Minor_4", 
+                       ifelse(Haplotype==5, "Minor_5", Haplotype))))))) %>% 
+    arrange(Reference, SeqID)
+  
+  ######## Part 4: Separate data.frames into "Controls", "Repeats" and "Isolates" 
+
+  df_AA_isolates <- df_AA_7 %>% 
+    filter(Reference!="Control") %>% # Remove CONTROL sequences
+    filter(Reference!="Repeat") %>%  # Remove REPEATS sequences 
+#    filter(!str_detect(StudyID, "SY")) %>%  # Remove SYMPTOMATIC sequences 
+    select(-MID_N)
+  
+  df_AA_controls <- df_AA_7 %>% 
+    filter(Reference=="Control") %>% 
+    select(Control = StudyID, everything()) %>% select(-MID_N)
+  
+  repeat_AA_strings <- read.csv("repeat_list_all.csv")
+  df_AA_repeats <- df_AA_7 %>% filter(Reference=="Repeat" | StudyID %in% repeat_AA_strings$StudyID) 
+  
+  df_AA_Haps_only <- df_AA_7 %>% select(SeqID, Marker, Survey, Reference, Haps_AA) 
+  
+  # Write AA data frame 
+  
+  write.csv(df_AA_isolates, OUTPUT_1_AA, row.names = FALSE)
+  write.csv(df_AA_controls, OUTPUT_2_AA, row.names = FALSE)
+  write.csv(df_AA_repeats, OUTPUT_3_AA, row.names = FALSE)
+  write.csv(df_AA_Haps_only, OUTPUT_4_AA, row.names = FALSE)
+  
+  }
+}
+```
+
+# Step 2: Process_YN
+
+**INPUTS**: 
+
+- *All_NT_Aligned_YorN.csv: Use to determine how many NT changes from 3D7 reference (e.g., 1 change)
+- *All_AA_Aligned_YorN.csv: Use to determine how many AA changes from 3D7 reference (e.g., 1 change)
+
+**OUTPUTS**: 
+
+- *All_NT_Aligned_YorN_Count.csv: Collapsed into a column of the total number of NT differences
+- *All_AA_Aligned_YorN_Count.csv: Collapsed into a column of the total number of AA differences
+
+## Input File
+
+```{r}
+filenames_NT_YN =       Sys.glob(file.path("04_Compiled_NT_Sequences/", pattern = "*YorN.csv"))
+filenames_AA_YN =       Sys.glob(file.path("04_Compiled_AA_Sequences/", pattern = "*YorN.csv"))
+```
+
+## Processing Code
+
+```{r}
+for (filename_NT_YN in filenames_NT_YN) {
+  
+  INPUT_YN_NT = filename_NT_YN
+  
+  replace_strs <- c("04_Compiled_NT_Sequences" = "", ".csv" = "")
+  
+  OUTPUT_YN_NT = paste0("05_All_DrugR_Haplotypes/temp/", str_replace_all(filename_NT_YN, replace_strs, ""), "_Count.csv")
+  
+  ################### Nucleotide (NT) Data Processing   ################### 
+  ######## Part 1: Data transformation ######## 
+    
+  df_YN <- read.csv(INPUT_YN_NT)
+  df_YN_1 <- as.data.frame(t(df_YN))
+  df_YN_2 <- df_YN_1 %>% row_to_names(row_number = 1) %>% tibble::rownames_to_column("SeqID") %>% filter(!str_detect(SeqID, "Ref"))
+
+  ######## Part 2: Survey Information ######## 
+
+  search_Survey <- c("Survey_2017", "Survey")
+
+  # Create an empty column called "Survey" in the data frame
+  df_YN_3 <- df_YN_2 %>% mutate(FileNames = INPUT_YN_NT, Survey = NA)
+
+  # Loop through each search string and update the "Survey" column based on the presence of the string in file names
+
+for (survey in search_Survey) {
+  df_YN_3$Survey[grepl(survey, df_YN_3$FileNames, ignore.case = TRUE)] <- survey
+}
+  
+  ######## Part 3: Marker Information ######## 
+  
+  # Vector of strings to search for
+  search_strings <- c("aat1", "crt", "dhfr", "dhps1", "dhps2", "K131", "K132", "mdr11", "mdr12", "mdr13", "pfs471", "pfs472")
+
+  # Create an empty column called "Marker" in the data frame
+  df_YN_4 <- df_YN_3 %>% mutate(FileNames = INPUT_YN_NT, Marker = NA)
+
+  # Loop through each search string and update the "Marker" column based on the presence of the string in file names
+
+for (marker in search_strings) {
+  df_YN_4$Marker[grepl(marker, df_YN_4$FileNames, ignore.case = TRUE)] <- marker
+}
+  df_YN_5 <- df_YN_4 %>% filter(!str_detect(SeqID, "Ref"))
+  df_YN_6 <- df_YN_5 %>% 
+      mutate(SeqID = gsub("X", "", SeqID)) %>% 
+      mutate_all(~ str_replace_all(., "[-!]", NA_character_)) %>%
+      select(SeqID,  Survey, Marker, everything())
+  
+  ######## Part 2: Calculate Number of Changes from Reference ####### 
+
+  columns_to_recode <- setdiff(names(df_YN_6), c("SeqID", "Marker", "Survey"))                        # Define columns to recode (exclude SeqID, Survey, Marker)
+  
+  df_YN_7 <- df_YN_6 %>% mutate_at(vars(columns_to_recode), ~ ifelse(. == "N", 1, 0))                 # Recode "Y" to 1 and "N" to 0 for the selected column
+  df_YN_8 <- df_YN_7 %>% mutate(NT_Diffs = rowSums(select(., all_of(columns_to_recode)), na.rm = T))  # Calculate total per row & add new column "NT_Diffs" per SeqID
+  df_YN_9 <- df_YN_8 %>% select(c(SeqID, Marker,  Survey, NT_Diffs)) 
+  yn_NT_final_df <- df_YN_9 %>% 
+    mutate(Reference = ifelse(str_detect(SeqID, "^C"), "Control", 
+                       ifelse(str_detect(SeqID, "^R"), "Repeat", "MRS_Isolate")))
+
+  remove(columns_to_recode)
+
+  write.csv(yn_NT_final_df, OUTPUT_YN_NT, row.names = FALSE)
+  
+  for (filename_AA_YN in filenames_AA_YN) {
+  
+  INPUT_YN_AA = filename_AA_YN
+  
+  replace_strs_AA <- c("04_Compiled_AA_Sequences" = "", ".csv" = "")
+  
+  OUTPUT_YN_AA = paste0("05_All_DrugR_Haplotypes/temp/", str_replace_all(filename_AA_YN, replace_strs_AA, ""), "_Count.csv")
+
+  ################### Amino Acid Data Processing   ################### 
+  ######## Part 1: Data transformation ######## 
+  
+  df_YN_AA <- read.csv(INPUT_YN_AA)
+  df_YN_AA_1 <- as.data.frame(t(df_YN_AA))
+  df_YN_AA_2 <- df_YN_AA_1 %>% row_to_names(row_number = 1) %>% tibble::rownames_to_column("SeqID") %>% filter(!str_detect(SeqID, "Ref"))
+  
+  ######## Part 2: Survey Information ######## 
+
+  search_Survey <- c("Survey_2017", "Survey")
+
+  # Create an empty column called "Survey" in the data frame
+  df_YN_AA_3 <- df_YN_AA_2 %>% mutate(FileNames = INPUT_YN_AA, Survey = NA)
+
+  # Loop through each search string and update the "Survey" column based on the presence of the string in file names
+
+for (survey in search_Survey) {
+  df_YN_AA_3$Survey[grepl(survey, df_YN_AA_3$FileNames, ignore.case = TRUE)] <- survey
+}
+  
+  ######## Part 3: Marker Information ######## 
+  
+  # Vector of strings to search for
+  search_strings <- c("aat1", "crt", "dhfr", "dhps1", "dhps2", "K131", "K132", "mdr11", "mdr12", "mdr13", "pfs471", "pfs472")
+
+  # Create an empty column called "Marker" in the data frame
+  df_YN_AA_4 <- df_YN_AA_3 %>% mutate(FileNames = INPUT_YN_AA, Marker = NA)
+
+  # Loop through each search string and update the "Marker" column based on the presence of the string in file names
+
+for (marker in search_strings) {
+  df_YN_AA_4$Marker[grepl(marker, df_YN_AA_4$FileNames, ignore.case = TRUE)] <- marker
+}
+  df_YN_AA_5 <- df_YN_AA_4 %>% filter(!str_detect(SeqID, "Ref"))
+  df_YN_AA_6 <- df_YN_AA_5 %>% 
+      mutate(SeqID = gsub("X", "", SeqID)) %>% 
+      mutate_all(~ str_replace_all(., "[-!]", NA_character_)) %>%
+      select(SeqID, Marker, Survey, everything())
+
+  ######## Part 2: Calculate Number of Changes from Reference ####### 
+
+  columns_to_recode <- setdiff(names(df_YN_AA_6), c("SeqID", "Marker", "Survey"))                           # Define columns to recode (exclude SeqID, Survey, Marker)
+  
+  df_YN_AA_7 <- df_YN_AA_6 %>% mutate_at(vars(columns_to_recode), ~ ifelse(. == "N", 1, 0))                 # Recode "Y" to 1 and "N" to 0 for the selected column
+  df_YN_AA_8 <- df_YN_AA_7 %>% mutate(AA_Diffs = rowSums(select(., all_of(columns_to_recode)), na.rm = T))  # Calculate total per row & add new column "AA_Diffs" per SeqID
+  df_YN_AA_9 <- df_YN_AA_8 %>% select(c(SeqID, Marker, Survey, AA_Diffs)) 
+  yn_AA_final_df <- df_YN_AA_9 %>% 
+    mutate(Reference = ifelse(str_detect(SeqID, "^C"), "Control", 
+                       ifelse(str_detect(SeqID, "^R"), "Repeat", "MRS_Isolate")))
+  
+  remove(columns_to_recode)
+  
+  write.csv(yn_AA_final_df, OUTPUT_YN_AA, row.names = FALSE)
+  
+  }
+  
+}
+
+```
+
+# Step 3: Process_Change
+
+**INPUTS**
+
+- *All_NT_Aligned_NTchange.csv: Use to determine the actual NT change from 3D7 reference (e.g., AAA76ACA) 
+- *All_AA_Aligned_AAchange.csv: Use to determine the actual AA change from 3D7 reference (e.g., K76T)
+
+**OUTPUTS**
+
+- *All_NT_Aligned_NTchange_Final.csv: Contains a collapsed column with all NT changes
+- *All_NT_Aligned_AAchange_Final.csv: Contains a collapsed column with all AA changes
+
+## Input File
+
+```{r}
+filenames_NT_NSYN =     Sys.glob(file.path("04_Compiled_NT_Sequences/", pattern = "*NTchange.csv"))
+filenames_AA_NSYN =     Sys.glob(file.path("04_Compiled_AA_Sequences/", pattern = "*AAchange.csv"))
+```
+
+## Processing Code
+
+```{r}
+for(filename_NT_NSYN in filenames_NT_NSYN){
+    
+  INPUT_NSYN_NT = filename_NT_NSYN
+  
+  replace_strs <- c("04_Compiled_NT_Sequences" = "", ".csv" = "")
+  
+  OUTPUT_NSYN_NT = paste0("05_All_DrugR_Haplotypes/temp/", str_replace_all(filename_NT_NSYN, replace_strs, ""), "_Final.csv")
+
+  ######## Part 4: Data transformation ######## 
+  df_nsn <- read.csv(INPUT_NSYN_NT)
+  df_nsn_1 <- as.data.frame(t(df_nsn)) 
+  df_nsn_2 <- df_nsn_1 %>% row_to_names(row_number = 1) %>% tibble::rownames_to_column("SeqID") %>% filter(!str_detect(SeqID, "Ref"))
+
+  ######## Part 2: Survey Information ######## 
+
+  search_Survey <- c("Survey_2017", "Survey")
+
+  # Create an empty column called "Survey" in the data frame
+  df_nsn_3 <- df_nsn_2 %>% mutate(FileNames = INPUT_NSYN_NT, Survey = NA)
+
+  # Loop through each search string and update the "Survey" column based on the presence of the string in file names
+
+for (survey in search_Survey) {
+  df_nsn_3$Survey[grepl(survey, df_nsn_3$FileNames, ignore.case = TRUE)] <- survey
+}
+
+  ######## Part 3: Marker Information ######## 
+  
+  # Vector of strings to search for
+  search_strings <- c("aat1", "crt", "dhfr", "dhps1", "dhps2", "K131", "K132", "mdr11", "mdr12", "mdr13", "pfs471", "pfs472")
+
+  # Create an empty column called "Marker" in the data frame
+  df_nsn_4 <- df_nsn_3 %>% mutate(FileNames = INPUT_NSYN_NT, Marker = NA)
+
+  # Loop through each search string and update the "Marker" column based on the presence of the string in file names
+
+for (marker in search_strings) {
+  df_nsn_4$Marker[grepl(marker, df_nsn_4$FileNames, ignore.case = TRUE)] <- marker
+}
+
+  df_nsn_5 <- df_nsn_4 %>% 
+    mutate(SeqID = gsub("X", "", SeqID)) %>% 
+    mutate_all(~ str_replace_all(., "-", NA_character_)) %>%
+    select(SeqID, Marker, Survey, everything()) %>% 
+    select(-FileNames)
+  
+  ######## Part 5: Synonymous/Non-Synonymous Mutations ####### 
+    
+  columns_to_recode_2 <- setdiff(names(df_nsn_5), c("SeqID", "Marker", "Survey"))                     # Define the columns to be recoded (exclude SeqID & Marker)
+  
+  df_nsn_6 <- df_nsn_5 %>% 
+    unite("NT_Changes", columns_to_recode_2, -c(SeqID), sep = ";", na.rm = T) %>%   # Unite columns together 
+    mutate(Reference = ifelse(str_detect(SeqID, "^C"), "Control", 
+                       ifelse(str_detect(SeqID, "^R"), "Repeat", "MRS_Isolate"))) %>%
+    select(SeqID, Marker, Survey, Reference, NT_Changes, everything()) %>%  
+    arrange(Reference, SeqID) 
+    
+  nsyn_NT_final_df <- df_nsn_6
+
+   # Remove temporary variables
+   remove(columns_to_recode_2)
+    
+  write.csv(nsyn_NT_final_df, OUTPUT_NSYN_NT, row.names = FALSE)
+  
+  ################### Amino Acid Data Processing   ################### 
+
+for(filename_AA_NSYN in filenames_AA_NSYN){
+    
+  INPUT_NSYN_AA = filename_AA_NSYN
+  
+  replace_strs_AA <- c("04_Compiled_AA_Sequences" = "", ".csv" = "")
+  
+  OUTPUT_NSYN_AA = paste0("05_All_DrugR_Haplotypes/temp/", str_replace_all(filename_AA_NSYN, replace_strs_AA, ""), "_Final.csv")
+
+  ######## Part 4: Data transformation ######## 
+  df_nsn_AA <- read.csv(INPUT_NSYN_AA)
+  df_nsn_AA_1 <- as.data.frame(t(df_nsn_AA)) 
+  df_nsn_AA_2 <- df_nsn_AA_1 %>% row_to_names(row_number = 1) %>% tibble::rownames_to_column("SeqID") %>% filter(!str_detect(SeqID, "Ref"))
+
+  ######## Part 2: Survey Information ######## 
+
+  search_Survey <- c("Survey_2017", "Survey")
+
+  # Create an empty column called "Survey" in the data frame
+  df_nsn_AA_3 <- df_nsn_AA_2 %>% mutate(FileNames = INPUT_NSYN_AA, Survey = NA)
+
+  # Loop through each search string and update the "Survey" column based on the presence of the string in file names
+
+for (survey in search_Survey) {
+  df_nsn_AA_3$Survey[grepl(survey, df_nsn_AA_3$FileNames, ignore.case = TRUE)] <- survey
+}
+  
+  ######## Part 3: Marker Information ######## 
+  
+  # Vector of strings to search for
+  search_strings <- c("aat1", "crt", "dhfr", "dhps1", "dhps2", "K131", "K132", "mdr11", "mdr12", "mdr13", "pfs471", "pfs472")
+
+  # Create an empty column called "Marker" in the data frame
+  df_nsn_AA_4 <- df_nsn_AA_3 %>% mutate(FileNames = INPUT_NSYN_AA, Marker = NA)
+
+  # Loop through each search string and update the "Marker" column based on the presence of the string in file names
+
+for (marker in search_strings) {
+  df_nsn_AA_4$Marker[grepl(marker, df_nsn_AA_4$FileNames, ignore.case = TRUE)] <- marker
+}
+  
+  df_nsn_AA_5 <- df_nsn_AA_4 %>% 
+    mutate(SeqID = gsub("X", "", SeqID)) %>% 
+    mutate_all(~ str_replace_all(., "-", NA_character_)) %>%
+    select(SeqID, Marker,  Survey, everything()) %>% 
+    select(-FileNames)
+
+  ######## Part 6: Synonymous/Non-Synonymous Mutations ####### 
+    
+  columns_to_recode_2 <- setdiff(names(df_nsn_AA_5), c("SeqID", "Marker", "Survey"))                     # Define the columns to be re-coded (exclude SeqID & Marker)
+  df_nsn_AA_6 <- df_nsn_AA_5 %>% 
+    unite("AA_Changes", columns_to_recode_2, -c(SeqID), sep = ";", na.rm = T) %>%   # Unite columns together 
+    mutate(Reference = ifelse(str_detect(SeqID, "^C"), "Control", 
+                       ifelse(str_detect(SeqID, "^R"), "Repeat", "MRS_Isolate"))) %>%
+    select(SeqID, Marker, Survey, Reference, AA_Changes, everything()) %>%  
+    arrange(Reference, SeqID)
+  
+  remove(columns_to_recode_2)
+  
+  nsyn_AA_final_df <- df_nsn_AA_6
+  
+  write.csv(nsyn_AA_final_df, OUTPUT_NSYN_AA, row.names = FALSE)
+  
+}
+
+}
+```
+
+# Step 4: Join YN & Change & Haps
+
+**INPUTS**
+
+All/temp/files Includes `_Haps.csv`, `YorN_Counts.csv`, `change_Final.csv` for both NT and AA (separated for each Fraction cut-off to analyse and marker)
+
+**OUTPUTS**
+
+-   Isolates_Final_Haps
+-   Controls_Final_Haps
+-   Repeats_Final_Haps
+
+All input files are merged at similar columns "SeqID", "Marker" and "Reference"
+
+## Function
+
+Define a function to **merge** files based on the specified pattern
+
+```{r}
+merge_files <- function(directory, pattern, common_columns) {
+  
+  file_paths <- list.files(path = directory, pattern = pattern, full.names = TRUE)
+  merged_data <- read_csv(file_paths[[1]])
+  
+  # Use a for loop to left join each file to the merged data
+  for (i in 2:length(file_paths)) {
+    current_file <-  read_csv(file_paths[[i]], col_types = cols(.default = col_character()))
+
+    merged_data <- left_join(merged_data, current_file, by = common_columns)
+  }
+  
+  return(merged_data)
+}
+```
+
+## Merge
+
+```{r}
+Survey_merged_crt_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_crt.*", c("SeqID", "Marker", "Survey", "Reference"))
+Survey_merged_dhfr_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_dhfr.*", c("SeqID", "Marker", "Survey", "Reference"))
+Survey_merged_dhps1_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_dhps1.*", c("SeqID", "Marker", "Survey", "Reference"))
+Survey_merged_dhps2_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_dhps2.*", c("SeqID", "Marker", "Survey", "Reference"))
+Survey_merged_K131_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_K131.*", c("SeqID", "Marker", "Survey", "Reference"))
+Survey_merged_K132_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_K132.*", c("SeqID", "Marker", "Survey", "Reference"))
+Survey_merged_mdr11_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_mdr11.*", c("SeqID", "Marker","Survey",  "Reference"))
+Survey_merged_mdr12_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_mdr12.*", c("SeqID", "Marker","Survey",  "Reference"))
+Survey_merged_mdr13_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_mdr13.*", c("SeqID", "Marker","Survey",  "Reference"))
+Survey_merged_aat1_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_aat1.*", c("SeqID", "Marker", "Survey", "Reference"))
+Survey_merged_pfs471_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_pfs471.*", c("SeqID", "Marker", "Survey", "Reference"))
+Survey_merged_pfs472_data <- merge_files("05_All_DrugR_Haplotypes/temp", "Survey_pfs472.*", c("SeqID", "Marker", "Survey", "Reference"))
+```
+
+## Changes & Isolate Type
+
+### Calculate Synonymous/Non-Synonymous Mutations
+
+```{r}
+###### Function ###### 
+syn_nonsyn_diffs <- function(df) {
+  
+  NT_Diffs = as.numeric(df$NT_Diffs)
+  AA_Diffs = as.numeric(df$AA_Diffs)
+  df$Synonymous = NT_Diffs - AA_Diffs
+  names(df)[names(df) == "NT_Diffs"] <- "Differences"
+  names(df)[names(df) == "AA_Diffs"] <- "NonSynonymous"
+  
+  return(df)
+}
+
+###### Apply to data ###### 
+
+syn_nonsyn_crt <- syn_nonsyn_diffs(Survey_merged_crt_data)
+syn_nonsyn_dhfr <- syn_nonsyn_diffs(Survey_merged_dhfr_data)
+syn_nonsyn_dhps1 <- syn_nonsyn_diffs(Survey_merged_dhps1_data)
+syn_nonsyn_dhps2 <- syn_nonsyn_diffs(Survey_merged_dhps2_data)
+syn_nonsyn_K131 <- syn_nonsyn_diffs(Survey_merged_K131_data)
+syn_nonsyn_K132 <- syn_nonsyn_diffs(Survey_merged_K132_data)
+syn_nonsyn_mdr11 <- syn_nonsyn_diffs(Survey_merged_mdr11_data)
+syn_nonsyn_mdr12 <- syn_nonsyn_diffs(Survey_merged_mdr12_data)
+syn_nonsyn_mdr13 <- syn_nonsyn_diffs(Survey_merged_mdr13_data)
+syn_nonsyn_aat1 <- syn_nonsyn_diffs(Survey_merged_aat1_data)
+syn_nonsyn_pfs471 <- syn_nonsyn_diffs(Survey_merged_pfs471_data)
+syn_nonsyn_pfs472 <- syn_nonsyn_diffs(Survey_merged_pfs472_data)
+```
+
+### Separate files based on Isolate Type (MRS_Isolate, Control, Repeat)
+
+```{r}
+###### Function ###### 
+sep_by_Pf_type <- function(df, filename_1, filename_2, filename_3) {
+  
+  isolates <- df %>% filter(Reference!="Control") %>% filter(Reference!="Repeat") #%>% filter(!str_detect(SeqID, "SY"))
+  controls <- df %>% filter(Reference=="Control")
+  substrings_to_search <- read.csv("repeat_list_all.csv")
+  repeats <- df[grep(paste(substrings_to_search$SeqID, collapse = '|'), df$SeqID, ignore.case = TRUE), ]
+  
+  write.csv(isolates, paste0(filename_1, ".csv"), row.names = F)
+  write.csv(controls, paste0(filename_2, ".csv"), row.names = F)
+  write.csv(repeats, paste0(filename_3, ".csv"), row.names = F)
+
+}
+
+###### Apply to data ###### 
+sep_by_Pf_type(syn_nonsyn_crt, 
+               "05_All_DrugR_Haplotypes/Isolates/Surveys_crt_Isolates_Haps", 
+               "05_All_DrugR_Haplotypes/Controls/Surveys_crt_Controls_Haps",
+               "05_All_DrugR_Haplotypes/Repeats/Surveys_crt_Repeats_Haps")
+sep_by_Pf_type(syn_nonsyn_dhfr, 
+               "05_All_DrugR_Haplotypes/Isolates/Surveys_dhfr_Isolates_Haps", 
+               "05_All_DrugR_Haplotypes/Controls/Surveys_dhfr_Controls_Haps",
+               "05_All_DrugR_Haplotypes/Repeats/Surveys_dhfr_Repeats_Haps")
+sep_by_Pf_type(syn_nonsyn_dhps1, 
+               "05_All_DrugR_Haplotypes/Isolates/Surveys_dhps1_Isolates_Haps", 
+               "05_All_DrugR_Haplotypes/Controls/Surveys_dhps1_Controls_Haps",
+               "05_All_DrugR_Haplotypes/Repeats/Surveys_dhps1_Repeats_Haps")
+sep_by_Pf_type(syn_nonsyn_dhps2, 
+               "05_All_DrugR_Haplotypes/Isolates/Surveys_dhps2_Isolates_Haps", 
+               "05_All_DrugR_Haplotypes/Controls/Surveys_dhps2_Controls_Haps",
+               "05_All_DrugR_Haplotypes/Repeats/Surveys_dhps2_Repeats_Haps")
+sep_by_Pf_type(syn_nonsyn_K131, 
+               "05_All_DrugR_Haplotypes/Isolates/Surveys_K131_Isolates_Haps", 
+               "05_All_DrugR_Haplotypes/Controls/Surveys_K131_Controls_Haps",
+               "05_All_DrugR_Haplotypes/Repeats/Surveys_K131_Repeats_Haps")
+sep_by_Pf_type(syn_nonsyn_K132, 
+               "05_All_DrugR_Haplotypes/Isolates/Surveys_K132_Isolates_Haps", 
+               "05_All_DrugR_Haplotypes/Controls/Surveys_K132_Controls_Haps",
+               "05_All_DrugR_Haplotypes/Repeats/Surveys_K132_Repeats_Haps")
+sep_by_Pf_type(syn_nonsyn_mdr11, 
+               "05_All_DrugR_Haplotypes/Isolates/Surveys_mdr11_Isolates_Haps", 
+               "05_All_DrugR_Haplotypes/Controls/Surveys_mdr11_Controls_Haps",
+               "05_All_DrugR_Haplotypes/Repeats/Surveys_mdr11_Repeats_Haps")
+sep_by_Pf_type(syn_nonsyn_mdr12, 
+               "05_All_DrugR_Haplotypes/Isolates/Surveys_mdr12_Isolates_Haps", 
+               "05_All_DrugR_Haplotypes/Controls/Surveys_mdr12_Controls_Haps",
+               "05_All_DrugR_Haplotypes/Repeats/Surveys_mdr12_Repeats_Haps")
+sep_by_Pf_type(syn_nonsyn_mdr13, 
+               "05_All_DrugR_Haplotypes/Isolates/Surveys_mdr13_Isolates_Haps", 
+               "05_All_DrugR_Haplotypes/Controls/Surveys_mdr13_Controls_Haps",
+               "05_All_DrugR_Haplotypes/Repeats/Surveys_mdr13_Repeats_Haps")
+sep_by_Pf_type(syn_nonsyn_aat1, 
+               "05_All_DrugR_Haplotypes/Isolates/Surveys_aat1_Isolates_Haps", 
+               "05_All_DrugR_Haplotypes/Controls/Surveys_aat1_Controls_Haps",
+               "05_All_DrugR_Haplotypes/Repeats/Surveys_aat1_Repeats_Haps")
+sep_by_Pf_type(syn_nonsyn_pfs471, 
+               "05_All_DrugR_Haplotypes/Isolates/Surveys_pfs471_Isolates_Haps", 
+               "05_All_DrugR_Haplotypes/Controls/Surveys_pfs471_Controls_Haps",
+               "05_All_DrugR_Haplotypes/Repeats/Surveys_pfs471_Repeats_Haps")
+sep_by_Pf_type(syn_nonsyn_pfs472, 
+               "05_All_DrugR_Haplotypes/Isolates/Surveys_pfs472_Isolates_Haps", 
+               "05_All_DrugR_Haplotypes/Controls/Surveys_pfs472_Controls_Haps",
+               "05_All_DrugR_Haplotypes/Repeats/Surveys_pfs472_Repeats_Haps")
+```
